@@ -6,8 +6,7 @@
           <div class="col-md-12">
             <div class="p-4">
               <div class="auth-logo text-center mb-30">
-                <h6 class="mx-1 h3 text-primary">FisioEnTuEmpresa</h6>
-                <!-- <img class="img img-responsive" :src="'/images/logo.png'"> -->
+                <img class="img img-responsive" :src="'/images/logo-default.png'">
               </div>
               <h1 class="mb-3 text-18">{{$t('SignIn')}}</h1>
               <validation-observer ref="submit_login">

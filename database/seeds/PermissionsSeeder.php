@@ -48,86 +48,54 @@ class PermissionsSeeder extends Seeder
 			],
 			[
 				'id' => 9,
-				'name' => 'appointments_delete',
+				'name' => 'patients_delete',
 			],
 			[
 				'id' => 10,
-				'name' => 'appointments_view',
+				'name' => 'patients_view',
 			],
 			[
 				'id' => 11,
-				'name' => 'appointments_edit',
+				'name' => 'patients_edit',
 			],
 			[
 				'id' => 12,
-				'name' => 'appointments_add',
+				'name' => 'patients_add',
 			],
 			[
 				'id' => 13,
-				'name' => 'reservations_view',
+				'name' => 'doctor_view',
 			],
 			[
 				'id' => 14,
-				'name' => 'reservations_edit',
+				'name' => 'doctor_edit',
 			],
 			[
 				'id' => 15,
-				'name' => 'reservations_delete',
+				'name' => 'doctor_delete',
 			],
 			[
 				'id' => 16,
-				'name' => 'reservations_add',
+				'name' => 'doctor_add',
 			],
 			[
 				'id' => 17,
-				'name' => 'users_fisio_view',
-			],
-			[
-				'id' => 18,
-				'name' => 'users_fisio_edit',
-			],
-			[
-				'id' => 19,
-				'name' => 'users_fisio_delete',
-			],
-			[
-				'id' => 20,
-				'name' => 'users_fisio_add',
-			],
-			[
-				'id' => 21,
-				'name' => 'users_patients_view',
-			],
-			[
-				'id' => 22,
-				'name' => 'users_patients_edit',
-			],
-			[
-				'id' => 23,
-				'name' => 'users_patients_delete',
-			],
-			[
-				'id' => 24,
-				'name' => 'users_patients_add',
-			],
-			[
-				'id' => 25,
 				'name' => 'setting_system',
 			],
 			[
-				'id' => 26,
+				'id' => 18,
 				'name' => 'reports_fisio',
 			],
 			[
-				'id' => 27,
+				'id' => 19,
 				'name' => 'reports_reservas',
 			],
 			[
-				'id' => 28,
+				'id' => 20,
 				'name' => 'reports_patients',
 			],
 			[
-				'id' => 29,
+				'id' => 21,
 				'name' => 'reports_company',
 			]	
 			)

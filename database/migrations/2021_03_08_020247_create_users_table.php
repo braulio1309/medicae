@@ -19,12 +19,14 @@ class CreateUsersTable extends Migration {
 			$table->integer('id', true);
 			$table->string('firstname');
 			$table->string('lastname');
-			$table->string('username', 192);
-			$table->string('email', 192);
+			$table->string('username', 191);
+			$table->string('email', 191);
 			$table->string('password');
-			// $table->string('avatar')->nullable();
+			$table->string('avatar')->nullable();
 			$table->string('phone', 192);
 			$table->integer('role_id');
+			$table->integer('user_id')->nullable();
+			$table->string('specialization')->nullable();
 			$table->boolean('statut')->default(1);
 			$table->timestamps(6);
 			$table->softDeletes();

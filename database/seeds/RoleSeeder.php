@@ -16,30 +16,30 @@ class RoleSeeder extends Seeder
 	    DB::table('roles')->insert(
             array([
                 'id'    => 1,
-                'name'  => 'Owner',
-                'label' => 'Owner',
+                'name'  => 'Admin',
+                'label' => 'Administrador',
                 'status' => 1,
-                'description' => 'Owner',
+                'description' => 'Administrador',
             ])
         );
         // Insert some stuff
 	    DB::table('roles')->insert(
             array([
                 'id'    => 2,
-                'name'  => 'Empresa',
-                'label' => 'Empresa',
+                'name'  => 'Doctor (BASIC PLAN)',
+                'label' => 'Doctor',
                 'status' => 1,
-                'description' => 'Empresa',
+                'description' => 'Doctor',
             ])
         );
         // Insert some stuff
 	    DB::table('roles')->insert(
             array([
                 'id'    => 3,
-                'name'  => 'Fisioterapeuta',
-                'label' => 'Fisioterapeuta',
+                'name'  => 'Doctor (PREMIUM PLAN)',
+                'label' => 'Doctor',
                 'status' => 1,
-                'description' => 'Fisioterapeuta',
+                'description' => 'Doctor',
             ])
         );
         // Insert some stuff

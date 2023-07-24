@@ -2,8 +2,8 @@
   <div class="main-header">
     <div class="logo">
        <router-link to="/app/dashboard">
-        <h6 class="mx-1 h5">FisioEnTuEmpresa</h6>
-        <!-- <img :src="'/images/'+currentUser.logo" alt width="60" height="60"> -->
+        
+        <img :src="'/images/'+currentUser.logo" alt width="4000" height="2000"> 
        </router-link>
     </div>
 

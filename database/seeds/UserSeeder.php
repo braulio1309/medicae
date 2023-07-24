@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
         DB::table('users')->insert(
             array(
                 'id' => 1,
-                'firstname' => 'William',
-                'lastname' => 'Castillo',
+                'firstname' => 'Admin',
+                'lastname' => 'Admin',
                 'username' => 'William Castillo',
                 'email' => 'admin@example.com',
                 'password' => '$2y$10$IFj6SwqC0Sxrsiv4YkCt.OJv1UV4mZrWuyLoRG7qt47mseP9mJ58u',
@@ -30,10 +30,10 @@ class UserSeeder extends Seeder
         DB::table('users')->insert(
             array(
                 'id' => 2,
-                'firstname' => 'YACREA',
-                'lastname' => 'YACREA',
-                'username' => 'YACREA',
-                'email' => 'yacrea@example.com',
+                'firstname' => 'Doctor BASICO',
+                'lastname' => 'Test',
+                'username' => 'doctorbasico',
+                'email' => 'doctorbasico@example.com',
                 'password' => '$2y$10$IFj6SwqC0Sxrsiv4YkCt.OJv1UV4mZrWuyLoRG7qt47mseP9mJ58u',
                 'phone' => '1123456789',
                 'role_id' => 2,
@@ -44,14 +44,13 @@ class UserSeeder extends Seeder
         DB::table('users')->insert(
             array(
                 'id' => 3,
-                'firstname' => 'Fisioterapeuta',
-                'lastname' => 'Fisioterapeuta',
-                'username' => 'Fisioterapeuta',
-                'email' => 'fisio@example.com',
+                'firstname' => 'Doctor Premium',
+                'lastname' => 'TEST',
+                'username' => 'doctorpremium',
+                'email' => 'doctorpremium@example.com',
                 'password' => '$2y$10$IFj6SwqC0Sxrsiv4YkCt.OJv1UV4mZrWuyLoRG7qt47mseP9mJ58u',
                 'phone' => '2123456789',
                 'role_id' => 3,
-                'user_id' => 2,
                 'statut' => 1,
             )
         );
@@ -59,31 +58,16 @@ class UserSeeder extends Seeder
         DB::table('users')->insert(
             array(
                 'id' => 4,
-                'firstname' => 'Company',
-                'lastname' => 'Company',
-                'username' => 'Company',
-                'email' => 'company@example.com',
+                'firstname' => 'Paciente',
+                'lastname' => 'Test',
+                'username' => 'paciente',
+                'email' => 'paciente@example.com',
                 'password' => '$2y$10$IFj6SwqC0Sxrsiv4YkCt.OJv1UV4mZrWuyLoRG7qt47mseP9mJ58u',
                 'phone' => '3123456789',
-                'role_id' => 2,
-                'user_id' => 2,
+                'role_id' => 4,
                 'statut' => 1,
             )
         );
         
-        DB::table('users')->insert(
-            array(
-                'id' => 5,
-                'firstname' => 'Jose',
-                'lastname' => 'Salazar',
-                'username' => 'jose_s',
-                'email' => 'paciente@example.com',
-                'password' => '$2y$10$IFj6SwqC0Sxrsiv4YkCt.OJv1UV4mZrWuyLoRG7qt47mseP9mJ58u',
-                'phone' => '4123456789',
-                'role_id' => 4,
-                'user_id' => 4,
-                'statut' => 1,
-            )
-        );
     }
 }

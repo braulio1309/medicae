@@ -35,7 +35,7 @@
             data-item="Patients"
             :data-submenu="false"
           >
-          <router-link tag="a" class="nav-item-hold" to="/app/pages/people/users">
+          <router-link tag="a" class="nav-item-hold" to="/app/pages/people/patients">
               <i class="nav-icon i-Business-Mens"></i>
               <span class="nav-text">{{ $t('Patients') }}</span>
             </router-link>
@@ -52,7 +52,7 @@
             data-item="Doctor"
             :data-submenu="false"
           >
-          <router-link tag="a" class="nav-item-hold" to="/app/pages/people/users">
+          <router-link tag="a" class="nav-item-hold" to="/app/pages/people/doctors">
               <i class="nav-icon i-Business-Mens"></i>
               <span class="nav-text">{{ $t('Doctors') }}</span>
             </router-link>

@@ -153,6 +153,18 @@ const routes = [
                         path: "Users",
                         component: () =>
                             import(/* webpackChunkName: "Users" */"./views/app/pages/people/users")
+                    },
+                    {
+                        name: "patients",
+                        path: "patients",
+                        component: () =>
+                            import(/* webpackChunkName: "Users" */"./views/app/pages/people/patients")
+                    },
+                    {
+                        name: "doctors",
+                        path: "doctors",
+                        component: () =>
+                            import(/* webpackChunkName: "Users" */"./views/app/pages/people/doctors")
                     }
                 ]
             },

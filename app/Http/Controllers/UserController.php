@@ -78,6 +78,57 @@ class UserController extends BaseController
         ]);
     }
 
+    public function getUserByRole(Request $request, string $rol){
+        
+        // How many items do you want to display.
+        $perPage = $request->limit;
+        $pageStart = \Request::get('page', 1);
+        // Start displaying items from this number;
+        
+        $offSet = ($pageStart * $perPage) - $perPage;
+        $order = $request->SortField;
+        $dir = $request->SortType;
+        $helpers = new helpers();
+        // Filter fields With Params to retrieve
+        $columns = array(0 => 'username', 1 => 'statut', 2 => 'phone', 3 => 'email');
+        $param = array(0 => 'like', 1 => '=', 2 => 'like', 3 => 'like');
+        $data = array();
+        
+        $rols = Role::where('label', $rol)->pluck('id')->toArray();
+
+        $users = User::whereIn('role_id', $rols)->with('roles')->get();   
+        
+        //Multiple Filter
+        /*$Filtred = $helpers->filter($users, $columns, $param, $request)
+            ->where(function ($query) use ($request) {
+                return $query->when($request->filled('search'), function ($query) use ($request) {
+                    return $query->where('username', 'LIKE', "%{$request->search}%")
+                        ->orWhere('firstname', 'LIKE', "%{$request->search}%")
+                        ->orWhere('lastname', 'LIKE', "%{$request->search}%")
+                        ->orWhere('email', 'LIKE', "%{$request->search}%")
+                        ->orWhere('phone', 'LIKE', "%{$request->search}%");
+                });
+            });*/
+
+            
+        //$totalRows = $users->count();
+        
+        /*$users = $Filtred->offset($offSet)
+            ->limit($perPage)
+            ->orderBy($order, $dir)
+            ->get();*/
+
+        $roles = Role::where('deleted_at', null)->get(['id', 'name']);
+
+        return response()->json([
+            'users' => $users,
+            'roles' => $roles,
+            'totalRows' => count($users),
+        ]);
+    }
+
+    
+
     //------------- GET USER Auth ---------\\
 
     public function GetUserAuth(Request $request)
@@ -122,7 +173,7 @@ class UserController extends BaseController
 
     public function store(Request $request)
     {
-        $this->authorizeForUser($request->user('api'), 'create', User::class);
+        //$this->authorizeForUser($request->user('api'), 'create', User::class);
         $this->validate($request, [
             'email' => 'required|unique:users',
         ], [
@@ -139,12 +190,12 @@ class UserController extends BaseController
             $User->password  = Hash::make($request['password']);
             // $User->avatar    = $filename;
             $User->user_id   = auth()->user()->id;
-            $User->role_id   = Role::where('name','Paciente')->first()->id;
+            $User->role_id   = $request['role'];
             $User->save();
 
             $role_user = new role_user;
             $role_user->user_id = $User->id;
-            $role_user->role_id = Role::where('name','Paciente')->first()->id;
+            $role_user->role_id = $request['role'];
             $role_user->save();
     
         }, 10);

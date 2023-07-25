@@ -107,7 +107,7 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
     Route::post('Appointments/delete/by_selection', 'AppointmentsController@delete_by_selection');
 
     // Rutas para obtener la lista de doctores
-    Route::get('users/get_doctors', 'UserController@getInformationUsersDoctor');
+    Route::get('users/getByRole/{rol}', 'UserController@getUserByRole');
 
     // Ruta para obtener los horarios disponibles de un doctor y fecha específicos
     Route::get('available-times', 'AppointmentsController@getAvailableTimes');

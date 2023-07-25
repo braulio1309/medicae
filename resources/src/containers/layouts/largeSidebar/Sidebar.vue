@@ -30,16 +30,33 @@
                                                || currentUserPermissions.includes('users_patients_view')
                                                || currentUserPermissions.includes('users_fisio_view'))"
             @mouseenter="toggleSubMenu"
-            :class="{ active: selectedParentMenu == 'People' }"
+            :class="{ active: selectedParentMenu == 'Patients' }"
             class="nav-item"
-            data-item="People"
-            :data-submenu="true"
+            data-item="Patients"
+            :data-submenu="false"
           >
-            <a class="nav-item-hold" href="#">
+          <router-link tag="a" class="nav-item-hold" to="/app/pages/people/users">
               <i class="nav-icon i-Business-Mens"></i>
-              <span class="nav-text">{{ $t('People') }}</span>
-            </a>
-            <div class="triangle"></div>
+              <span class="nav-text">{{ $t('Patients') }}</span>
+            </router-link>
+            
+          </li>
+
+          <li
+            v-show="currentUserPermissions && (currentUserPermissions.includes('users_company_view') 
+                                               || currentUserPermissions.includes('users_patients_view')
+                                               || currentUserPermissions.includes('users_fisio_view'))"
+            @mouseenter="toggleSubMenu"
+            :class="{ active: selectedParentMenu == 'Doctor' }"
+            class="nav-item"
+            data-item="Doctor"
+            :data-submenu="false"
+          >
+          <router-link tag="a" class="nav-item-hold" to="/app/pages/people/users">
+              <i class="nav-icon i-Business-Mens"></i>
+              <span class="nav-text">{{ $t('Doctors') }}</span>
+            </router-link>
+            
           </li>
 
           <li
@@ -118,23 +135,6 @@
               <span class="item-name">Lista de Citas</span>
             </router-link>
           </li>-->
-          
-        </ul>
-
-        <ul
-          class="childNav d-none"
-          data-parent="People"
-          :class="{ 'd-block': selectedParentMenu == 'People' }"
-        >
-          <li
-            class="nav-item"
-            v-if="currentUserPermissions && currentUserPermissions.includes('users_company_view')"
-          >
-            <router-link tag="a" class to="/app/pages/people/users">
-              <i class="nav-icon i-Administrator"></i>
-              <span class="item-name">{{ $t('Users') }}</span>
-            </router-link>
-          </li>
           
         </ul>
 

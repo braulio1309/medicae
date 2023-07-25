@@ -648,4 +648,6 @@ export default {
     oops: "¡error! Página no encontrada.",
     couldNotFind: "No pudimos encontrar la página que estaba buscando.",
     ReturnDashboard: "volver al tablero",
+    Patients: 'Pacientes',
+    Doctors: 'Doctores'
 };

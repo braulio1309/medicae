@@ -649,5 +649,7 @@ export default {
     oops: 'Oops! Page not found.',
     couldNotFind: 'We could not find the page you were looking for.Meanwhile, you may',
     ReturnDashboard: 'Return to dashboard',
+    Patients: 'Patiens',
+    Doctor: 'Doctors'
 
 };

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
 use App\Models\User;
+use App\Models\Role;
 
 class ChatBotController extends Controller
 {
@@ -32,6 +33,8 @@ class ChatBotController extends Controller
                     $user->email = trim($email);
                     $user->phone = $from;
                     $user->statut = 1;
+                    $rolId = Role::where('label', 'Paciente')->first();
+                    $user->role_id = $rolId->id;
                     $user->save();
  
                     $message = "¡Hola, {$user->firstname}! Te has registrado correctamente en el chatbot.";

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Models\Document;
 
 class User extends Authenticatable
 {
@@ -63,4 +64,8 @@ class User extends Authenticatable
         return !!$role->intersect($this->roles)->count();
     }
 
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'userId');
+    }
 }

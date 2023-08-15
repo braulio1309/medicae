@@ -68,6 +68,7 @@ class VacationController extends Controller
         $vacation->startDate = substr($data[0], 0, 10);
         $vacation->endDate = substr($data[1], 0, 10);
         $vacation->userId = \Auth::user()->id;
+        
         $vacation->save();
 
         return response()->json([
@@ -136,6 +137,14 @@ class VacationController extends Controller
 
         return response()->json([
             'vacation' => $vacation
+        ]);
+    }
+
+    public function getVacations(){
+        return response()->json([
+            'vacation' => Vacation::where('user_id', auth()->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->first()
         ]);
     }
 }

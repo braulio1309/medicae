@@ -21,7 +21,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   data: function data() {
     return {
       isOpen: false,
-      langs: ["en", "fr", "ar", "de", "es", "it", "Ind", "thai", "tr_ch", "sm_ch", "tur", "ru", "hn", "vn"]
+      langs: ["en", "es"]
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["getThemeMode", "getcompactLeftSideBarBgColor"])),
@@ -72,55 +72,7 @@ var render = function render() {
         wheelPropagation: false
       }
     }
-  }, [_vm.getThemeMode.layout != "vertical-sidebar" && _vm.getThemeMode.layout != "vertical-sidebar-two" ? _c("div", {}, [_c("div", {
-    staticClass: "card-header",
-    attrs: {
-      id: "headingOne"
-    }
-  }, [_c("p", {
-    staticClass: "mb-0"
-  }, [_vm._v("RTL")])]), _vm._v(" "), _c("div", {
-    staticClass: "card-body"
-  }, [_c("label", {
-    staticClass: "checkbox checkbox-primary"
-  }, [_c("input", {
-    attrs: {
-      type: "checkbox",
-      id: "rtl-checkbox"
-    },
-    on: {
-      change: _vm.changeThemeRtl
-    }
-  }), _vm._v(" "), _c("span", [_vm._v("Enable RTL")]), _vm._v(" "), _c("span", {
-    staticClass: "checkmark"
-  })])])]) : _vm._e(), _vm._v(" "), _c("div", {}, [_c("div", {
-    staticClass: "card-header"
-  }, [_c("p", {
-    staticClass: "mb-0"
-  }, [_vm._v("Dark Mode")])]), _vm._v(" "), _c("div", {
-    staticClass: "card-body"
-  }, [_c("label", {
-    directives: [{
-      name: "b-popover",
-      rawName: "v-b-popover.hover.left",
-      value: "Dark Mode",
-      expression: "'Dark Mode'",
-      modifiers: {
-        hover: true,
-        left: true
-      }
-    }],
-    staticClass: "switch switch-primary mr-3 mt-2"
-  }, [_c("input", {
-    attrs: {
-      type: "checkbox"
-    },
-    on: {
-      click: _vm.changeThemeMode
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "slider"
-  })])])]), _vm._v(" "), _c("div", {}, [_c("div", {
+  }, [_c("div", {}, [_c("div", {
     staticClass: "card-header"
   }, [_c("p", {
     staticClass: "mb-0"
@@ -142,97 +94,6 @@ var render = function render() {
   }), _vm._v(" English\n            ")]), _vm._v(" "), _c("a", {
     on: {
       click: function click($event) {
-        return _vm.SetLocal("fr");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-fr",
-    attrs: {
-      title: "fr"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("French")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("ar");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-sa",
-    attrs: {
-      title: "sa"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("Arabic")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("tur");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-tr",
-    attrs: {
-      title: "sa"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("Turkish")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("sm_ch");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-cn",
-    attrs: {
-      title: "sa"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("Simplified Chinese")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("thai");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-th",
-    attrs: {
-      title: "sa"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("Thaï")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("hn");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-in",
-    attrs: {
-      title: "sa"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("Hindi")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("de");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-de",
-    attrs: {
-      title: "de"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("German")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
         return _vm.SetLocal("es");
       }
     }
@@ -243,72 +104,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("span", {
     staticClass: "title-lang"
-  }, [_vm._v("Spanish")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("it");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-it",
-    attrs: {
-      title: "it"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("Italien")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("Ind");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-id",
-    attrs: {
-      title: "sa"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("Indonesian")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("tr_ch");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-cn",
-    attrs: {
-      title: "sa"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("Traditional Chinese")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("ru");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-ru",
-    attrs: {
-      title: "sa"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("Russian")])]), _vm._v(" "), _c("a", {
-    on: {
-      click: function click($event) {
-        return _vm.SetLocal("vn");
-      }
-    }
-  }, [_c("i", {
-    staticClass: "flag-icon flag-icon-squared flag-icon-vn",
-    attrs: {
-      title: "sa"
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "title-lang"
-  }, [_vm._v("Vietnamese")])])])])])])], 1)]);
+  }, [_vm._v("Spanish")])])])])])])], 1)]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

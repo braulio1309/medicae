@@ -56,7 +56,18 @@
               >
                 <i class="i-Edit text-25 text-success"></i>
               </a>
+              <a
+                @click="complete_User(props.row)"
+                v-if="true"
+                title="Completar"
+                v-b-tooltip.hover
+              >
+                <i class="i-Note text-25 text-primary"></i>
+              </a>
+              
             </span>
+
+            
   
             <div v-else-if="props.column.field == 'statut'">
               <label class="switch switch-primary mr-3">
@@ -631,6 +642,9 @@
         this.user.NewPassword = null;
         this.editmode = true;
         this.$bvModal.show("New_User");
+      },
+      complete_User(user) {
+        this.$router.push({ path: `/app/dates/profile/patient/${user.id}` });
       },
   
       //------------------------------ Event Upload Avatar -------------------------------\\

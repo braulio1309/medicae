@@ -88,6 +88,11 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
 
     
     Route::resource('vacations', 'VacationController');
+    Route::get('/vacations/dates', 'VacationController@getVacations');
+    
+    // Rutas del recurso "Post"
+    Route::resource('patients', 'PatientController');
+
 
 
 
@@ -98,6 +103,8 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
     Route::get('Appointments/export/Excel', 'AppointmentsController@export_Excel');
     Route::post('Appointments/turns', 'AppointmentsController@getTurns');
     Route::get('Appointments/turns/available', 'AppointmentsController@getAvailableTurns');
+    Route::get('Appointments/turns/today', 'AppointmentsController@getTodayTurns');
+
     Route::post('Appointments/turns/reserve', 'AppointmentsController@reserveTurn');
     Route::post('Appointments/turns/reserve2', 'AppointmentsController@reserveTurn2');
     Route::post('Appointments/import/csv', 'AppointmentsController@import_products');
@@ -135,13 +142,16 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
     Route::put('users/Activated/{id}', 'UserController@IsActivated');
     Route::get('users/export/Excel', 'UserController@exportExcel');
     Route::get('users/Get_Info/Profile', 'UserController@GetInfoProfile');
-    Route::put('updateProfile/{id}', 'UserController@updateProfile');
+    Route::get('patients/Get_Info/Profile/{id}', 'UserController@getInfoProfilePatient');
 
+    Route::put('updateProfile/{id?}', 'UserController@updateProfile');
+    Route::post('update/profile/patience/{id?}', 'UserController@updateProfilePatience');
+    Route::get('/documents/{documentId}/download', 'UserController@download')->name('download');
     Route::resource('fisioterapeuta', 'FisioController');
     Route::put('fisio/Activated/{id}', 'UserController@IsActivated');
     Route::get('fisio/export/Excel', 'UserController@exportExcel');
     Route::get('fisio/Get_Info/Profile', 'UserController@GetInfoProfile');
-    Route::put('updateProfile/{id}', 'UserController@updateProfile');
+   // Route::put('updateProfile/{id?}', 'UserController@updateProfile');
 
     //------------------------------- Permission Groups user -----------\\
     //------------------------------------------------------------------\\

@@ -1,12 +1,12 @@
 @component('mail::message')
 # Notificación de Cita
 
-Estimado(a) Sr./Sra. {{ $appointment->patient->firstname.' '.$appointment->patient->lastname }},
+Estimado(a) Sr./Sra. Braulio Zapata,
 
 Usted ha agendado una cita para el día {{ \Carbon\Carbon::parse($appointment->date)->format("d-m-Y") }} a la hora {{ \Carbon\Carbon::parse($appointment->date)->format('H:i') }}.
 
 Detalles de la cita:
-- Doctor: {{ $appointment->appointment->doctor->firstname.' '.$appointment->appointment->doctor->lastname }},
+- Doctor: Braulio Zapata,
 - Fecha: {{ \Carbon\Carbon::parse($appointment->date)->format("d-m-Y") }}.
 - Hora: {{ \Carbon\Carbon::parse($appointment->date)->format('H:i') }}.
 

@@ -9,14 +9,14 @@ use App\utils\helpers;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Mail\DoctorAppointmentNotification;
 use App\Mail\PatientAppointmentNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+
 
 class AppointmentsController extends BaseController
 {
@@ -85,19 +85,30 @@ class AppointmentsController extends BaseController
 
     public function getAvailableTurns(){
         return response()->json([
-            'data' => Appointment::where('status', 1)->join('users', 'appointments.user_id', '=', 'users.id')->get()
+            'data' => Appointment::join('users', 'appointments.userId', '=', 'users.id')
+            ->select('appointments.id as turnId', 'appointments.*', 'users.*')->get()
         ]);
     }
 
     public function reserveTurn(Request $request){
         $data = $request->all();
+        $turn = Appointment::where('id', '=', $data['turnId'] )->first();
+        if($turn->status == 0){
+            return response()->json([
+                'status' => 422,
+                'msg' => 'Esta cita fue agendada',
+            ], 422);
+        }
         $reserva = Reservation::create([
             'user_id' => auth()->user()->id,
             'turnId' => $data['turnId'],
             'date' => $data['date'],
         ]);
-        $doctor = $reserva->appointment->doctor;
-        Mail::to($doctor->email)
+
+        $turn->status = 0;
+        $turn->save();
+        //$doctor = $reserva->appointment->doctor;
+        Mail::to('brauliozapataweb@gmail.com')
         ->send(new DoctorAppointmentNotification($reserva));
 
         // Envía el correo electrónico al paciente
@@ -121,21 +132,32 @@ class AppointmentsController extends BaseController
             'date' => $datetime->format('Y-m-d H:i:s'),
         ]);
         $doctor = $reserva->appointment->doctor;
-        Mail::to($doctor->email)
+        /*Mail::to($doctor->email)
         ->send(new DoctorAppointmentNotification($reserva));
 
         // Envía el correo electrónico al paciente
         $patient = $reserva->patient;
         Mail::to($patient->email)
-            ->send(new PatientAppointmentNotification($reserva));
+            ->send(new PatientAppointmentNotification($reserva));*/
 
         return response()->json(['success' => true]);
 
     }
+    //-------------- Store new  Product  ---------------\\
 
     public function getTurns(Request $request)
     {
-        $appointments = Appointment::where('user_id', auth()->user()->id)->get();
+        $userId = Auth::user()->id;
+
+        $appointments = \DB::table('appointments')
+        ->select('day', \DB::raw('MIN(CASE WHEN status = 1 THEN DATE_FORMAT(time, "%H:%i") END) as startHour'), \DB::raw('MAX(CASE WHEN status = 1 THEN DATE_FORMAT(time, "%H:%i") END) as finalHour'), \DB::raw('MIN(CASE WHEN status = 0 THEN DATE_FORMAT(time, "%H:%i") END) as startHourRest'), \DB::raw('MAX(CASE WHEN status = 0 THEN DATE_FORMAT(time, "%H:%i") END) as finalHourRest'))
+        ->where('userId', $userId)
+        ->whereIn('status', [0, 1]) // Filtrar por status 0 y 1
+        ->groupBy('day')
+        ->orderBy('day', 'ASC')
+        ->get();
+        
+                
         return response()->json(['turns' => $appointments]);
     }
 
@@ -143,88 +165,40 @@ class AppointmentsController extends BaseController
 
     public function store(Request $request)
     {
-        $this->authorizeForUser($request->user('api'), 'create', Appointment::class);
+        //$this->authorizeForUser($request->user('api'), 'create', Appointment::class);
+        Appointment::where('userId', Auth::user()->id)->delete();
+        $appointment = new Appointment();
+        
+        $hours = $request->all()['hours'];
+        $duration = $request->all()['duration'];
+        
+        if(isset($hours['Lunes'][0]))
+            $appointment->getAppointmentsByDuration(60, $hours['Lunes'][0], 'Lunes');
 
-        try {
+        if(isset($hours['Martes'][0]))
+            $appointment->getAppointmentsByDuration(60, $hours['Martes'][0], 'Martes');
 
-            \DB::transaction(function () use ($request) {
+        if(isset($hours['Miercoles'][0]))
+            $appointment->getAppointmentsByDuration(60, $hours['Miercoles'][0], 'Miercoles');
 
-                //-- Create New Product
-                foreach($request->all()['Lunes'] as $turn){
-                    $appointment = new Appointment;
+        if(isset($hours['Jueves'][0]))
+            $appointment->getAppointmentsByDuration(60, $hours['Jueves'][0], 'Jueves');
+            
+        if(isset($hours['Viernes'][0]))
+            $appointment->getAppointmentsByDuration(60, $hours['Viernes'][0], 'Viernes');
 
-                    //-- Field Required
-                    $appointment->user_id = auth()->user()->id;
-                    $appointment->time = $turn['horas'];
-                    $appointment->day = 'Lunes';
+        if(isset($hours['Sabado'][0]))
+            $appointment->getAppointmentsByDuration(60, $hours['Sabado'][0], 'Sabado');
 
-                    $appointment->save();
-                }
-                foreach($request->all()['Martes'] as $turn){
-                    $appointment = new Appointment;
+        if(isset($hours['Domingo'][0]))
+            $appointment->getAppointmentsByDuration(60, $hours['Domingo'][0], 'Domingo');
 
-                    //-- Field Required
-                    $appointment->user_id = auth()->user()->id;
-                    $appointment->time = $turn['horas'];
-                    $appointment->day = 'Martes';
+        return response()->json(['success' => true]);
 
-                    $appointment->save();
-                }
-                foreach($request->all()['Miercoles'] as $turn){
-                    $appointment = new Appointment;
-
-                    //-- Field Required
-                    $appointment->user_id = auth()->user()->id;
-                    $appointment->time = $turn['horas'];
-                    $appointment->day = 'Miercoles';
-
-                    $appointment->save();
-                }
-                foreach($request->all()['Jueves'] as $turn){
-                    $appointment = new Appointment;
-
-                    //-- Field Required
-                    $appointment->user_id = auth()->user()->id;
-                    $appointment->time = $turn['horas'];
-                    $appointment->day = 'Jueves';
-
-                    $appointment->save();
-                }
-                foreach($request->all()['Sabado'] as $turn){
-                    $appointment = new Appointment;
-
-                    //-- Field Required
-                    $appointment->user_id = auth()->user()->id;
-                    $appointment->time = $turn['horas'];
-                    $appointment->day = 'Sabado';
-
-                    $appointment->save();
-                }
-                foreach($request->all()['Viernes'] as $turn){
-                    $appointment = new Appointment;
-
-                    //-- Field Required
-                    $appointment->user_id = auth()->user()->id;
-                    $appointment->time = $turn['horas'];
-                    $appointment->day = 'Viernes';
-
-                    $appointment->save();
-                }
-                
-
-            }, 10);
-
-            return response()->json(['success' => true]);
-
-        } catch (ValidationException $e) {
-            return response()->json([
-                'status' => 422,
-                'msg' => 'error',
-                'errors' => $e->errors(),
-            ], 422);
-        }
+        
 
     }
+
 
     //-------------- Update Product  ---------------\\
     //-----------------------------------------------\\
@@ -529,7 +503,7 @@ class AppointmentsController extends BaseController
         $doctorId = $request->input('doctorId');
         $date = date('Y-m-d', strtotime($request->input('date')));
         // Obtener los horarios disponibles del doctor y fecha específicos
-        $availableTimes = Appointment::where('appointments.user_id', $doctorId)
+        $availableTimes = Appointment::where('appointments.userId', $doctorId)
             ->where('day', $this->getSpanishDay($date))
             ->leftJoin('reservations', function ($join) use ($date) {
                 $join->on('appointments.id', '=', 'reservations.turnId')
@@ -578,6 +552,18 @@ class AppointmentsController extends BaseController
             ->where('canceled', false)
             ->exists();
         return response()->json(['isAvailable' => $isAvailable]);
+    }
+
+    public function getTodayTurns(){
+        $today = Carbon::now()->format('Y-m-d');
+        $userId = auth()->user()->id;
+
+        $reservations = Reservation::join('appointments', 'appointments.id', '=', 'reservations.turnId')
+        ->join('users', 'users.id', '=', 'reservations.user_id')
+        ->whereDate('reservations.date',  Carbon::today()->toDateString()) 
+        ->get();
+            //dd($reservations);
+        return response()->json(['turns' => $reservations]);
     }
 
 

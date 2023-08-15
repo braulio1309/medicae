@@ -1,7 +1,96 @@
 <template>
   <!-- ============ Body content start ============= -->
   <div class="main-content">
+    <b-row>
+      <b-col lg="8" md="12" sm="12">
+        <b-card class="mb-30">
+          <h4 class="card-title m-0">{{$t('appointment_received')}}</h4>
+          <div class="chart-wrapper">
+            <v-chart :options="echartPayment" :autoresize="true"></v-chart>
+          </div>
+        </b-card>
+      </b-col>
+      <b-col col lg="4" md="12" sm="12">
+        <b-card class="mb-30">
+          <h4 class="card-title m-0">{{$t('TopPatient')}} ({{CurrentMonth}})</h4>
+          <div class="chart-wrapper">
+            <v-chart :options="echartCustomer" :autoresize="true"></v-chart>
+          </div>
+        </b-card>
+      </b-col>
+    </b-row>
 
+    
+    <!-- Last Sales -->
+    <b-row>
+      <div class="col-md-8">
+        <div class="card mb-30">
+          <div class="card-body p-0">
+            <h5 class="card-title border-bottom p-3 mb-2">{{$t('pending_appointment')}}</h5>
+
+            <vue-good-table
+              v-if="!loading"
+              :columns="columns_sales"
+              styleClass="order-table vgt-table"
+              row-style-class="text-left"
+              :rows="sales"
+            >
+              <template slot="table-row" slot-scope="props">
+                <div v-if="props.column.field == 'statut'">
+                  <span
+                    v-if="props.row.statut == 'completed'"
+                    class="badge badge-outline-success"
+                  >{{$t('complete')}}</span>
+                  <span
+                    v-else-if="props.row.statut == 'pending'"
+                    class="badge badge-outline-info"
+                  >{{$t('Pending')}}</span>
+                  <span v-else class="badge badge-outline-warning">{{$t('Ordered')}}</span>
+                </div>
+
+                <div v-else-if="props.column.field == 'payment_status'">
+                  <span
+                    v-if="props.row.payment_status == 'paid'"
+                    class="badge badge-outline-success"
+                  >{{$t('Paid')}}</span>
+                  <span
+                    v-else-if="props.row.payment_status == 'partial'"
+                    class="badge badge-outline-primary"
+                  >{{$t('partial')}}</span>
+                  <span v-else class="badge badge-outline-warning">{{$t('Unpaid')}}</span>
+                </div>
+              </template>
+            </vue-good-table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card mb-30">
+          <div class="card-body p-3">
+            <h5
+              class="card-title border-bottom p-3 mb-2"
+            >Pacientes frecuentes ({{CurrentMonth}})</h5>
+
+            <vue-good-table
+              :columns="columns_products"
+              styleClass="order-table vgt-table"
+              row-style-class="text-left"
+              :rows="products"
+            >
+              <template slot="table-row" slot-scope="props">
+                <div v-if="props.column.field == 'quantity'">
+                  <span>{{formatNumber(props.row.quantity ,2)}} {{props.row.unit_product}}</span>
+                </div>
+                <div v-else-if="props.column.field == 'total'">
+                  <span>{{currentUser.currency}} {{formatNumber(props.row.total ,2)}}</span>
+                </div>
+              </template>
+            </vue-good-table>
+          </div>
+        </div>
+      </div>
+    </b-row>
   </div>
   <!-- ============ Body content End ============= -->
 </template>
@@ -41,10 +130,7 @@ export default {
       echartSales: {},
       echartProduct: {},
       echartCustomer: {},
-      echartPayment: {},
-      total_patients: 0,
-      total_companies: 0,
-      total_fisios: 0,
+      echartPayment: {}
     };
   },
   computed: {
@@ -52,47 +138,15 @@ export default {
     columns_sales() {
       return [
         {
-          label: 'ID',
+          label: this.$t("Reference"),
           field: "Ref",
           tdClass: "gull-border-none text-left",
           thClass: "text-left",
           sortable: false
         },
         {
-          label: 'Cliente',
+          label: this.$t("Customer"),
           field: "client_name",
-          tdClass: "gull-border-none text-left",
-          thClass: "text-left",
-          sortable: false
-        },
-        {
-          label: 'Fisio',
-          field: "statut",
-          html: true,
-          tdClass: "gull-border-none text-left",
-          thClass: "text-left",
-          sortable: false
-        },
-        {
-          label: 'Empresa',
-          field: "GrandTotal",
-          type: "decimal",
-          tdClass: "gull-border-none text-left",
-          thClass: "text-left",
-          sortable: false
-        },
-        {
-          label: this.$t("Paid"),
-          field: "paid_amount",
-          type: "decimal",
-          tdClass: "gull-border-none text-left",
-          thClass: "text-left",
-          sortable: false
-        },
-        {
-          label: this.$t("Due"),
-          field: "due",
-          type: "decimal",
           tdClass: "gull-border-none text-left",
           thClass: "text-left",
           sortable: false
@@ -110,41 +164,22 @@ export default {
     columns_stock() {
       return [
         {
-          label: 'ID',
+          label: this.$t("ProductCode"),
           field: "code",
           tdClass: "text-left",
           thClass: "text-left",
           sortable: false
         },
         {
-          label: 'Nombre',
-          field: "name",
-          tdClass: "text-left",
-          thClass: "text-left",
-          sortable: false
-        },
-        {
-          label: 'Apellido',
-          field: "warehouse",
-          tdClass: "text-left",
-          thClass: "text-left",
-          sortable: false
-        },
-        {
-          label: 'Empresa',
-          field: "quantity",
-          tdClass: "text-left",
-          thClass: "text-left",
-          sortable: false
-        },
-        
-      ];
-    },
-    columns_products() {
-      return [
-        {
           label: this.$t("ProductName"),
           field: "name",
+          tdClass: "text-left",
+          thClass: "text-left",
+          sortable: false
+        },
+        {
+          label: this.$t("warehouse"),
+          field: "warehouse",
           tdClass: "text-left",
           thClass: "text-left",
           sortable: false
@@ -157,7 +192,32 @@ export default {
           sortable: false
         },
         {
-          label: this.$t("Total"),
+          label: this.$t("AlertQuantity"),
+          field: "stock_alert",
+          tdClass: "text-left",
+          thClass: "text-left",
+          sortable: false
+        }
+      ];
+    },
+    columns_products() {
+      return [
+        {
+          label: this.$t("Name"),
+          field: "name",
+          tdClass: "text-left",
+          thClass: "text-left",
+          sortable: false
+        },
+        {
+          label: this.$t("Email"),
+          field: "quantity",
+          tdClass: "text-left",
+          thClass: "text-left",
+          sortable: false
+        },
+        {
+          label: this.$t("Phone"),
           field: "total",
           tdClass: "text-left",
           thClass: "text-left",
@@ -167,15 +227,6 @@ export default {
     }
   },
   methods: {
-    getTotalUsers() {
-      axios
-        .get(`users/get_information_users`)
-        .then(response => {
-          this.total_patients = response.data.total_patients
-          this.total_companies = response.data.total_companies
-          this.total_fisios = response.data.total_fisios
-        })
-    },
     //---------------------------------- Report Dashboard With Echart
     report_with_echart() {
       axios
@@ -183,6 +234,11 @@ export default {
         .then(response => {
           const responseData = response.data;
 
+          this.report_today = response.data.report_dashboard.original.report;
+          this.stock_alerts =
+            response.data.report_dashboard.original.stock_alert;
+          this.products = response.data.report_dashboard.original.products;
+          this.sales = response.data.report_dashboard.original.last_sales;
           var dark_heading = "#c2c6dc";
 
           this.echartCustomer = {
@@ -255,7 +311,33 @@ export default {
               }
             ]
           };
-     
+          this.echartProduct = {
+            color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
+            tooltip: {
+              show: true,
+              backgroundColor: "rgba(0, 0, 0, .8)"
+            },
+            formatter: function(params) {
+              return `${params.name}: (${params.percent}%)`;
+            },
+            series: [
+              {
+                name: "Top Selling Products",
+                type: "pie",
+                radius: "50%",
+                center: "50%",
+
+                data: responseData.product_report.original,
+                itemStyle: {
+                  emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: "rgba(0, 0, 0, 0.5)"
+                  }
+                }
+              }
+            ]
+          };
           this.echartSales = {
             legend: {
               borderRadius: 0,
@@ -363,9 +445,7 @@ export default {
           };
           this.loading = false;
         })
-        .catch(response => {
-          console.log(response)
-        });
+        .catch(response => {});
     },
 
     //------------------------------Get Month -------------------------\\
@@ -405,7 +485,6 @@ export default {
   async mounted() {
     await this.report_with_echart();
     this.GetMonth();
-    this.getTotalUsers();
   }
 };
 </script>

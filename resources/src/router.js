@@ -118,6 +118,12 @@ const routes = [
                             import(/* webpackChunkName: "edit_date" */"./views/app/pages/dates/Edit_date")
                     },
                     {
+                        path: "profile/patient/:id",
+                        name: "complete_info",
+                        component: () =>
+                            import(/* webpackChunkName: "edit_date" */"./views/app/pages/people/patientsData.vue")
+                    },
+                    {
                         path: "detail/:id",
                         name: "detail_date",
                         component: () =>

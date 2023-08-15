@@ -649,5 +649,14 @@ export default {
     couldNotFind: "No pudimos encontrar la página que estaba buscando.",
     ReturnDashboard: "volver al tablero",
     Patients: 'Pacientes',
-    Doctors: 'Doctores'
+    Doctors: 'Doctores',
+    Vacations: 'Vacaciones',
+    Reservation: 'Reservaciones',
+    Appointment: 'Citas',
+    Schedules: 'Horario',
+    AppointmentManagement: 'Gestión de horarios',
+    DurationOfAppointment: 'Duración de consulta (Minutos)',
+    pending_appointment: 'Citas pendientes',
+    appointment_received: 'Citas recibidas',
+    TopPatient: 'Pacientes frecuentes'
 };

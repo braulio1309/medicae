@@ -7,7 +7,7 @@
       <b-form @submit.prevent="Submit_Appointment" enctype="multipart/form-data">
         <b-row>
           <b-col md="12">
-            <h1>Horarios de Reserva de Citas</h1>
+            <h1>{{$t('AppointmentManagement')}}</h1>
             <div v-for="(day, index) in dayss" :key="index" class="mt-1">
               <b-card>
                 <h6 class="d-inline">{{ day }}</h6>

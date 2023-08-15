@@ -6,6 +6,8 @@ use App\Exports\UsersExport;
 use App\Models\Role;
 use App\Models\Setting;
 use App\Models\User;
+use App\Models\Document;
+use App\Models\Patient;
 use App\Models\role_user;
 use App\utils\helpers;
 use Illuminate\Support\Facades\Validator;
@@ -17,6 +19,8 @@ use Illuminate\Support\Facades\Hash;
 use Intervention\Image\ImageManagerStatic as Image;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
+
+
 class UserController extends BaseController
 {
 
@@ -293,9 +297,9 @@ class UserController extends BaseController
 
     //------------- UPDATE PROFILE ---------\\
 
-    public function updateProfile(Request $request)
+    public function updateProfile(Request $request, $id = null)
     {
-        $id = Auth::user()->id;
+        $id = ($id == null)? Auth::user()->id: $id;
         $user = User::findOrFail($id);
         $current = $user->password;
 
@@ -311,7 +315,7 @@ class UserController extends BaseController
         }
 
         $currentAvatar = $user->avatar;
-        if ($request->avatar != $currentAvatar) {
+        /*if ($request->avatar != $currentAvatar) {
 
             $image = $request->file('avatar');
             $path = public_path() . '/images/avatar';
@@ -330,7 +334,7 @@ class UserController extends BaseController
             }
         } else {
             $filename = $currentAvatar;
-        }
+        }*/
 
         User::whereId($id)->update([
             'firstname' => $request['firstname'],
@@ -339,11 +343,110 @@ class UserController extends BaseController
             'email' => $request['email'],
             'phone' => $request['phone'],
             'password' => $pass,
-            'avatar' => $filename,
+            //'avatar' => $filename,
 
         ]);
 
-        return response()->json(['avatar' => $filename, 'user' => $request['username']]);
+        return response()->json(['avatar' => null, 'user' => $request['username']]);
+
+    }
+
+    public function getUserWithDocuments($userId)
+    {
+        $user = User::with('documents')->find($userId);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $userWithDocuments = $user->toArray();
+        foreach ($userWithDocuments['documents'] as &$document) {
+            $document['download_link'] = route('download', ['documentId' => $document['id']]);
+        }
+
+        return response()->json($userWithDocuments);
+    }
+
+    public function download($documentId)
+    {
+        $document = Document::findOrFail($documentId);
+
+        return response()->download(storage_path('app/uploads/').$document->name, $document->name);
+    }   
+
+    public function updateProfilePatience(Request $request, $id = null)
+    {
+        $id = ($id == null)? Auth::user()->id: $id;
+        $user = User::findOrFail($id);
+        $patience = Patient::where('userId', $id)->first();
+
+        $current = $user->password;
+
+        if ($request->NewPassword != 'undefined') {
+            if ($request->NewPassword != $current) {
+                $pass = Hash::make($request->NewPassword);
+            } else {
+                $pass = $user->password;
+            }
+
+        } else {
+            $pass = $user->password;
+        }
+
+        $currentAvatar = $user->avatar;
+        /*if ($request->avatar != $currentAvatar) {
+
+            $image = $request->file('avatar');
+            $path = public_path() . '/images/avatar';
+            $filename = rand(11111111, 99999999) . $image->getClientOriginalName();
+
+            $image_resize = Image::make($image->getRealPath());
+            $image_resize->resize(128, 128);
+            $image_resize->save(public_path('/images/avatar/' . $filename));
+
+            $userPhoto = $path . '/' . $currentAvatar;
+
+            if (file_exists($userPhoto)) {
+                if ($user->avatar != 'no_avatar.png') {
+                    @unlink($userPhoto);
+                }
+            }
+        } else {
+            $filename = $currentAvatar;
+        }*/
+
+        //Guardar documentos
+        if ($request->hasFile('file')) {
+            
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $document = Document::create([
+                'name' => $fileName,
+                'path' => ''
+            ]);
+            
+            $file->storeAs('uploads', $fileName);
+            $user = User::findOrFail($id);
+            $document->path =  $this->download($fileName);
+            $document->save();
+            $user->documents()->save($document);
+        }
+
+        //Guardar notas de consulta
+
+
+        User::whereId($id)->update([
+            'firstname' => $request['firstname'],
+            'lastname' => $request['lastname'],
+            'username' => $request['username'],
+            'email' => $request['email'],
+            'phone' => $request['phone'],
+            'password' => $pass,
+            //'avatar' => $filename,
+
+        ]);
+
+        return response()->json(['avatar' => null, 'user' => $request['username']]);
 
     }
 
@@ -389,7 +492,14 @@ class UserController extends BaseController
 
     public function GetInfoProfile(Request $request)
     {
-        $data = Auth::user();
+        $data = User::findorfail(Auth::user()->id);
+        
+        return response()->json(['success' => true, 'user' => $data]);
+    }
+
+    public function getInfoProfilePatient($id) {
+        $data = User::with('documents')->where('id', $id)->first();
+
         return response()->json(['success' => true, 'user' => $data]);
     }
 

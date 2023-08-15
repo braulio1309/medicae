@@ -60,6 +60,73 @@
           </li>
 
           <li
+            v-show="currentUserPermissions && (currentUserPermissions.includes('users_company_view') 
+                                               || currentUserPermissions.includes('users_patients_view')
+                                               || currentUserPermissions.includes('users_fisio_view'))"
+            @mouseenter="toggleSubMenu"
+            :class="{ active: selectedParentMenu == 'Vacations' }"
+            class="nav-item"
+            data-item="Vacations"
+            :data-submenu="false"
+          >
+          <router-link tag="a" class="nav-item-hold" to="/app/dates/date/vacation">
+              <i class="nav-icon i-Business-Mens"></i>
+              <span class="nav-text">{{ $t('Vacations') }}</span>
+            </router-link>
+            
+          </li>
+
+          <li
+            v-show="currentUserPermissions && (currentUserPermissions.includes('users_company_view') 
+                                               || currentUserPermissions.includes('users_patients_view')
+                                               || currentUserPermissions.includes('users_fisio_view'))"
+            @mouseenter="toggleSubMenu"
+            :class="{ active: selectedParentMenu == 'Appointment' }"
+            class="nav-item"
+            data-item="Appointment"
+            :data-submenu="false"
+          >
+          <router-link tag="a" class="nav-item-hold" to="/app/dates/date">
+              <i class="nav-icon i-Business-Mens"></i>
+              <span class="nav-text">{{ $t('Appointment') }}</span>
+            </router-link>
+            
+          </li>
+
+          <li
+            v-show="currentUserPermissions && (currentUserPermissions.includes('users_company_view') 
+                                               || currentUserPermissions.includes('users_patients_view')
+                                               || currentUserPermissions.includes('users_fisio_view'))"
+            @mouseenter="toggleSubMenu"
+            :class="{ active: selectedParentMenu == 'Reservation' }"
+            class="nav-item"
+            data-item="Reservation"
+            :data-submenu="false"
+          >
+          <router-link tag="a" class="nav-item-hold" to="/app/dates/store">
+              <i class="nav-icon pi pi-calendar"></i>
+              <span class="nav-text">{{ $t('Schedules') }}</span>
+            </router-link>
+            
+          </li>
+          <li
+            v-show="currentUserPermissions && (currentUserPermissions.includes('users_company_view') 
+                                               || currentUserPermissions.includes('users_patients_view')
+                                               || currentUserPermissions.includes('users_fisio_view'))"
+            @mouseenter="toggleSubMenu"
+            :class="{ active: selectedParentMenu == 'Appointment' }"
+            class="nav-item"
+            data-item="Appointment"
+            :data-submenu="false"
+          >
+          <router-link tag="a" class="nav-item-hold" to="/app/dates/date2">
+              <i class="nav-icon i-Business-Mens"></i>
+              <span class="nav-text">{{ $t('Appointment') }}</span>
+            </router-link>
+            
+          </li>
+
+          <li
             v-show="currentUserPermissions && (currentUserPermissions.includes('setting_system') 
                         || currentUserPermissions.includes('permissions_view'))"
             @mouseenter="toggleSubMenu"

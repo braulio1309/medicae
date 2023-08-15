@@ -273,37 +273,17 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
+  return _vm._m(0);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "footer_wrap"
   }, [_c("div", {
     staticClass: "flex-grow-1"
-  }), _vm._v(" "), _c("div", {
-    staticClass: "app-footer"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-9"
-  }, [_c("p", [_c("strong", [_vm._v(_vm._s(_vm.currentUser.footer))])])])]), _vm._v(" "), _c("div", {
-    staticClass: "footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center"
-  }, [_c("div", {
-    staticClass: "d-flex align-items-center"
-  }, [_c("img", {
-    staticClass: "logo",
-    attrs: {
-      src: "/images/" + _vm.currentUser.logo,
-      alt: "",
-      width: "60",
-      height: "60"
-    }
-  }), _vm._v(" "), _c("div", [_c("div", [_c("p", {
-    staticClass: "m-0"
-  }, [_vm._v("© 2023 " + _vm._s(_vm.$t("developed_by")) + " " + _vm._s(_vm.currentUser.developed_by))]), _vm._v(" "), _c("p", {
-    staticClass: "m-0"
-  }, [_vm._v("All rights reserved - v3.7.0")])])]), _vm._v(" "), _c("span", {
-    staticClass: "flex-grow-1"
-  })])])])]);
-};
-var staticRenderFns = [];
+  })]);
+}];
 render._withStripped = true;
 
 
@@ -428,6 +408,118 @@ var render = function render() {
   }), _vm._v(" "), _c("span", {
     staticClass: "nav-text"
   }, [_vm._v(_vm._s(_vm.$t("Doctors")))])])], 1), _vm._v(" "), _c("li", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("users_company_view") || _vm.currentUserPermissions.includes("users_patients_view") || _vm.currentUserPermissions.includes("users_fisio_view")),
+      expression: "currentUserPermissions && (currentUserPermissions.includes('users_company_view') \n                                             || currentUserPermissions.includes('users_patients_view')\n                                             || currentUserPermissions.includes('users_fisio_view'))"
+    }],
+    staticClass: "nav-item",
+    "class": {
+      active: _vm.selectedParentMenu == "Vacations"
+    },
+    attrs: {
+      "data-item": "Vacations",
+      "data-submenu": false
+    },
+    on: {
+      mouseenter: _vm.toggleSubMenu
+    }
+  }, [_c("router-link", {
+    staticClass: "nav-item-hold",
+    attrs: {
+      tag: "a",
+      to: "/app/dates/date/vacation"
+    }
+  }, [_c("i", {
+    staticClass: "nav-icon i-Business-Mens"
+  }), _vm._v(" "), _c("span", {
+    staticClass: "nav-text"
+  }, [_vm._v(_vm._s(_vm.$t("Vacations")))])])], 1), _vm._v(" "), _c("li", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("users_company_view") || _vm.currentUserPermissions.includes("users_patients_view") || _vm.currentUserPermissions.includes("users_fisio_view")),
+      expression: "currentUserPermissions && (currentUserPermissions.includes('users_company_view') \n                                             || currentUserPermissions.includes('users_patients_view')\n                                             || currentUserPermissions.includes('users_fisio_view'))"
+    }],
+    staticClass: "nav-item",
+    "class": {
+      active: _vm.selectedParentMenu == "Appointment"
+    },
+    attrs: {
+      "data-item": "Appointment",
+      "data-submenu": false
+    },
+    on: {
+      mouseenter: _vm.toggleSubMenu
+    }
+  }, [_c("router-link", {
+    staticClass: "nav-item-hold",
+    attrs: {
+      tag: "a",
+      to: "/app/dates/date"
+    }
+  }, [_c("i", {
+    staticClass: "nav-icon i-Business-Mens"
+  }), _vm._v(" "), _c("span", {
+    staticClass: "nav-text"
+  }, [_vm._v(_vm._s(_vm.$t("Appointment")))])])], 1), _vm._v(" "), _c("li", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("users_company_view") || _vm.currentUserPermissions.includes("users_patients_view") || _vm.currentUserPermissions.includes("users_fisio_view")),
+      expression: "currentUserPermissions && (currentUserPermissions.includes('users_company_view') \n                                             || currentUserPermissions.includes('users_patients_view')\n                                             || currentUserPermissions.includes('users_fisio_view'))"
+    }],
+    staticClass: "nav-item",
+    "class": {
+      active: _vm.selectedParentMenu == "Reservation"
+    },
+    attrs: {
+      "data-item": "Reservation",
+      "data-submenu": false
+    },
+    on: {
+      mouseenter: _vm.toggleSubMenu
+    }
+  }, [_c("router-link", {
+    staticClass: "nav-item-hold",
+    attrs: {
+      tag: "a",
+      to: "/app/dates/store"
+    }
+  }, [_c("i", {
+    staticClass: "nav-icon pi pi-calendar"
+  }), _vm._v(" "), _c("span", {
+    staticClass: "nav-text"
+  }, [_vm._v(_vm._s(_vm.$t("Schedules")))])])], 1), _vm._v(" "), _c("li", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("users_company_view") || _vm.currentUserPermissions.includes("users_patients_view") || _vm.currentUserPermissions.includes("users_fisio_view")),
+      expression: "currentUserPermissions && (currentUserPermissions.includes('users_company_view') \n                                             || currentUserPermissions.includes('users_patients_view')\n                                             || currentUserPermissions.includes('users_fisio_view'))"
+    }],
+    staticClass: "nav-item",
+    "class": {
+      active: _vm.selectedParentMenu == "Appointment"
+    },
+    attrs: {
+      "data-item": "Appointment",
+      "data-submenu": false
+    },
+    on: {
+      mouseenter: _vm.toggleSubMenu
+    }
+  }, [_c("router-link", {
+    staticClass: "nav-item-hold",
+    attrs: {
+      tag: "a",
+      to: "/app/dates/date2"
+    }
+  }, [_c("i", {
+    staticClass: "nav-icon i-Business-Mens"
+  }), _vm._v(" "), _c("span", {
+    staticClass: "nav-text"
+  }, [_vm._v(_vm._s(_vm.$t("Appointment")))])])], 1), _vm._v(" "), _c("li", {
     directives: [{
       name: "show",
       rawName: "v-show",

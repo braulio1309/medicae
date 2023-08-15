@@ -219,7 +219,7 @@ var render = function render() {
     attrs: {
       md: "12"
     }
-  }, [_c("h1", [_vm._v("Horarios de Reserva de Citas")]), _vm._v(" "), _vm._l(_vm.dayss, function (day, index) {
+  }, [_c("h1", [_vm._v(_vm._s(_vm.$t("AppointmentManagement")))]), _vm._v(" "), _vm._l(_vm.dayss, function (day, index) {
     return _c("div", {
       key: index,
       staticClass: "mt-1"

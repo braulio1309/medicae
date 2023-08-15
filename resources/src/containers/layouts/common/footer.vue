@@ -2,7 +2,7 @@
   <div class="footer_wrap">
     <!-- Footer Start -->
     <div class="flex-grow-1"></div>
-    <div class="app-footer">
+   <!-- <div class="app-footer">
       <div class="row">
         <div class="col-md-9">
           <p><strong>{{currentUser.footer}}</strong></p>
@@ -21,10 +21,10 @@
           </div>
           <span class="flex-grow-1"></span>
         </div>
-      </div>
+      </div>-->
       <!-- fotter end -->
     </div>
-  </div>
+
 </template> 
 <script>
 import { mapGetters, mapActions } from "vuex";

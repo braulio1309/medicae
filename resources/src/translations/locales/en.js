@@ -650,6 +650,15 @@ export default {
     couldNotFind: 'We could not find the page you were looking for.Meanwhile, you may',
     ReturnDashboard: 'Return to dashboard',
     Patients: 'Patiens',
-    Doctor: 'Doctors'
+    Doctor: 'Doctors',
+    Vacations: 'Vacations',
+    Reservation: 'Reservations',
+    Appointment: 'Appointments',
+    Schedules: 'Schedules',
+    AppointmentManagement: 'Schedule management',
+    DurationOfAppointment: 'Duration of Appointment (Minutes)',
+    pending_appointment: 'Pending appointment',
+    appointment_received: 'Appointment received',
+    TopPatient: 'Top patients'
 
 };

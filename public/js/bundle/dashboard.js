@@ -63,51 +63,20 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       echartSales: {},
       echartProduct: {},
       echartCustomer: {},
-      echartPayment: {},
-      total_patients: 0,
-      total_companies: 0,
-      total_fisios: 0
+      echartPayment: {}
     };
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["currentUser"])), {}, {
     columns_sales: function columns_sales() {
       return [{
-        label: 'ID',
+        label: this.$t("Reference"),
         field: "Ref",
         tdClass: "gull-border-none text-left",
         thClass: "text-left",
         sortable: false
       }, {
-        label: 'Cliente',
+        label: this.$t("Customer"),
         field: "client_name",
-        tdClass: "gull-border-none text-left",
-        thClass: "text-left",
-        sortable: false
-      }, {
-        label: 'Fisio',
-        field: "statut",
-        html: true,
-        tdClass: "gull-border-none text-left",
-        thClass: "text-left",
-        sortable: false
-      }, {
-        label: 'Empresa',
-        field: "GrandTotal",
-        type: "decimal",
-        tdClass: "gull-border-none text-left",
-        thClass: "text-left",
-        sortable: false
-      }, {
-        label: this.$t("Paid"),
-        field: "paid_amount",
-        type: "decimal",
-        tdClass: "gull-border-none text-left",
-        thClass: "text-left",
-        sortable: false
-      }, {
-        label: this.$t("Due"),
-        field: "due",
-        type: "decimal",
         tdClass: "gull-border-none text-left",
         thClass: "text-left",
         sortable: false
@@ -122,35 +91,20 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     columns_stock: function columns_stock() {
       return [{
-        label: 'ID',
+        label: this.$t("ProductCode"),
         field: "code",
         tdClass: "text-left",
         thClass: "text-left",
         sortable: false
       }, {
-        label: 'Nombre',
-        field: "name",
-        tdClass: "text-left",
-        thClass: "text-left",
-        sortable: false
-      }, {
-        label: 'Apellido',
-        field: "warehouse",
-        tdClass: "text-left",
-        thClass: "text-left",
-        sortable: false
-      }, {
-        label: 'Empresa',
-        field: "quantity",
-        tdClass: "text-left",
-        thClass: "text-left",
-        sortable: false
-      }];
-    },
-    columns_products: function columns_products() {
-      return [{
         label: this.$t("ProductName"),
         field: "name",
+        tdClass: "text-left",
+        thClass: "text-left",
+        sortable: false
+      }, {
+        label: this.$t("warehouse"),
+        field: "warehouse",
         tdClass: "text-left",
         thClass: "text-left",
         sortable: false
@@ -161,7 +115,28 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         thClass: "text-left",
         sortable: false
       }, {
-        label: this.$t("Total"),
+        label: this.$t("AlertQuantity"),
+        field: "stock_alert",
+        tdClass: "text-left",
+        thClass: "text-left",
+        sortable: false
+      }];
+    },
+    columns_products: function columns_products() {
+      return [{
+        label: this.$t("Name"),
+        field: "name",
+        tdClass: "text-left",
+        thClass: "text-left",
+        sortable: false
+      }, {
+        label: this.$t("Email"),
+        field: "quantity",
+        tdClass: "text-left",
+        thClass: "text-left",
+        sortable: false
+      }, {
+        label: this.$t("Phone"),
         field: "total",
         tdClass: "text-left",
         thClass: "text-left",
@@ -170,21 +145,17 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   }),
   methods: {
-    getTotalUsers: function getTotalUsers() {
-      var _this = this;
-      axios.get("users/get_information_users").then(function (response) {
-        _this.total_patients = response.data.total_patients;
-        _this.total_companies = response.data.total_companies;
-        _this.total_fisios = response.data.total_fisios;
-      });
-    },
     //---------------------------------- Report Dashboard With Echart
     report_with_echart: function report_with_echart() {
-      var _this2 = this;
+      var _this = this;
       axios.get("chart/report_with_echart").then(function (response) {
         var responseData = response.data;
+        _this.report_today = response.data.report_dashboard.original.report;
+        _this.stock_alerts = response.data.report_dashboard.original.stock_alert;
+        _this.products = response.data.report_dashboard.original.products;
+        _this.sales = response.data.report_dashboard.original.last_sales;
         var dark_heading = "#c2c6dc";
-        _this2.echartCustomer = {
+        _this.echartCustomer = {
           color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
           tooltip: {
             show: true,
@@ -208,7 +179,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             }
           }]
         };
-        _this2.echartPayment = {
+        _this.echartPayment = {
           tooltip: {
             trigger: "axis"
           },
@@ -244,7 +215,31 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             data: responseData.payments.original.payment_received
           }]
         };
-        _this2.echartSales = {
+        _this.echartProduct = {
+          color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
+          tooltip: {
+            show: true,
+            backgroundColor: "rgba(0, 0, 0, .8)"
+          },
+          formatter: function formatter(params) {
+            return "".concat(params.name, ": (").concat(params.percent, "%)");
+          },
+          series: [{
+            name: "Top Selling Products",
+            type: "pie",
+            radius: "50%",
+            center: "50%",
+            data: responseData.product_report.original,
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }]
+        };
+        _this.echartSales = {
           legend: {
             borderRadius: 0,
             orient: "horizontal",
@@ -342,10 +337,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             }
           }]
         };
-        _this2.loading = false;
-      })["catch"](function (response) {
-        console.log(response);
-      });
+        _this.loading = false;
+      })["catch"](function (response) {});
     },
     //------------------------------Get Month -------------------------\\
     GetMonth: function GetMonth() {
@@ -364,17 +357,16 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this2 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return _this3.report_with_echart();
+            return _this2.report_with_echart();
           case 2:
-            _this3.GetMonth();
-            _this3.getTotalUsers();
-          case 4:
+            _this2.GetMonth();
+          case 3:
           case "end":
             return _context.stop();
         }
@@ -401,7 +393,96 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("div", {
     staticClass: "main-content"
-  });
+  }, [_c("b-row", [_c("b-col", {
+    attrs: {
+      lg: "8",
+      md: "12",
+      sm: "12"
+    }
+  }, [_c("b-card", {
+    staticClass: "mb-30"
+  }, [_c("h4", {
+    staticClass: "card-title m-0"
+  }, [_vm._v(_vm._s(_vm.$t("appointment_received")))]), _vm._v(" "), _c("div", {
+    staticClass: "chart-wrapper"
+  }, [_c("v-chart", {
+    attrs: {
+      options: _vm.echartPayment,
+      autoresize: true
+    }
+  })], 1)])], 1), _vm._v(" "), _c("b-col", {
+    attrs: {
+      col: "",
+      lg: "4",
+      md: "12",
+      sm: "12"
+    }
+  }, [_c("b-card", {
+    staticClass: "mb-30"
+  }, [_c("h4", {
+    staticClass: "card-title m-0"
+  }, [_vm._v(_vm._s(_vm.$t("TopPatient")) + " (" + _vm._s(_vm.CurrentMonth) + ")")]), _vm._v(" "), _c("div", {
+    staticClass: "chart-wrapper"
+  }, [_c("v-chart", {
+    attrs: {
+      options: _vm.echartCustomer,
+      autoresize: true
+    }
+  })], 1)])], 1)], 1), _vm._v(" "), _c("b-row", [_c("div", {
+    staticClass: "col-md-8"
+  }, [_c("div", {
+    staticClass: "card mb-30"
+  }, [_c("div", {
+    staticClass: "card-body p-0"
+  }, [_c("h5", {
+    staticClass: "card-title border-bottom p-3 mb-2"
+  }, [_vm._v(_vm._s(_vm.$t("pending_appointment")))]), _vm._v(" "), !_vm.loading ? _c("vue-good-table", {
+    attrs: {
+      columns: _vm.columns_sales,
+      styleClass: "order-table vgt-table",
+      "row-style-class": "text-left",
+      rows: _vm.sales
+    },
+    scopedSlots: _vm._u([{
+      key: "table-row",
+      fn: function fn(props) {
+        return [props.column.field == "statut" ? _c("div", [props.row.statut == "completed" ? _c("span", {
+          staticClass: "badge badge-outline-success"
+        }, [_vm._v(_vm._s(_vm.$t("complete")))]) : props.row.statut == "pending" ? _c("span", {
+          staticClass: "badge badge-outline-info"
+        }, [_vm._v(_vm._s(_vm.$t("Pending")))]) : _c("span", {
+          staticClass: "badge badge-outline-warning"
+        }, [_vm._v(_vm._s(_vm.$t("Ordered")))])]) : props.column.field == "payment_status" ? _c("div", [props.row.payment_status == "paid" ? _c("span", {
+          staticClass: "badge badge-outline-success"
+        }, [_vm._v(_vm._s(_vm.$t("Paid")))]) : props.row.payment_status == "partial" ? _c("span", {
+          staticClass: "badge badge-outline-primary"
+        }, [_vm._v(_vm._s(_vm.$t("partial")))]) : _c("span", {
+          staticClass: "badge badge-outline-warning"
+        }, [_vm._v(_vm._s(_vm.$t("Unpaid")))])]) : _vm._e()];
+      }
+    }], null, false, 2617766521)
+  }) : _vm._e()], 1)])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-4"
+  }, [_c("div", {
+    staticClass: "card mb-30"
+  }, [_c("div", {
+    staticClass: "card-body p-3"
+  }, [_c("h5", {
+    staticClass: "card-title border-bottom p-3 mb-2"
+  }, [_vm._v("Pacientes frecuentes (" + _vm._s(_vm.CurrentMonth) + ")")]), _vm._v(" "), _c("vue-good-table", {
+    attrs: {
+      columns: _vm.columns_products,
+      styleClass: "order-table vgt-table",
+      "row-style-class": "text-left",
+      rows: _vm.products
+    },
+    scopedSlots: _vm._u([{
+      key: "table-row",
+      fn: function fn(props) {
+        return [props.column.field == "quantity" ? _c("div", [_c("span", [_vm._v(_vm._s(_vm.formatNumber(props.row.quantity, 2)) + " " + _vm._s(props.row.unit_product))])]) : props.column.field == "total" ? _c("div", [_c("span", [_vm._v(_vm._s(_vm.currentUser.currency) + " " + _vm._s(_vm.formatNumber(props.row.total, 2)))])]) : _vm._e()];
+      }
+    }])
+  })], 1)])])])], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;

@@ -798,6 +798,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this.editmode = true;
       this.$bvModal.show("New_User");
     },
+    complete_User: function complete_User(user) {
+      this.$router.push({
+        path: "/app/dates/profile/patient/".concat(user.id)
+      });
+    },
     //------------------------------ Event Upload Avatar -------------------------------\\
     onFileSelected: function onFileSelected(e) {
       var _this4 = this;
@@ -2158,6 +2163,24 @@ var render = function render() {
           }
         }, [_c("i", {
           staticClass: "i-Edit text-25 text-success"
+        })]) : undefined, _vm._v(" "), true ? _c("a", {
+          directives: [{
+            name: "b-tooltip",
+            rawName: "v-b-tooltip.hover",
+            modifiers: {
+              hover: true
+            }
+          }],
+          attrs: {
+            title: "Completar"
+          },
+          on: {
+            click: function click($event) {
+              return _vm.complete_User(props.row);
+            }
+          }
+        }, [_c("i", {
+          staticClass: "i-Note text-25 text-primary"
         })]) : undefined]) : props.column.field == "statut" ? _c("div", [_c("label", {
           staticClass: "switch switch-primary mr-3"
         }, [_c("input", {

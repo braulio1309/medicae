@@ -6,7 +6,7 @@
                     <div class="col-sm-12">
                         <h4 class="font-weight-bold">Visitas de hoy</h4>
                         <h6>{{ currentDate }}</h6>
-                        <div class="card mb-2" v-for="reservation in this.todayTurns">
+                        <div class="card mb-2" v-for="reservation in this.todayTurns" :key="reservation">
                             <div class="card-body">
                             <!-- Título de la tarjeta -->
                             <h5 class="card-title">{{ reservation.firstname }}</h5>
@@ -24,7 +24,7 @@
                 
                 <div class="statbox panel box box-shadow">
                     <div class="panel-body">
-                        <FullCalendar :options="this.options"/>
+                        <FullCalendar :options="this.options" ref="fullCalendar"/>
                            
                     </div>
                 </div>
@@ -86,14 +86,15 @@
 </style>
 <script>
 
-    import { onMounted, ref } from 'vue';
-    import 'moment/locale/es';
-    import FullCalendar from '@fullcalendar/vue3';
-    import dayGridPlugin from '@fullcalendar/daygrid';
-    import timeGridPlugin from '@fullcalendar/timegrid';
-    import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
+import { onMounted, ref } from 'vue';
+import 'moment/locale/es';
+import moment from "moment";
+import FullCalendar from '@fullcalendar/vue3';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 
-    export default {
+export default {
         components: {
             FullCalendar, 
             dayGridPlugin,
@@ -105,7 +106,7 @@
                 addEventsModal: false,
                 currentDate: new Date().toLocaleDateString(),
                 event: {},
-                disabledDates: ['2023-08-15'],
+                disabledDates: [],
                 options: {
                     eventRender: this.eventRender,
                     initialView: 'timeGridWeek',
@@ -134,7 +135,7 @@
                     slotLabelInterval: '01:00:00', // Mostrar etiquetas de hora cada hora
                     slotDuration: '01:00:00',
                     todayTurns: ''
-            };
+            }
         },
         methods: {
             eventRender(info) {
@@ -143,6 +144,23 @@
                     info.el.classList.add('disabled-event');
                     info.event.setProp('display', 'none');
                 }
+            },
+            disableDatesInCalendar() {
+                const fullCalendarApi = this.$refs.fullCalendar.getApi();
+
+                // Deseleccionar fechas deshabilitadas
+                fullCalendarApi.removeAllEventSources();
+
+                const disabledEventSource = {
+                    events: this.disabledDates.map(date => ({
+                    start: date,
+                    display: 'background'
+                    })),
+                    backgroundColor: 'red', // Color de fondo para fechas deshabilitadas
+                    borderColor: 'red' // Color de borde para fechas deshabilitadas
+                };
+
+                fullCalendarApi.addEventSource(disabledEventSource);
             },
             New_Company(data) {
                 this.event = data.event;
@@ -192,18 +210,21 @@
                     });
                 };
                 let info = await axios.get('/vacations/dates');
-                info = info.data.vacation;
-                console.log(info)
-                let dateArray = [];
-                let currentDate = moment(info.startDate);
-                const endDate = moment(info.endDate);
+                console.log(info.data)
+                //info = info.data.vacation;
+                this.disabledDates = info.data.dates;
+                this.disableDatesInCalendar();
 
-                while (currentDate <= endDate) {
-                    dateArray.push(currentDate.format('YYYY-MM-DD'));
-                    currentDate.add(1, 'days');
-                }
+                // let dateArray = [];
+                // let currentDate = moment(info.startDate);
+                // const endDate = moment(info.endDate);
 
-                this.options.events = dateArray.filter((date) =>{ return !exceptionDates.includes(date.startTime)});
+                // while (currentDate <= endDate) {
+                //     dateArray.push(currentDate.format('YYYY-MM-DD'));
+                //     currentDate.add(1, 'days');
+                // }
+
+                // this.options.events = dateArray.filter((date) =>{ return !exceptionDates.includes(date.startTime)});
 
             },
             edit_event(data) {
@@ -273,9 +294,9 @@
                         
                     })
                     .catch(error => {
-                    
+                        console.log(error)
                     });
-            }
+            },
         },
         mounted () {
             

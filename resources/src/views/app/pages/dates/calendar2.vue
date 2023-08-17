@@ -8,7 +8,7 @@
         </b-col>
         <b-col md="4">
             <div class="form-group">
-                <Calendar :minDate="minSelectableDate" v-model="selectedDate" :disabledDays="[0,6]" :inline="true" id="date" @date-select="loadAvailableTimes" dateFormat="dd-mm-yy" />
+                <Calendar :minDate="minSelectableDate" v-model="selectedDate" :disabled-dates="disabledDates" :disabledDays="[6]" :inline="true" id="date" @date-select="loadAvailableTimes" dateFormat="dd-mm-yy" />
             </div>
         </b-col>
 

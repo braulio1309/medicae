@@ -49,7 +49,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   },
   data: function data() {
     return {
-      sales: [],
+      appointments: [],
       stock_alerts: [],
       report_today: {
         revenue: 0,
@@ -57,32 +57,32 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         return_sales: 0,
         profit: 0
       },
-      products: [],
       CurrentMonth: "",
+      patients: [],
       loading: true,
       echartSales: {},
       echartProduct: {},
-      echartCustomer: {},
-      echartPayment: {}
+      echartPatient: {},
+      echartAppointment: {}
     };
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["currentUser"])), {}, {
-    columns_sales: function columns_sales() {
+    columns_appointment: function columns_appointment() {
       return [{
         label: this.$t("Reference"),
-        field: "Ref",
+        field: "id",
         tdClass: "gull-border-none text-left",
         thClass: "text-left",
         sortable: false
       }, {
-        label: this.$t("Customer"),
-        field: "client_name",
+        label: this.$t("Doctor"),
+        field: "doctor_name",
         tdClass: "gull-border-none text-left",
         thClass: "text-left",
         sortable: false
       }, {
-        label: this.$t("PaymentStatus"),
-        field: "payment_status",
+        label: this.$t("Day"),
+        field: "day",
         html: true,
         sortable: false,
         tdClass: "text-left gull-border-none",
@@ -122,7 +122,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         sortable: false
       }];
     },
-    columns_products: function columns_products() {
+    columns_patients: function columns_patients() {
       return [{
         label: this.$t("Name"),
         field: "name",
@@ -151,11 +151,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       axios.get("chart/report_with_echart").then(function (response) {
         var responseData = response.data;
         _this.report_today = response.data.report_dashboard.original.report;
-        _this.stock_alerts = response.data.report_dashboard.original.stock_alert;
-        _this.products = response.data.report_dashboard.original.products;
-        _this.sales = response.data.report_dashboard.original.last_sales;
+        // this.stock_alerts =
+        // response.data.report_dashboard.original.stock_alert;
+        _this.appointments = response.data.report_dashboard.original.last_appointments;
+        _this.patients = response.data.report_dashboard.original.patients;
         var dark_heading = "#c2c6dc";
-        _this.echartCustomer = {
+        _this.echartPatient = {
           color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
           tooltip: {
             show: true,
@@ -165,11 +166,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             return "".concat(params.name, ": (").concat(params.data.value, " sales) (").concat(params.percent, "%)");
           },
           series: [{
-            name: "Top Customers",
+            name: "Top Patients",
             type: "pie",
             radius: "50%",
             center: "50%",
-            data: responseData.customers.original,
+            data: responseData.patients.original,
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
@@ -179,12 +180,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             }
           }]
         };
-        _this.echartPayment = {
+        _this.echartAppointment = {
           tooltip: {
             trigger: "axis"
           },
           legend: {
-            data: ["Payment sent", "Payment received"]
+            data: ["Citas Recibidas", "Citas Pendientes"]
           },
           grid: {
             left: "3%",
@@ -200,143 +201,153 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           xAxis: {
             type: "category",
             boundaryGap: false,
-            data: responseData.payments.original.days
+            data: responseData.appointments.original.days
           },
           yAxis: {
             type: "value"
           },
           series: [{
-            name: "Payment sent",
+            name: "Citas Recibidas",
             type: "line",
-            data: responseData.payments.original.payment_sent
+            data: responseData.appointments.original.appointments_received
           }, {
-            name: "Payment received",
+            name: "Citas Pendientes",
             type: "line",
-            data: responseData.payments.original.payment_received
+            data: responseData.appointments.original.appointments_pending
           }]
         };
-        _this.echartProduct = {
-          color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
-          tooltip: {
-            show: true,
-            backgroundColor: "rgba(0, 0, 0, .8)"
-          },
-          formatter: function formatter(params) {
-            return "".concat(params.name, ": (").concat(params.percent, "%)");
-          },
-          series: [{
-            name: "Top Selling Products",
-            type: "pie",
-            radius: "50%",
-            center: "50%",
-            data: responseData.product_report.original,
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
-              }
-            }
-          }]
-        };
-        _this.echartSales = {
-          legend: {
-            borderRadius: 0,
-            orient: "horizontal",
-            x: "right",
-            data: ["Sales", "Purchases"]
-          },
-          grid: {
-            left: "8px",
-            right: "8px",
-            bottom: "0",
-            containLabel: true
-          },
-          tooltip: {
-            show: true,
-            backgroundColor: "rgba(0, 0, 0, .8)"
-          },
-          xAxis: [{
-            type: "category",
-            data: responseData.sales.original.days,
-            axisTick: {
-              alignWithLabel: true
-            },
-            splitLine: {
-              show: false
-            },
-            axisLabel: {
-              color: dark_heading,
-              interval: 0,
-              rotate: 30
-            },
-            axisLine: {
-              show: true,
-              color: dark_heading,
-              lineStyle: {
-                color: dark_heading
-              }
-            }
-          }],
-          yAxis: [{
-            type: "value",
-            axisLabel: {
-              color: dark_heading
-              // formatter: "${value}"
-            },
+        // this.echartProduct = {
+        //   color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
+        //   tooltip: {
+        //     show: true,
+        //     backgroundColor: "rgba(0, 0, 0, .8)"
+        //   },
+        //   formatter: function(params) {
+        //     return `${params.name}: (${params.percent}%)`;
+        //   },
+        //   series: [
+        //     {
+        //       name: "Top Selling Products",
+        //       type: "pie",
+        //       radius: "50%",
+        //       center: "50%",
 
-            axisLine: {
-              show: false,
-              color: dark_heading,
-              lineStyle: {
-                color: dark_heading
-              }
-            },
-            min: 0,
-            splitLine: {
-              show: true,
-              interval: "auto"
-            }
-          }],
-          series: [{
-            name: "Sales",
-            data: responseData.sales.original.data,
-            label: {
-              show: false,
-              color: "#8B5CF6"
-            },
-            type: "bar",
-            color: "#A78BFA",
-            smooth: true,
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowOffsetY: -2,
-                shadowColor: "rgba(0, 0, 0, 0.3)"
-              }
-            }
-          }, {
-            name: "Purchases",
-            data: responseData.purchases.original.data,
-            label: {
-              show: false,
-              color: "#0168c1"
-            },
-            type: "bar",
-            barGap: 0,
-            color: "#DDD6FE",
-            smooth: true,
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowOffsetY: -2,
-                shadowColor: "rgba(0, 0, 0, 0.3)"
-              }
-            }
-          }]
-        };
+        //       data: responseData.product_report.original,
+        //       itemStyle: {
+        //         emphasis: {
+        //           shadowBlur: 10,
+        //           shadowOffsetX: 0,
+        //           shadowColor: "rgba(0, 0, 0, 0.5)"
+        //         }
+        //       }
+        //     }
+        //   ]
+        // };
+        // this.echartSales = {
+        //   legend: {
+        //     borderRadius: 0,
+        //     orient: "horizontal",
+        //     x: "right",
+        //     data: ["Sales", "Purchases"]
+        //   },
+        //   grid: {
+        //     left: "8px",
+        //     right: "8px",
+        //     bottom: "0",
+        //     containLabel: true
+        //   },
+        //   tooltip: {
+        //     show: true,
+
+        //     backgroundColor: "rgba(0, 0, 0, .8)"
+        //   },
+
+        //   xAxis: [
+        //     {
+        //       type: "category",
+        //       data: responseData.sales.original.days,
+        //       axisTick: {
+        //         alignWithLabel: true
+        //       },
+        //       splitLine: {
+        //         show: false
+        //       },
+        //       axisLabel: {
+        //         color: dark_heading,
+        //         interval: 0,
+        //         rotate: 30
+        //       },
+        //       axisLine: {
+        //         show: true,
+        //         color: dark_heading,
+
+        //         lineStyle: {
+        //           color: dark_heading
+        //         }
+        //       }
+        //     }
+        //   ],
+        //   yAxis: [
+        //     {
+        //       type: "value",
+
+        //       axisLabel: {
+        //         color: dark_heading
+        //         // formatter: "${value}"
+        //       },
+        //       axisLine: {
+        //         show: false,
+        //         color: dark_heading,
+
+        //         lineStyle: {
+        //           color: dark_heading
+        //         }
+        //       },
+        //       min: 0,
+        //       splitLine: {
+        //         show: true,
+        //         interval: "auto"
+        //       }
+        //     }
+        //   ],
+
+        //   series: [
+        //     {
+        //       name: "Sales",
+        //       data: responseData.sales.original.data,
+        //       label: { show: false, color: "#8B5CF6" },
+        //       type: "bar",
+        //       color: "#A78BFA",
+        //       smooth: true,
+        //       itemStyle: {
+        //         emphasis: {
+        //           shadowBlur: 10,
+        //           shadowOffsetX: 0,
+        //           shadowOffsetY: -2,
+        //           shadowColor: "rgba(0, 0, 0, 0.3)"
+        //         }
+        //       }
+        //     },
+        //     {
+        //       name: "Purchases",
+        //       data: responseData.purchases.original.data,
+
+        //       label: { show: false, color: "#0168c1" },
+        //       type: "bar",
+        //       barGap: 0,
+        //       color: "#DDD6FE",
+        //       smooth: true,
+        //       itemStyle: {
+        //         emphasis: {
+        //           shadowBlur: 10,
+        //           shadowOffsetX: 0,
+        //           shadowOffsetY: -2,
+        //           shadowColor: "rgba(0, 0, 0, 0.3)"
+        //         }
+        //       }
+        //     }
+        //   ]
+        // };
         _this.loading = false;
       })["catch"](function (response) {});
     },
@@ -407,7 +418,7 @@ var render = function render() {
     staticClass: "chart-wrapper"
   }, [_c("v-chart", {
     attrs: {
-      options: _vm.echartPayment,
+      options: _vm.echartAppointment,
       autoresize: true
     }
   })], 1)])], 1), _vm._v(" "), _c("b-col", {
@@ -425,7 +436,7 @@ var render = function render() {
     staticClass: "chart-wrapper"
   }, [_c("v-chart", {
     attrs: {
-      options: _vm.echartCustomer,
+      options: _vm.echartPatient,
       autoresize: true
     }
   })], 1)])], 1)], 1), _vm._v(" "), _c("b-row", [_c("div", {
@@ -438,10 +449,10 @@ var render = function render() {
     staticClass: "card-title border-bottom p-3 mb-2"
   }, [_vm._v(_vm._s(_vm.$t("pending_appointment")))]), _vm._v(" "), !_vm.loading ? _c("vue-good-table", {
     attrs: {
-      columns: _vm.columns_sales,
+      columns: _vm.columns_appointment,
       styleClass: "order-table vgt-table",
       "row-style-class": "text-left",
-      rows: _vm.sales
+      rows: _vm.appointments
     },
     scopedSlots: _vm._u([{
       key: "table-row",
@@ -471,10 +482,9 @@ var render = function render() {
     staticClass: "card-title border-bottom p-3 mb-2"
   }, [_vm._v("Pacientes frecuentes (" + _vm._s(_vm.CurrentMonth) + ")")]), _vm._v(" "), _c("vue-good-table", {
     attrs: {
-      columns: _vm.columns_products,
+      columns: _vm.columns_patients,
       styleClass: "order-table vgt-table",
-      "row-style-class": "text-left",
-      rows: _vm.products
+      "row-style-class": "text-left"
     },
     scopedSlots: _vm._u([{
       key: "table-row",
@@ -482,7 +492,7 @@ var render = function render() {
         return [props.column.field == "quantity" ? _c("div", [_c("span", [_vm._v(_vm._s(_vm.formatNumber(props.row.quantity, 2)) + " " + _vm._s(props.row.unit_product))])]) : props.column.field == "total" ? _c("div", [_c("span", [_vm._v(_vm._s(_vm.currentUser.currency) + " " + _vm._s(_vm.formatNumber(props.row.total, 2)))])]) : _vm._e()];
       }
     }])
-  })], 1)])])])], 1);
+  }, [_vm._v('\n            :rows="patients"\n            ')])], 1)])])])], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;

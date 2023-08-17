@@ -46,7 +46,7 @@ class PatientController extends Controller
 
     public function show($id)
     {
-        $Patient = Patient::where('userId', $id)->get();
+        $Patient = Patient::where('id', $id)->get();
         return response()->json(['patient' => (count($Patient) == 0)? null: $Patient[0]], 201);
     }
 

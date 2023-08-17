@@ -97,7 +97,23 @@ class PermissionsSeeder extends Seeder
 			[
 				'id' => 21,
 				'name' => 'reports_company',
-			]	
+			],	
+			[
+				'id' => 22,
+				'name' => 'reservations_view',
+			],	
+			[
+				'id' => 23,
+				'name' => 'reservations_add',
+			],	
+			[
+				'id' => 24,
+				'name' => 'reservations_edit',
+			],	
+			[
+				'id' => 25,
+				'name' => 'reservations_delete',
+			],	
 			)
 		);
     }

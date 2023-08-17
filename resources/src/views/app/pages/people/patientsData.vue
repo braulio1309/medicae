@@ -1,174 +1,89 @@
 <template>
-    <div class="main-content">
-      <breadcumb :page="$t('profil')" :folder="$t('Settings')"/>
+    <div class="main-content small">
+      <breadcumb :page="$t('Patient')" :folder="user.firstname+' '+user.lastname"/>
       <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
   
-      <div class="row">
-        <div class="col-sm-3">
-          <div class="card user-profile o-hidden mb-30" v-if="!isLoading">
-            <div class="user-info">
-              <p class="m-0 text-24">{{user.firstname}} {{ user.lastname }}</p>
-            </div>
-            <div class="card-body">
-              <!--  Profile -->
-              <validation-observer ref="Update_Profile">
-                <b-form @submit.prevent="Submit_Profile" enctype="multipart/form-data">
+      <div v-else class="row mb-4">
+        <b-col sm="12" md="6" lg="6">
+          <b-card class="card-height">
+            <b-row>
+              <b-col md="4" lg="4" sm="12" class="text-center border-right border-secondary">
+                  <b-avatar src="https://placekitten.com/300/300" size="6rem"></b-avatar>
+                  <h5 class="mt-1"> {{user.firstname}} {{ user.lastname }}</h5>
+                  <h6 class="mt-1"> {{ user.email }}</h6>
+                  <h6 class="mt-1"> Appointments </h6>
+                  <b-container>
+                    <b-row class="text-center justify-content-center">
+                      <b-col sm="6" md="6" lg="6">
+                          <h3>5</h3>
+                          <p>Past</p>
+                        </b-col>
+                        <b-col sm="6" md="6" lg="6">
+                          <h3>5</h3>
+                          <p>Upcoming</p>
+                        </b-col>
+                        <Button label="Send Message"/>
+                    </b-row>
+                  </b-container>
+              </b-col>
+              <b-col md="8" lg="8" sm="12">
+                <b-container class="mt-5">
                   <b-row>
-                    <!-- First name -->
-                    <b-col md="6" sm="12">
-                      <validation-provider
-                        name="Firstname"
-                        :rules="{ required: true , min:4 , max:20}"
-                        v-slot="validationContext"
-                      >
-                        <b-form-group :label="$t('Firstname')">
-                          <b-form-input
-                            :state="getValidationState(validationContext)"
-                            aria-describedby="Firstname-feedback"
-                            label="Firstname"
-                            v-model="user.firstname"
-                          ></b-form-input>
-                          <b-form-invalid-feedback
-                            id="Firstname-feedback"
-                          >{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                        </b-form-group>
-                      </validation-provider>
+                    <b-col  md="6" lg="6" sm="12">
+                      <label>Gender</label>
+                      <p class="border-bottom border-secondary">Female</p>
                     </b-col>
-      
-                    <!-- Last name -->
-                    <b-col md="6" sm="12">
-                      <validation-provider
-                        name="lastname"
-                        :rules="{ required: true , min:4 , max:20}"
-                        v-slot="validationContext"
-                      >
-                        <b-form-group :label="$t('lastname')">
-                          <b-form-input
-                            :state="getValidationState(validationContext)"
-                            aria-describedby="lastname-feedback"
-                            label="lastname"
-                            v-model="user.lastname"
-                          ></b-form-input>
-                          <b-form-invalid-feedback
-                            id="lastname-feedback"
-                          >{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                        </b-form-group>
-                      </validation-provider>
+                    <b-col  md="6" lg="6" sm="12">
+                      <label>Birthday</label>
+                      <p class="border-bottom border-secondary">Oct, 25 1992</p>
                     </b-col>
-      
-                    <!-- Username -->
-                    <b-col md="6" sm="12">
-                      <validation-provider
-                        name="username"
-                        :rules="{ required: true , min:4 , max:20}"
-                        v-slot="validationContext"
-                      >
-                        <b-form-group :label="$t('username')">
-                          <b-form-input
-                            :state="getValidationState(validationContext)"
-                            aria-describedby="username-feedback"
-                            label="username"
-                            v-model="user.username"
-                          ></b-form-input>
-                          <b-form-invalid-feedback
-                            id="username-feedback"
-                          >{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                        </b-form-group>
-                      </validation-provider>
+                    <b-col  md="6" lg="6" sm="12">
+                      <label>Phone Number</label>
+                      <p class="border-bottom border-secondary"></p>
                     </b-col>
-      
-                    <!-- Phone -->
-                    <b-col md="6" sm="12">
-                      <validation-provider
-                        name="Phone"
-                        :rules="{ required: true}"
-                        v-slot="validationContext"
-                      >
-                        <b-form-group :label="$t('Phone')">
-                          <b-form-input
-                            :state="getValidationState(validationContext)"
-                            aria-describedby="Phone-feedback"
-                            label="Phone"
-                            v-model="user.phone"
-                          ></b-form-input>
-                          <b-form-invalid-feedback id="Phone-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                        </b-form-group>
-                      </validation-provider>
+                    <b-col  md="6" lg="6" sm="12">
+                      <label>Address</label>
+                      <p class="border-bottom border-secondary"></p>
                     </b-col>
-      
-                    <!-- Email -->
-                    <b-col md="6" sm="12">
-                      <validation-provider
-                        name="Email"
-                        :rules="{ required: true}"
-                        v-slot="validationContext"
-                      >
-                        <b-form-group :label="$t('Email')">
-                          <b-form-input
-                            :state="getValidationState(validationContext)"
-                            aria-describedby="Email-feedback"
-                            label="Email"
-                            v-model="user.email"
-                          ></b-form-input>
-                          <b-form-invalid-feedback id="Email-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
-                        </b-form-group>
-                      </validation-provider>
+                    <b-col  md="6" lg="6" sm="12">
+                      <label>City</label>
+                      <p class="border-bottom border-secondary"></p>
                     </b-col>
-
-                    <b-col md="6" sm="12">
-                        <b-form-group :label="'Peso'">
-                          <b-form-input
-                            aria-describedby="weight-feedback"
-                            label="Peso"
-                            v-model="user.weight"
-                          ></b-form-input>
-                        </b-form-group>
+                    <b-col  md="6" lg="6" sm="12">
+                      <label>ZIP Code</label>
+                      <p class="border-bottom border-secondary"></p>
                     </b-col>
-
-                    <b-col md="6" sm="12">
-                        <b-form-group :label="'Altura'">
-                          <b-form-input
-                            aria-describedby="height-feedback"
-                            label="altura"
-                            v-model="user.height"
-                          ></b-form-input>
-                        </b-form-group>
+                    <b-col  md="6" lg="6" sm="12">
+                      <label>Registration Date</label>
+                      <p class="border-bottom border-secondary"></p>
                     </b-col>
-
-                    <b-col md="6" sm="12">
-                        <b-form-group :label="'Tipo de sangre'">
-                          <b-form-input
-                            aria-describedby="bloodType-feedback"
-                            label="Tipo de sangre"
-                            v-model="user.bloodType"
-                          ></b-form-input>
-                        </b-form-group>
-                    </b-col>
-
-                    <b-col md="12" class="mt-3">
-                      <b-button variant="primary" type="submit">{{$t('submit')}}</b-button>
+                    <b-col  md="6" lg="6" sm="12">
+                      <label>Member Status</label>
+                      <p class="border-bottom border-secondary"></p>
                     </b-col>
                   </b-row>
-                </b-form>
-              </validation-observer>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="card user-profile o-hidden mb-30" v-if="!isLoading">
+                </b-container>
+              </b-col>
+           </b-row>
+          </b-card>
+          
+        </b-col>
+        <b-col sm="12" md="3" lg="3">
+          <div class="card user-profile card-height">
             <div class="card-body">
-              <h4 class="font-weight-bold">Notas</h4>
+              <h6 class="font-weight-bold">Notas</h6>
               <textarea
                 class="form-control"
-                rows="12"
+                rows="8"
                 placeholder="Ingresa tu texto aquí..."
                 v-model="user.medications"
               ></textarea>
+              <Button label="Save note" class="p-button-sm float-right mt-2 btn-sm"/>
             </div>
           </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="card user-profile o-hidden mb-30" v-if="!isLoading">
+        </b-col>
+        <!-- <div class="col-sm-3">
+          <div class="card user-profile o-hidden mb-30">
             <div class="card-body">
               <h4 class="font-weight-bold">Medicamentos</h4>
               <textarea
@@ -179,75 +94,67 @@
               ></textarea>
             </div>
           </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="card user-profile o-hidden mb-30" v-if="!isLoading">
+        </div> -->
+        <b-col md="3" sm="12" xs="12" lg="3">
+          <div  class="card user-profile card-height">
             <div class="card-body">
-              <h4 class="font-weight-bold">Documentos</h4>
-              <input
-                  @change="onFileSelected"
-                  label="Cargar archivo"
-                  type="file"
-                >
-              <div class="card mb-2" v-for="(document, index) in user.files">
-
-                <div class="card-body">
-                  <div class="row p-1">
-                    <h4><a :href="loadLink(document)"><i class="center nav-icon i-Files mr-2 ml-1"></i></a></h4> <h4 class=""> {{ document.name }}</h4>
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-9">
-          <div class="container text-center">
-            <div class="row align-items-start">
-              <div class="col">
-                Hora
-              </div>
-              <div class="col">
-                Doctor
-              </div>
-              <div class="col">
-              Tipo
-              </div>
-              <div class="col">
-                Notas
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="card user-profile o-hidden mb-30" v-if="!isLoading">
-            <div class="card-body">
-              <h4 class="font-weight-bold">Pagos</h4>
-              <div class="card mb-2">
-                <div class="card-body">
-                  <div class="row p-1">
-                    <h4><i class="center nav-icon i-Files mr-2 ml-1"></i></h4> <h4 class="">Recetaanterior.pdf </h4>
-                  </div>
-                </div>
-              </div>
+              <h6 class="font-weight-bold">Files / Documents</h6>
               <div class="card">
-                <div class="card-body">
-                  <div class="row p-1">
-                    <h4><i class="center nav-icon i-Files mr-2 ml-1"></i></h4> <h4 class="">Recetaanterior.pdf - 27KB</h4>
-
+                  <div class="container p-2">
+                    <h6 class="mt-1"><i class="center nav-icon i-Files"></i>Blood test.pdf </h6>
                   </div>
-                </div>
-                
               </div>
             </div>
           </div>
-        </div>
-        
+        </b-col>
       </div>
-      
+      <b-row class="small">
+        <b-col md="9" sm="12" xs="12" lg="9">
+          <TabView class="tabview-custom">
+            <TabPanel>
+              <template #header>
+                <span class="small">Upcoming appointments</span>
+              </template>
+              <b-row>
+                <b-col md="4" lg="3" sm="12" xs="12">
+                  <Timeline :value="events" align="left">
+                    <template #content="slotProps">
+                      {{slotProps.item.status}}
+                    </template>
+                  </Timeline>
+                </b-col>
+                
+              </b-row>
+            </TabPanel>
+            <TabPanel>
+              <template #header>
+                <span class="small">Past appointments</span>
+              </template>
+              Content II
+            </TabPanel>
+            <TabPanel >
+              <template #header>
+                <span class="small">Medici</span>
+              </template>
+              Content II
+            </TabPanel>
+          </TabView>
+        </b-col>
+
+        <b-col md="3" sm="12" xs="12" lg="3">
+          <div  class="card card-height">
+            <div class="card-body">
+              <h6 class="font-weight-bold mb-2">Payments</h6>
+              <b-table
+                :striped="striped"
+                :small="small"
+                :items="items"
+                :fields="fields"
+              ></b-table>
+            </div>
+          </div>
+        </b-col>
+      </b-row>
     </div>
   </template>
   
@@ -255,7 +162,13 @@
   <script>
   import NProgress from "nprogress";
   import { mapGetters, mapActions } from "vuex";
-  
+  import TabView from 'primevue/tabview';
+  import TabPanel from 'primevue/tabpanel';
+  import Timeline from 'primevue/timeline';
+  import Button from 'primevue/button';
+  import 'primevue/resources/primevue.min.css';
+  import 'primevue/resources/themes/saga-blue/theme.css';
+  import 'primeicons/primeicons.css';
   export default {
     metaInfo: {
       // if no subcomponents specify a metaInfo.title, this title will be used
@@ -263,9 +176,24 @@
     },
     data() {
       return {
+        events: [
+                {status: 'Ordered', date: '15/10/2020 10:30', icon: 'pi pi-shopping-cart', color: '#9C27B0', image: 'game-controller.jpg'},
+                {status: 'Processing', date: '15/10/2020 14:00', icon: 'pi pi-cog', color: '#673AB7'},
+                {status: 'Shipped', date: '15/10/2020 16:15', icon: 'pi pi-shopping-cart', color: '#FF9800'},
+                {status: 'Delivered', date: '16/10/2020 10:00', icon: 'pi pi-check', color: '#607D8B'}
+            ],
+            events2: [
+                "2020", "2021", "2022", "2023"
+            ],
         data: new FormData(),
         avatar: "",
         username: "",
+        fields: ['Transaction', 'Amount'],
+        items: [
+          { Amount: 40, Transaction: 'Dickerson' },
+          { Amount: 21, Transaction: 'Larsen'},
+          { Amount: 89, Transaction: 'Geneva'}
+        ],
         isLoading: true,
         user: {
           id: "",
@@ -290,7 +218,12 @@
         }
       };
     },
-  
+    components:{
+      TabView,
+      TabPanel,
+      Timeline,
+      Button
+    },
     computed: {
       ...mapGetters(["currentUser"])
     },
@@ -449,5 +382,11 @@
     }
   };
   </script>
-  
+<style>
+  .card-height{
+    height: 330px;
+    overflow: auto;
+    max-height: 330px;
+  }
+</style>
   

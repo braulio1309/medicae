@@ -20,6 +20,7 @@ class CreateRolesTable extends Migration {
 			$table->string('name', 192);
 			$table->string('label', 192)->nullable();
 			$table->text('description')->nullable();
+			$table->integer('status')->default(0);
 			$table->timestamps(6);
 			$table->softDeletes();
 		});

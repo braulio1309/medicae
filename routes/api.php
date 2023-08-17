@@ -40,12 +40,7 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
 
     Route::get("report/client", "ReportController@Client_Report");
     Route::get("report/client/{id}", "ReportController@Client_Report_detail");
-    Route::get("report/client_Sales", "ReportController@Sales_Client");
-    Route::get("report/client_payments", "ReportController@Payments_Client");
-    Route::get("report/client_quotations", "ReportController@Quotations_Client");
-    Route::get("report/client_returns", "ReportController@Returns_Client");
     Route::get("report/client_Top_Clients", "ReportController@TopCustomers");
-    Route::get("report/TopProducts_year", "ReportController@Top_Products_Year");
     Route::get("report/TopProducts_Month", "ReportController@TopProducts_Month");
     Route::get("report/provider", "ReportController@Providers_Report");
     Route::get("report/provider/{id}", "ReportController@Provider_Report_detail");
@@ -55,19 +50,7 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
     Route::get("report/ToProviders", "ReportController@ToProviders");
     Route::get("report/Sales", "ReportController@Report_Sales");
     Route::get("report/Purchases", "ReportController@Report_Purchases");
-    Route::get("report/Get_last_Sales", "ReportController@Get_last_Sales");
-    Route::get("report/stock_alert", "ReportController@Products_Alert");
-    Route::get("report/Payment_chart", "ReportController@Payment_chart");
-    Route::get("report/Warehouse_Report", "ReportController@Warehouse_Report");
-    Route::get("report/Sales_Warehouse", "ReportController@Sales_Warehouse");
-    Route::get("report/Quotations_Warehouse", "ReportController@Quotations_Warehouse");
-    Route::get("report/Returns_Sale_Warehouse", "ReportController@Returns_Sale_Warehouse");
-    Route::get("report/Returns_Purchase_Warehouse", "ReportController@Returns_Purchase_Warehouse");
-    Route::get("report/Expenses_Warehouse", "ReportController@Expenses_Warehouse");
-    Route::get("report/Warhouse_Count_Stock", "ReportController@Warhouse_Count_Stock");
-    Route::get("report/Warhouse_Value_Stock", "ReportController@Warhouse_Value_Stock");
     Route::get("report/report_today", "ReportController@report_today");
-    Route::get("report/count_quantity_alert", "ReportController@count_quantity_alert");
     Route::get("report/ProfitAndLoss", "ReportController@ProfitAndLoss");
     Route::get("chart/SalesPurchasesChart", "ReportController@SalesPurchasesChart");
     Route::get("chart/report_with_echart", "ReportController@report_with_echart");

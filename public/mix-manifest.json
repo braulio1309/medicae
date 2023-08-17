@@ -48,5 +48,7 @@
     "/js/bundle/vendors~largeSidebar.js": "/js/bundle/vendors~largeSidebar.js",
     "/js/bundle/vendors~store_date.js": "/js/bundle/vendors~store_date.js",
     "/js/bundle/vendors~vue-perfect-scrollbar.js": "/js/bundle/vendors~vue-perfect-scrollbar.js",
-    "/js/bundle/warehouse_report.js": "/js/bundle/warehouse_report.js"
+    "/js/bundle/warehouse_report.js": "/js/bundle/warehouse_report.js",
+    "/js/bundle/vendors~edit_date.js": "/js/bundle/vendors~edit_date.js",
+    "/js/bundle/vendors~edit_date~store_date.js": "/js/bundle/vendors~edit_date~store_date.js"
 }

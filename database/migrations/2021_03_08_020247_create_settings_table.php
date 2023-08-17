@@ -18,10 +18,12 @@ class CreateSettingsTable extends Migration {
 			$table->engine = 'InnoDB';
 			$table->integer('id', true);
 			$table->string('email', 191);
-			$table->integer('currency_id')->nullable()->index('currency_id');
 			$table->string('CompanyName');
 			$table->string('CompanyPhone');
 			$table->string('CompanyAdress');
+			$table->string('footer', 192)->default('Medicae');
+			$table->string('developed_by', 192)->default('Medicae');
+			$table->string('default_language', 192)->default('es');
 			$table->string('logo', 191)->nullable();
 			$table->timestamps(6);
 			$table->softDeletes();

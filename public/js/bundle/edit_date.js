@@ -235,6 +235,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
 /* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var primevue_tabview__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primevue/tabview */ "./node_modules/primevue/tabview/index.js");
+/* harmony import */ var primevue_tabview__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(primevue_tabview__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var primevue_tabpanel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primevue/tabpanel */ "./node_modules/primevue/tabpanel/index.js");
+/* harmony import */ var primevue_tabpanel__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(primevue_tabpanel__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var primevue_timeline__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/timeline */ "./node_modules/primevue/timeline/index.js");
+/* harmony import */ var primevue_timeline__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(primevue_timeline__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var primevue_button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! primevue/button */ "./node_modules/primevue/button/index.js");
+/* harmony import */ var primevue_button__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(primevue_button__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! primevue/resources/primevue.min.css */ "./node_modules/primevue/resources/primevue.min.css");
+/* harmony import */ var primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! primevue/resources/themes/saga-blue/theme.css */ "./node_modules/primevue/resources/themes/saga-blue/theme.css");
+/* harmony import */ var primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! primeicons/primeicons.css */ "./node_modules/primeicons/primeicons.css");
+/* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_8__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -246,6 +260,13 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
+
+
+
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -253,9 +274,43 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   },
   data: function data() {
     return {
+      events: [{
+        status: 'Ordered',
+        date: '15/10/2020 10:30',
+        icon: 'pi pi-shopping-cart',
+        color: '#9C27B0',
+        image: 'game-controller.jpg'
+      }, {
+        status: 'Processing',
+        date: '15/10/2020 14:00',
+        icon: 'pi pi-cog',
+        color: '#673AB7'
+      }, {
+        status: 'Shipped',
+        date: '15/10/2020 16:15',
+        icon: 'pi pi-shopping-cart',
+        color: '#FF9800'
+      }, {
+        status: 'Delivered',
+        date: '16/10/2020 10:00',
+        icon: 'pi pi-check',
+        color: '#607D8B'
+      }],
+      events2: ["2020", "2021", "2022", "2023"],
       data: new FormData(),
       avatar: "",
       username: "",
+      fields: ['Transaction', 'Amount'],
+      items: [{
+        Amount: 40,
+        Transaction: 'Dickerson'
+      }, {
+        Amount: 21,
+        Transaction: 'Larsen'
+      }, {
+        Amount: 89,
+        Transaction: 'Geneva'
+      }],
       isLoading: true,
       user: {
         id: "",
@@ -277,6 +332,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       },
       patient: {}
     };
+  },
+  components: {
+    TabView: primevue_tabview__WEBPACK_IMPORTED_MODULE_2___default.a,
+    TabPanel: primevue_tabpanel__WEBPACK_IMPORTED_MODULE_3___default.a,
+    Timeline: primevue_timeline__WEBPACK_IMPORTED_MODULE_4___default.a,
+    Button: primevue_button__WEBPACK_IMPORTED_MODULE_5___default.a
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(["currentUser"])),
   methods: {
@@ -1239,319 +1300,143 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "main-content"
+    staticClass: "main-content small"
   }, [_c("breadcumb", {
     attrs: {
-      page: _vm.$t("profil"),
-      folder: _vm.$t("Settings")
+      page: _vm.$t("Patient"),
+      folder: _vm.user.firstname + " " + _vm.user.lastname
     }
   }), _vm._v(" "), _vm.isLoading ? _c("div", {
     staticClass: "loading_page spinner spinner-primary mr-3"
-  }) : _vm._e(), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-sm-3"
-  }, [!_vm.isLoading ? _c("div", {
-    staticClass: "card user-profile o-hidden mb-30"
-  }, [_c("div", {
-    staticClass: "user-info"
-  }, [_c("p", {
-    staticClass: "m-0 text-24"
-  }, [_vm._v(_vm._s(_vm.user.firstname) + " " + _vm._s(_vm.user.lastname))])]), _vm._v(" "), _c("div", {
-    staticClass: "card-body"
-  }, [_c("validation-observer", {
-    ref: "Update_Profile"
-  }, [_c("b-form", {
+  }) : _c("div", {
+    staticClass: "row mb-4"
+  }, [_c("b-col", {
     attrs: {
-      enctype: "multipart/form-data"
-    },
-    on: {
-      submit: function submit($event) {
-        $event.preventDefault();
-        return _vm.Submit_Profile.apply(null, arguments);
-      }
+      sm: "12",
+      md: "6",
+      lg: "6"
     }
+  }, [_c("b-card", {
+    staticClass: "card-height"
+  }, [_c("b-row", [_c("b-col", {
+    staticClass: "text-center border-right border-secondary",
+    attrs: {
+      md: "4",
+      lg: "4",
+      sm: "12"
+    }
+  }, [_c("b-avatar", {
+    attrs: {
+      src: "https://placekitten.com/300/300",
+      size: "6rem"
+    }
+  }), _vm._v(" "), _c("h5", {
+    staticClass: "mt-1"
+  }, [_vm._v(" " + _vm._s(_vm.user.firstname) + " " + _vm._s(_vm.user.lastname))]), _vm._v(" "), _c("h6", {
+    staticClass: "mt-1"
+  }, [_vm._v(" " + _vm._s(_vm.user.email))]), _vm._v(" "), _c("h6", {
+    staticClass: "mt-1"
+  }, [_vm._v(" Appointments ")]), _vm._v(" "), _c("b-container", [_c("b-row", {
+    staticClass: "text-center justify-content-center"
+  }, [_c("b-col", {
+    attrs: {
+      sm: "6",
+      md: "6",
+      lg: "6"
+    }
+  }, [_c("h3", [_vm._v("5")]), _vm._v(" "), _c("p", [_vm._v("Past")])]), _vm._v(" "), _c("b-col", {
+    attrs: {
+      sm: "6",
+      md: "6",
+      lg: "6"
+    }
+  }, [_c("h3", [_vm._v("5")]), _vm._v(" "), _c("p", [_vm._v("Upcoming")])]), _vm._v(" "), _c("Button", {
+    attrs: {
+      label: "Send Message"
+    }
+  })], 1)], 1)], 1), _vm._v(" "), _c("b-col", {
+    attrs: {
+      md: "8",
+      lg: "8",
+      sm: "12"
+    }
+  }, [_c("b-container", {
+    staticClass: "mt-5"
   }, [_c("b-row", [_c("b-col", {
     attrs: {
       md: "6",
+      lg: "6",
       sm: "12"
     }
-  }, [_c("validation-provider", {
-    attrs: {
-      name: "Firstname",
-      rules: {
-        required: true,
-        min: 4,
-        max: 20
-      }
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn(validationContext) {
-        return [_c("b-form-group", {
-          attrs: {
-            label: _vm.$t("Firstname")
-          }
-        }, [_c("b-form-input", {
-          attrs: {
-            state: _vm.getValidationState(validationContext),
-            "aria-describedby": "Firstname-feedback",
-            label: "Firstname"
-          },
-          model: {
-            value: _vm.user.firstname,
-            callback: function callback($$v) {
-              _vm.$set(_vm.user, "firstname", $$v);
-            },
-            expression: "user.firstname"
-          }
-        }), _vm._v(" "), _c("b-form-invalid-feedback", {
-          attrs: {
-            id: "Firstname-feedback"
-          }
-        }, [_vm._v(_vm._s(validationContext.errors[0]))])], 1)];
-      }
-    }], null, false, 1057885634)
-  })], 1), _vm._v(" "), _c("b-col", {
+  }, [_c("label", [_vm._v("Gender")]), _vm._v(" "), _c("p", {
+    staticClass: "border-bottom border-secondary"
+  }, [_vm._v("Female")])]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
+      lg: "6",
       sm: "12"
     }
-  }, [_c("validation-provider", {
-    attrs: {
-      name: "lastname",
-      rules: {
-        required: true,
-        min: 4,
-        max: 20
-      }
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn(validationContext) {
-        return [_c("b-form-group", {
-          attrs: {
-            label: _vm.$t("lastname")
-          }
-        }, [_c("b-form-input", {
-          attrs: {
-            state: _vm.getValidationState(validationContext),
-            "aria-describedby": "lastname-feedback",
-            label: "lastname"
-          },
-          model: {
-            value: _vm.user.lastname,
-            callback: function callback($$v) {
-              _vm.$set(_vm.user, "lastname", $$v);
-            },
-            expression: "user.lastname"
-          }
-        }), _vm._v(" "), _c("b-form-invalid-feedback", {
-          attrs: {
-            id: "lastname-feedback"
-          }
-        }, [_vm._v(_vm._s(validationContext.errors[0]))])], 1)];
-      }
-    }], null, false, 47484658)
-  })], 1), _vm._v(" "), _c("b-col", {
+  }, [_c("label", [_vm._v("Birthday")]), _vm._v(" "), _c("p", {
+    staticClass: "border-bottom border-secondary"
+  }, [_vm._v("Oct, 25 1992")])]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
+      lg: "6",
       sm: "12"
     }
-  }, [_c("validation-provider", {
-    attrs: {
-      name: "username",
-      rules: {
-        required: true,
-        min: 4,
-        max: 20
-      }
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn(validationContext) {
-        return [_c("b-form-group", {
-          attrs: {
-            label: _vm.$t("username")
-          }
-        }, [_c("b-form-input", {
-          attrs: {
-            state: _vm.getValidationState(validationContext),
-            "aria-describedby": "username-feedback",
-            label: "username"
-          },
-          model: {
-            value: _vm.user.username,
-            callback: function callback($$v) {
-              _vm.$set(_vm.user, "username", $$v);
-            },
-            expression: "user.username"
-          }
-        }), _vm._v(" "), _c("b-form-invalid-feedback", {
-          attrs: {
-            id: "username-feedback"
-          }
-        }, [_vm._v(_vm._s(validationContext.errors[0]))])], 1)];
-      }
-    }], null, false, 682646729)
-  })], 1), _vm._v(" "), _c("b-col", {
+  }, [_c("label", [_vm._v("Phone Number")]), _vm._v(" "), _c("p", {
+    staticClass: "border-bottom border-secondary"
+  })]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
+      lg: "6",
       sm: "12"
     }
-  }, [_c("validation-provider", {
-    attrs: {
-      name: "Phone",
-      rules: {
-        required: true
-      }
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn(validationContext) {
-        return [_c("b-form-group", {
-          attrs: {
-            label: _vm.$t("Phone")
-          }
-        }, [_c("b-form-input", {
-          attrs: {
-            state: _vm.getValidationState(validationContext),
-            "aria-describedby": "Phone-feedback",
-            label: "Phone"
-          },
-          model: {
-            value: _vm.user.phone,
-            callback: function callback($$v) {
-              _vm.$set(_vm.user, "phone", $$v);
-            },
-            expression: "user.phone"
-          }
-        }), _vm._v(" "), _c("b-form-invalid-feedback", {
-          attrs: {
-            id: "Phone-feedback"
-          }
-        }, [_vm._v(_vm._s(validationContext.errors[0]))])], 1)];
-      }
-    }], null, false, 3928643491)
-  })], 1), _vm._v(" "), _c("b-col", {
+  }, [_c("label", [_vm._v("Address")]), _vm._v(" "), _c("p", {
+    staticClass: "border-bottom border-secondary"
+  })]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
+      lg: "6",
       sm: "12"
     }
-  }, [_c("validation-provider", {
-    attrs: {
-      name: "Email",
-      rules: {
-        required: true
-      }
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn(validationContext) {
-        return [_c("b-form-group", {
-          attrs: {
-            label: _vm.$t("Email")
-          }
-        }, [_c("b-form-input", {
-          attrs: {
-            state: _vm.getValidationState(validationContext),
-            "aria-describedby": "Email-feedback",
-            label: "Email"
-          },
-          model: {
-            value: _vm.user.email,
-            callback: function callback($$v) {
-              _vm.$set(_vm.user, "email", $$v);
-            },
-            expression: "user.email"
-          }
-        }), _vm._v(" "), _c("b-form-invalid-feedback", {
-          attrs: {
-            id: "Email-feedback"
-          }
-        }, [_vm._v(_vm._s(validationContext.errors[0]))])], 1)];
-      }
-    }], null, false, 3708824499)
-  })], 1), _vm._v(" "), _c("b-col", {
+  }, [_c("label", [_vm._v("City")]), _vm._v(" "), _c("p", {
+    staticClass: "border-bottom border-secondary"
+  })]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
+      lg: "6",
       sm: "12"
     }
-  }, [_c("b-form-group", {
-    attrs: {
-      label: "Peso"
-    }
-  }, [_c("b-form-input", {
-    attrs: {
-      "aria-describedby": "weight-feedback",
-      label: "Peso"
-    },
-    model: {
-      value: _vm.user.weight,
-      callback: function callback($$v) {
-        _vm.$set(_vm.user, "weight", $$v);
-      },
-      expression: "user.weight"
-    }
-  })], 1)], 1), _vm._v(" "), _c("b-col", {
+  }, [_c("label", [_vm._v("ZIP Code")]), _vm._v(" "), _c("p", {
+    staticClass: "border-bottom border-secondary"
+  })]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
+      lg: "6",
       sm: "12"
     }
-  }, [_c("b-form-group", {
-    attrs: {
-      label: "Altura"
-    }
-  }, [_c("b-form-input", {
-    attrs: {
-      "aria-describedby": "height-feedback",
-      label: "altura"
-    },
-    model: {
-      value: _vm.user.height,
-      callback: function callback($$v) {
-        _vm.$set(_vm.user, "height", $$v);
-      },
-      expression: "user.height"
-    }
-  })], 1)], 1), _vm._v(" "), _c("b-col", {
+  }, [_c("label", [_vm._v("Registration Date")]), _vm._v(" "), _c("p", {
+    staticClass: "border-bottom border-secondary"
+  })]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
+      lg: "6",
       sm: "12"
     }
-  }, [_c("b-form-group", {
+  }, [_c("label", [_vm._v("Member Status")]), _vm._v(" "), _c("p", {
+    staticClass: "border-bottom border-secondary"
+  })])], 1)], 1)], 1)], 1)], 1)], 1), _vm._v(" "), _c("b-col", {
     attrs: {
-      label: "Tipo de sangre"
+      sm: "12",
+      md: "3",
+      lg: "3"
     }
-  }, [_c("b-form-input", {
-    attrs: {
-      "aria-describedby": "bloodType-feedback",
-      label: "Tipo de sangre"
-    },
-    model: {
-      value: _vm.user.bloodType,
-      callback: function callback($$v) {
-        _vm.$set(_vm.user, "bloodType", $$v);
-      },
-      expression: "user.bloodType"
-    }
-  })], 1)], 1), _vm._v(" "), _c("b-col", {
-    staticClass: "mt-3",
-    attrs: {
-      md: "12"
-    }
-  }, [_c("b-button", {
-    attrs: {
-      variant: "primary",
-      type: "submit"
-    }
-  }, [_vm._v(_vm._s(_vm.$t("submit")))])], 1)], 1)], 1)], 1)], 1)]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-3"
-  }, [!_vm.isLoading ? _c("div", {
-    staticClass: "card user-profile o-hidden mb-30"
+  }, [_c("div", {
+    staticClass: "card user-profile card-height"
   }, [_c("div", {
     staticClass: "card-body"
-  }, [_c("h4", {
+  }, [_c("h6", {
     staticClass: "font-weight-bold"
   }, [_vm._v("Notas")]), _vm._v(" "), _c("textarea", {
     directives: [{
@@ -1562,7 +1447,7 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      rows: "12",
+      rows: "8",
       placeholder: "Ingresa tu texto aquí..."
     },
     domProps: {
@@ -1574,118 +1459,165 @@ var render = function render() {
         _vm.$set(_vm.user, "medications", $event.target.value);
       }
     }
-  })])]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-3"
-  }, [!_vm.isLoading ? _c("div", {
-    staticClass: "card user-profile o-hidden mb-30"
-  }, [_c("div", {
-    staticClass: "card-body"
-  }, [_c("h4", {
-    staticClass: "font-weight-bold"
-  }, [_vm._v("Medicamentos")]), _vm._v(" "), _c("textarea", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.user.allergies,
-      expression: "user.allergies"
-    }],
-    staticClass: "form-control",
+  }), _vm._v(" "), _c("Button", {
+    staticClass: "p-button-sm float-right mt-2 btn-sm",
     attrs: {
-      rows: "12",
-      placeholder: "Ingresa tu texto aquí..."
-    },
-    domProps: {
-      value: _vm.user.allergies
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.user, "allergies", $event.target.value);
-      }
+      label: "Save note"
     }
-  })])]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-3"
-  }, [!_vm.isLoading ? _c("div", {
-    staticClass: "card user-profile o-hidden mb-30"
-  }, [_c("div", {
-    staticClass: "card-body"
-  }, [_c("h4", {
-    staticClass: "font-weight-bold"
-  }, [_vm._v("Documentos")]), _vm._v(" "), _c("input", {
+  })], 1)])]), _vm._v(" "), _c("b-col", {
     attrs: {
-      label: "Cargar archivo",
-      type: "file"
-    },
-    on: {
-      change: _vm.onFileSelected
+      md: "3",
+      sm: "12",
+      xs: "12",
+      lg: "3"
     }
-  }), _vm._v(" "), _vm._l(_vm.user.files, function (document, index) {
-    return _c("div", {
-      staticClass: "card mb-2"
-    }, [_c("div", {
-      staticClass: "card-body"
-    }, [_c("div", {
-      staticClass: "row p-1"
-    }, [_c("h4", [_c("a", {
-      attrs: {
-        href: _vm.loadLink(document)
-      }
-    }, [_c("i", {
-      staticClass: "center nav-icon i-Files mr-2 ml-1"
-    })])]), _vm._v(" "), _c("h4", {}, [_vm._v(" " + _vm._s(document.name))])])])]);
-  })], 2)]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-3"
-  }, [!_vm.isLoading ? _c("div", {
-    staticClass: "card user-profile o-hidden mb-30"
-  }, [_vm._m(1)]) : _vm._e()])])], 1);
-};
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "col-sm-9"
   }, [_c("div", {
-    staticClass: "container text-center"
+    staticClass: "card user-profile card-height"
   }, [_c("div", {
-    staticClass: "row align-items-start"
-  }, [_c("div", {
-    staticClass: "col"
-  }, [_vm._v("\n            Hora\n          ")]), _vm._v(" "), _c("div", {
-    staticClass: "col"
-  }, [_vm._v("\n            Doctor\n          ")]), _vm._v(" "), _c("div", {
-    staticClass: "col"
-  }, [_vm._v("\n          Tipo\n          ")]), _vm._v(" "), _c("div", {
-    staticClass: "col"
-  }, [_vm._v("\n            Notas\n          ")])])])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
     staticClass: "card-body"
-  }, [_c("h4", {
+  }, [_c("h6", {
     staticClass: "font-weight-bold"
-  }, [_vm._v("Pagos")]), _vm._v(" "), _c("div", {
-    staticClass: "card mb-2"
-  }, [_c("div", {
-    staticClass: "card-body"
-  }, [_c("div", {
-    staticClass: "row p-1"
-  }, [_c("h4", [_c("i", {
-    staticClass: "center nav-icon i-Files mr-2 ml-1"
-  })]), _vm._v(" "), _c("h4", {}, [_vm._v("Recetaanterior.pdf ")])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Files / Documents")]), _vm._v(" "), _c("div", {
     staticClass: "card"
   }, [_c("div", {
-    staticClass: "card-body"
+    staticClass: "container p-2"
+  }, [_c("h6", {
+    staticClass: "mt-1"
+  }, [_c("i", {
+    staticClass: "center nav-icon i-Files"
+  }), _vm._v("Blood test.pdf ")])])])])])])], 1), _vm._v(" "), _c("b-row", {
+    staticClass: "small"
+  }, [_c("b-col", {
+    attrs: {
+      md: "9",
+      sm: "12",
+      xs: "12",
+      lg: "9"
+    }
+  }, [_c("TabView", {
+    staticClass: "tabview-custom"
+  }, [_c("TabPanel", {
+    scopedSlots: _vm._u([{
+      key: "header",
+      fn: function fn() {
+        return [_c("span", {
+          staticClass: "small"
+        }, [_vm._v("Upcoming appointments")])];
+      },
+      proxy: true
+    }])
+  }, [_vm._v(" "), _c("b-row", [_c("b-col", {
+    attrs: {
+      md: "4",
+      lg: "3",
+      sm: "12",
+      xs: "12"
+    }
+  }, [_c("Timeline", {
+    attrs: {
+      value: _vm.events,
+      align: "left"
+    },
+    scopedSlots: _vm._u([{
+      key: "content",
+      fn: function fn(slotProps) {
+        return [_vm._v("\n                  " + _vm._s(slotProps.item.status) + "\n                ")];
+      }
+    }])
+  })], 1)], 1)], 1), _vm._v(" "), _c("TabPanel", {
+    scopedSlots: _vm._u([{
+      key: "header",
+      fn: function fn() {
+        return [_c("span", {
+          staticClass: "small"
+        }, [_vm._v("Past appointments")])];
+      },
+      proxy: true
+    }])
+  }, [_vm._v("\n          Content II\n        ")]), _vm._v(" "), _c("TabPanel", {
+    scopedSlots: _vm._u([{
+      key: "header",
+      fn: function fn() {
+        return [_c("span", {
+          staticClass: "small"
+        }, [_vm._v("Medici")])];
+      },
+      proxy: true
+    }])
+  }, [_vm._v("\n          Content II\n        ")])], 1)], 1), _vm._v(" "), _c("b-col", {
+    attrs: {
+      md: "3",
+      sm: "12",
+      xs: "12",
+      lg: "3"
+    }
   }, [_c("div", {
-    staticClass: "row p-1"
-  }, [_c("h4", [_c("i", {
-    staticClass: "center nav-icon i-Files mr-2 ml-1"
-  })]), _vm._v(" "), _c("h4", {}, [_vm._v("Recetaanterior.pdf - 27KB")])])])])]);
-}];
+    staticClass: "card card-height"
+  }, [_c("div", {
+    staticClass: "card-body"
+  }, [_c("h6", {
+    staticClass: "font-weight-bold mb-2"
+  }, [_vm._v("Payments")]), _vm._v(" "), _c("b-table", {
+    attrs: {
+      striped: _vm.striped,
+      small: _vm.small,
+      items: _vm.items,
+      fields: _vm.fields
+    }
+  })], 1)])])], 1)], 1);
+};
+var staticRenderFns = [];
 render._withStripped = true;
 
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.card-height{\n  height: 330px;\n  overflow: auto;\n  max-height: 330px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../../node_modules/css-loader??ref--6-1!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -1769,7 +1701,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _patientsData_vue_vue_type_template_id_d1a0a6ea___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./patientsData.vue?vue&type=template&id=d1a0a6ea& */ "./resources/src/views/app/pages/people/patientsData.vue?vue&type=template&id=d1a0a6ea&");
 /* harmony import */ var _patientsData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./patientsData.vue?vue&type=script&lang=js& */ "./resources/src/views/app/pages/people/patientsData.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& */ "./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -1777,7 +1711,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _patientsData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _patientsData_vue_vue_type_template_id_d1a0a6ea___WEBPACK_IMPORTED_MODULE_0__["render"],
   _patientsData_vue_vue_type_template_id_d1a0a6ea___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -1806,6 +1740,22 @@ component.options.__file = "resources/src/views/app/pages/people/patientsData.vu
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./patientsData.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/src/views/app/pages/people/patientsData.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&":
+/*!************************************************************************************************************!*\
+  !*** ./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& ***!
+  \************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/style-loader!../../../../../../node_modules/css-loader??ref--6-1!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 

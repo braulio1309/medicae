@@ -6,7 +6,7 @@
         <b-card class="mb-30">
           <h4 class="card-title m-0">{{$t('appointment_received')}}</h4>
           <div class="chart-wrapper">
-            <v-chart :options="echartPayment" :autoresize="true"></v-chart>
+            <v-chart :options="echartAppointment" :autoresize="true"></v-chart>
           </div>
         </b-card>
       </b-col>
@@ -14,14 +14,14 @@
         <b-card class="mb-30">
           <h4 class="card-title m-0">{{$t('TopPatient')}} ({{CurrentMonth}})</h4>
           <div class="chart-wrapper">
-            <v-chart :options="echartCustomer" :autoresize="true"></v-chart>
+            <v-chart :options="echartPatient" :autoresize="true"></v-chart>
           </div>
         </b-card>
       </b-col>
     </b-row>
 
     
-    <!-- Last Sales -->
+    <!-- Last Appointments -->
     <b-row>
       <div class="col-md-8">
         <div class="card mb-30">
@@ -30,10 +30,10 @@
 
             <vue-good-table
               v-if="!loading"
-              :columns="columns_sales"
+              :columns="columns_appointment"
               styleClass="order-table vgt-table"
               row-style-class="text-left"
-              :rows="sales"
+              :rows="appointments"
             >
               <template slot="table-row" slot-scope="props">
                 <div v-if="props.column.field == 'statut'">
@@ -73,11 +73,11 @@
             >Pacientes frecuentes ({{CurrentMonth}})</h5>
 
             <vue-good-table
-              :columns="columns_products"
+              :columns="columns_patients"
               styleClass="order-table vgt-table"
               row-style-class="text-left"
-              :rows="products"
-            >
+              >
+              :rows="patients"
               <template slot="table-row" slot-scope="props">
                 <div v-if="props.column.field == 'quantity'">
                   <span>{{formatNumber(props.row.quantity ,2)}} {{props.row.unit_product}}</span>
@@ -116,7 +116,7 @@ export default {
   },
   data() {
     return {
-      sales: [],
+      appointments: [],
       stock_alerts: [],
       report_today: {
         revenue: 0,
@@ -124,36 +124,36 @@ export default {
         return_sales: 0,
         profit: 0
       },
-      products: [],
       CurrentMonth: "",
+      patients: [],
       loading: true,
       echartSales: {},
       echartProduct: {},
-      echartCustomer: {},
-      echartPayment: {}
+      echartPatient: {},
+      echartAppointment: {}
     };
   },
   computed: {
     ...mapGetters(["currentUser"]),
-    columns_sales() {
+    columns_appointment() {
       return [
         {
           label: this.$t("Reference"),
-          field: "Ref",
+          field: "id",
           tdClass: "gull-border-none text-left",
           thClass: "text-left",
           sortable: false
         },
         {
-          label: this.$t("Customer"),
-          field: "client_name",
+          label: this.$t("Doctor"),
+          field: "doctor_name",
           tdClass: "gull-border-none text-left",
           thClass: "text-left",
           sortable: false
         },
         {
-          label: this.$t("PaymentStatus"),
-          field: "payment_status",
+          label: this.$t("Day"),
+          field: "day",
           html: true,
           sortable: false,
           tdClass: "text-left gull-border-none",
@@ -200,7 +200,7 @@ export default {
         }
       ];
     },
-    columns_products() {
+    columns_patients() {
       return [
         {
           label: this.$t("Name"),
@@ -235,13 +235,12 @@ export default {
           const responseData = response.data;
 
           this.report_today = response.data.report_dashboard.original.report;
-          this.stock_alerts =
-            response.data.report_dashboard.original.stock_alert;
-          this.products = response.data.report_dashboard.original.products;
-          this.sales = response.data.report_dashboard.original.last_sales;
+          // this.stock_alerts =
+            // response.data.report_dashboard.original.stock_alert;
+            this.appointments = response.data.report_dashboard.original.last_appointments;
+            this.patients = response.data.report_dashboard.original.patients;
           var dark_heading = "#c2c6dc";
-
-          this.echartCustomer = {
+          this.echartPatient = {
             color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
             tooltip: {
               show: true,
@@ -256,12 +255,12 @@ export default {
 
             series: [
               {
-                name: "Top Customers",
+                name: "Top Patients",
                 type: "pie",
                 radius: "50%",
                 center: "50%",
 
-                data: responseData.customers.original,
+                data: responseData.patients.original,
                 itemStyle: {
                   emphasis: {
                     shadowBlur: 10,
@@ -272,12 +271,12 @@ export default {
               }
             ]
           };
-          this.echartPayment = {
+          this.echartAppointment = {
             tooltip: {
               trigger: "axis"
             },
             legend: {
-              data: ["Payment sent", "Payment received"]
+              data: ["Citas Recibidas", "Citas Pendientes"]
             },
             grid: {
               left: "3%",
@@ -293,156 +292,156 @@ export default {
             xAxis: {
               type: "category",
               boundaryGap: false,
-              data: responseData.payments.original.days
+              data: responseData.appointments.original.days
             },
             yAxis: {
               type: "value"
             },
             series: [
               {
-                name: "Payment sent",
+                name: "Citas Recibidas",
                 type: "line",
-                data: responseData.payments.original.payment_sent
+                data: responseData.appointments.original.appointments_received
               },
               {
-                name: "Payment received",
+                name: "Citas Pendientes",
                 type: "line",
-                data: responseData.payments.original.payment_received
+                data: responseData.appointments.original.appointments_pending
               }
             ]
           };
-          this.echartProduct = {
-            color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
-            tooltip: {
-              show: true,
-              backgroundColor: "rgba(0, 0, 0, .8)"
-            },
-            formatter: function(params) {
-              return `${params.name}: (${params.percent}%)`;
-            },
-            series: [
-              {
-                name: "Top Selling Products",
-                type: "pie",
-                radius: "50%",
-                center: "50%",
+          // this.echartProduct = {
+          //   color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
+          //   tooltip: {
+          //     show: true,
+          //     backgroundColor: "rgba(0, 0, 0, .8)"
+          //   },
+          //   formatter: function(params) {
+          //     return `${params.name}: (${params.percent}%)`;
+          //   },
+          //   series: [
+          //     {
+          //       name: "Top Selling Products",
+          //       type: "pie",
+          //       radius: "50%",
+          //       center: "50%",
 
-                data: responseData.product_report.original,
-                itemStyle: {
-                  emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: "rgba(0, 0, 0, 0.5)"
-                  }
-                }
-              }
-            ]
-          };
-          this.echartSales = {
-            legend: {
-              borderRadius: 0,
-              orient: "horizontal",
-              x: "right",
-              data: ["Sales", "Purchases"]
-            },
-            grid: {
-              left: "8px",
-              right: "8px",
-              bottom: "0",
-              containLabel: true
-            },
-            tooltip: {
-              show: true,
+          //       data: responseData.product_report.original,
+          //       itemStyle: {
+          //         emphasis: {
+          //           shadowBlur: 10,
+          //           shadowOffsetX: 0,
+          //           shadowColor: "rgba(0, 0, 0, 0.5)"
+          //         }
+          //       }
+          //     }
+          //   ]
+          // };
+          // this.echartSales = {
+          //   legend: {
+          //     borderRadius: 0,
+          //     orient: "horizontal",
+          //     x: "right",
+          //     data: ["Sales", "Purchases"]
+          //   },
+          //   grid: {
+          //     left: "8px",
+          //     right: "8px",
+          //     bottom: "0",
+          //     containLabel: true
+          //   },
+          //   tooltip: {
+          //     show: true,
 
-              backgroundColor: "rgba(0, 0, 0, .8)"
-            },
+          //     backgroundColor: "rgba(0, 0, 0, .8)"
+          //   },
 
-            xAxis: [
-              {
-                type: "category",
-                data: responseData.sales.original.days,
-                axisTick: {
-                  alignWithLabel: true
-                },
-                splitLine: {
-                  show: false
-                },
-                axisLabel: {
-                  color: dark_heading,
-                  interval: 0,
-                  rotate: 30
-                },
-                axisLine: {
-                  show: true,
-                  color: dark_heading,
+          //   xAxis: [
+          //     {
+          //       type: "category",
+          //       data: responseData.sales.original.days,
+          //       axisTick: {
+          //         alignWithLabel: true
+          //       },
+          //       splitLine: {
+          //         show: false
+          //       },
+          //       axisLabel: {
+          //         color: dark_heading,
+          //         interval: 0,
+          //         rotate: 30
+          //       },
+          //       axisLine: {
+          //         show: true,
+          //         color: dark_heading,
 
-                  lineStyle: {
-                    color: dark_heading
-                  }
-                }
-              }
-            ],
-            yAxis: [
-              {
-                type: "value",
+          //         lineStyle: {
+          //           color: dark_heading
+          //         }
+          //       }
+          //     }
+          //   ],
+          //   yAxis: [
+          //     {
+          //       type: "value",
 
-                axisLabel: {
-                  color: dark_heading
-                  // formatter: "${value}"
-                },
-                axisLine: {
-                  show: false,
-                  color: dark_heading,
+          //       axisLabel: {
+          //         color: dark_heading
+          //         // formatter: "${value}"
+          //       },
+          //       axisLine: {
+          //         show: false,
+          //         color: dark_heading,
 
-                  lineStyle: {
-                    color: dark_heading
-                  }
-                },
-                min: 0,
-                splitLine: {
-                  show: true,
-                  interval: "auto"
-                }
-              }
-            ],
+          //         lineStyle: {
+          //           color: dark_heading
+          //         }
+          //       },
+          //       min: 0,
+          //       splitLine: {
+          //         show: true,
+          //         interval: "auto"
+          //       }
+          //     }
+          //   ],
 
-            series: [
-              {
-                name: "Sales",
-                data: responseData.sales.original.data,
-                label: { show: false, color: "#8B5CF6" },
-                type: "bar",
-                color: "#A78BFA",
-                smooth: true,
-                itemStyle: {
-                  emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowOffsetY: -2,
-                    shadowColor: "rgba(0, 0, 0, 0.3)"
-                  }
-                }
-              },
-              {
-                name: "Purchases",
-                data: responseData.purchases.original.data,
+          //   series: [
+          //     {
+          //       name: "Sales",
+          //       data: responseData.sales.original.data,
+          //       label: { show: false, color: "#8B5CF6" },
+          //       type: "bar",
+          //       color: "#A78BFA",
+          //       smooth: true,
+          //       itemStyle: {
+          //         emphasis: {
+          //           shadowBlur: 10,
+          //           shadowOffsetX: 0,
+          //           shadowOffsetY: -2,
+          //           shadowColor: "rgba(0, 0, 0, 0.3)"
+          //         }
+          //       }
+          //     },
+          //     {
+          //       name: "Purchases",
+          //       data: responseData.purchases.original.data,
 
-                label: { show: false, color: "#0168c1" },
-                type: "bar",
-                barGap: 0,
-                color: "#DDD6FE",
-                smooth: true,
-                itemStyle: {
-                  emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowOffsetY: -2,
-                    shadowColor: "rgba(0, 0, 0, 0.3)"
-                  }
-                }
-              }
-            ]
-          };
+          //       label: { show: false, color: "#0168c1" },
+          //       type: "bar",
+          //       barGap: 0,
+          //       color: "#DDD6FE",
+          //       smooth: true,
+          //       itemStyle: {
+          //         emphasis: {
+          //           shadowBlur: 10,
+          //           shadowOffsetX: 0,
+          //           shadowOffsetY: -2,
+          //           shadowColor: "rgba(0, 0, 0, 0.3)"
+          //         }
+          //       }
+          //     }
+          //   ]
+          // };
           this.loading = false;
         })
         .catch(response => {});

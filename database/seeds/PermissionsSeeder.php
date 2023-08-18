@@ -114,6 +114,38 @@ class PermissionsSeeder extends Seeder
 				'id' => 25,
 				'name' => 'reservations_delete',
 			],	
+			[
+				'id' => 26,
+				'name' => 'vacations_view',
+			],	
+			[
+				'id' => 27,
+				'name' => 'vacations_add',
+			],	
+			[
+				'id' => 28,
+				'name' => 'vacations_edit',
+			],	
+			[
+				'id' => 29,
+				'name' => 'vacations_delete',
+			],	
+			[
+				'id' => 30,
+				'name' => 'appointments_view',
+			],	
+			[
+				'id' => 31,
+				'name' => 'appointments_add',
+			],	
+			[
+				'id' => 32,
+				'name' => 'appointments_edit',
+			],	
+			[
+				'id' => 33,
+				'name' => 'appointments_delete',
+			],	
 			)
 		);
     }

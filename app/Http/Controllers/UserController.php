@@ -498,7 +498,14 @@ class UserController extends BaseController
     }
 
     public function getInfoProfilePatient($id) {
-        $data = User::with('documents')->where('id', $id)->first();
+        $data = User::join("roles","roles.id","users.role_id")
+                                ->with([
+                                    'reservations.appointment.doctor',
+                                    'reservations_pending.appointment.doctor',
+                                    'reservations_past.appointment.doctor'
+                                ])
+                                ->select('users.*','roles.name as name_role', \DB::raw("DATE_FORMAT(users.created_at,'%d-%m-%Y') as registration_date"))
+                                ->with('documents')->where('users.id', $id)->first();
 
         return response()->json(['success' => true, 'user' => $data]);
     }

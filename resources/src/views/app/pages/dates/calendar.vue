@@ -109,6 +109,7 @@ export default {
                 disabledDates: [],
                 options: {
                     eventRender: this.eventRender,
+                    dayRender: this.customDayRender,
                     initialView: 'timeGridWeek',
                     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
                     headerToolbar: {
@@ -138,12 +139,24 @@ export default {
             }
         },
         methods: {
-            eventRender(info) {
-                const eventDate = info.event.start.toISOString().split('T')[0];
-                if (this.disabledDates.includes(eventDate)) {
-                    info.el.classList.add('disabled-event');
-                    info.event.setProp('display', 'none');
+            customDayRender(date, cell) {
+                const dateString = date.format('DD/MM/YYYY');
+                if (this.disabledDates.includes(dateString)) {
+                    cell.addClass('disabled-date');
                 }
+            },
+            eventRender(info) {
+                // const eventDate = info.event.start.toISOString().split('T')[0];
+                // if (this.disabledDates.includes(eventDate)) {
+                //     info.el.classList.add('disabled-event');
+                //     info.event.setProp('display', 'none');
+                // }
+            },
+            customDayRender(date, cell) {
+            const dateString = date.format('DD/MM/YYYY');
+            if (this.disabledDates.includes(dateString)) {
+                cell.addClass('disabled-date');
+            }
             },
             disableDatesInCalendar() {
                 const fullCalendarApi = this.$refs.fullCalendar.getApi();
@@ -213,7 +226,7 @@ export default {
                 console.log(info.data)
                 //info = info.data.vacation;
                 this.disabledDates = info.data.dates;
-                this.disableDatesInCalendar();
+                //this.disableDatesInCalendar();
 
                 // let dateArray = [];
                 // let currentDate = moment(info.startDate);

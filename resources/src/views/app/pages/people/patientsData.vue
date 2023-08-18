@@ -5,24 +5,26 @@
   
       <div v-else class="row mb-4">
         <b-col sm="12" md="6" lg="6">
-          <b-card class="card-height">
+          <b-card class="card-height mb-2">
             <b-row>
               <b-col md="4" lg="4" sm="12" class="text-center border-right border-secondary">
-                  <b-avatar src="https://placekitten.com/300/300" size="6rem"></b-avatar>
+                  <b-avatar :src="'images/avatar/'+user.avatar" size="6rem"></b-avatar>
                   <h5 class="mt-1"> {{user.firstname}} {{ user.lastname }}</h5>
                   <h6 class="mt-1"> {{ user.email }}</h6>
                   <h6 class="mt-1"> Appointments </h6>
                   <b-container>
                     <b-row class="text-center justify-content-center">
                       <b-col sm="6" md="6" lg="6">
-                          <h3>5</h3>
+                          <h3>{{ appointments_past.length }}</h3>
                           <p>Past</p>
                         </b-col>
                         <b-col sm="6" md="6" lg="6">
-                          <h3>5</h3>
+                          <h3>{{ appointments_pending.length }}</h3>
                           <p>Upcoming</p>
                         </b-col>
-                        <Button label="Send Message"/>
+                        <button class="btn btn-primary">
+                            Send Message
+                        </button>
                     </b-row>
                   </b-container>
               </b-col>
@@ -31,15 +33,15 @@
                   <b-row>
                     <b-col  md="6" lg="6" sm="12">
                       <label>Gender</label>
-                      <p class="border-bottom border-secondary">Female</p>
+                      <p class="border-bottom border-secondary"></p>
                     </b-col>
                     <b-col  md="6" lg="6" sm="12">
                       <label>Birthday</label>
-                      <p class="border-bottom border-secondary">Oct, 25 1992</p>
+                      <p class="border-bottom border-secondary"></p>
                     </b-col>
                     <b-col  md="6" lg="6" sm="12">
                       <label>Phone Number</label>
-                      <p class="border-bottom border-secondary"></p>
+                      <p class="border-bottom border-secondary">{{ user.phone }}</p>
                     </b-col>
                     <b-col  md="6" lg="6" sm="12">
                       <label>Address</label>
@@ -55,11 +57,11 @@
                     </b-col>
                     <b-col  md="6" lg="6" sm="12">
                       <label>Registration Date</label>
-                      <p class="border-bottom border-secondary"></p>
+                      <p class="border-bottom border-secondary">{{ user.registration_date }}</p>
                     </b-col>
                     <b-col  md="6" lg="6" sm="12">
                       <label>Member Status</label>
-                      <p class="border-bottom border-secondary"></p>
+                      <p class="border-bottom border-secondary">{{ user.name_role }}</p>
                     </b-col>
                   </b-row>
                 </b-container>
@@ -69,7 +71,7 @@
           
         </b-col>
         <b-col sm="12" md="3" lg="3">
-          <div class="card user-profile card-height">
+          <div class="card user-profile card-height mb-2">
             <div class="card-body">
               <h6 class="font-weight-bold">Notas</h6>
               <textarea
@@ -78,7 +80,10 @@
                 placeholder="Ingresa tu texto aquí..."
                 v-model="user.medications"
               ></textarea>
-              <Button label="Save note" class="p-button-sm float-right mt-2 btn-sm"/>
+              <!-- <Button label="Save note" class="p-button-sm float-right mt-2 btn-sm"/> -->
+              <button class="btn btn-primary float-right mt-2 btn-sm">
+                Save note
+              </button>
             </div>
           </div>
         </b-col>
@@ -98,47 +103,111 @@
         <b-col md="3" sm="12" xs="12" lg="3">
           <div  class="card user-profile card-height">
             <div class="card-body">
-              <h6 class="font-weight-bold">Files / Documents</h6>
-              <div class="card">
+              <input ref="fileInput" type="file" class="d-none" @change="onFileSelected" />
+              <div class="col-md-12 col-lg-12 col-sm-12 mb-2 d-flex" style="justify-content:space-between">
+                <h6 class="font-weight-bold">Files / Documents</h6>
+                <a @click.prevent="openFileInput" class="float-right text-primary"  >
+                  <i class="nav-icon i-Files"></i> Add Files
+                </a>
+              </div>
+              <div class="card" v-for="(file, index) in user.files" :key="index">
                   <div class="container p-2">
-                    <h6 class="mt-1"><i class="center nav-icon i-Files"></i>Blood test.pdf </h6>
+                    <h6 class="mt-1"><i class="center nav-icon i-Files"></i>{{ file.name }} </h6>
                   </div>
               </div>
             </div>
           </div>
         </b-col>
       </div>
-      <b-row class="small">
-        <b-col md="9" sm="12" xs="12" lg="9">
-          <TabView class="tabview-custom">
-            <TabPanel>
-              <template #header>
-                <span class="small">Upcoming appointments</span>
-              </template>
-              <b-row>
-                <b-col md="4" lg="3" sm="12" xs="12">
-                  <Timeline :value="events" align="left">
-                    <template #content="slotProps">
-                      {{slotProps.item.status}}
-                    </template>
-                  </Timeline>
-                </b-col>
-                
-              </b-row>
-            </TabPanel>
-            <TabPanel>
-              <template #header>
-                <span class="small">Past appointments</span>
-              </template>
-              Content II
-            </TabPanel>
-            <TabPanel >
-              <template #header>
-                <span class="small">Medici</span>
-              </template>
-              Content II
-            </TabPanel>
-          </TabView>
+      
+      <b-row v-if="!isLoading">
+        <b-col class="card-height" md="9" sm="12" xs="12" lg="9">
+          <b-tabs>
+            <b-tab title="Upcoming appointments" active>
+              <b-card class="m-2" v-for="(appointment,index) in appointments_pending" :key="index">
+                <b-row>
+                  <b-col md="2">
+                    <div class="circle"></div>
+                    <div class="card-part">
+                      <!-- Contenido de la primera parte -->
+                      <h4>{{appointment?.date}}</h4>
+                      <p></p>
+                    </div>
+                  </b-col>
+                  <b-col md="2">
+                    <div class="card-part">
+                      <!-- Contenido de la segunda parte -->
+                      <h4>Type</h4>
+                      <p class="font-weight-bold"></p>
+                    </div>
+                  </b-col>
+                  <b-col md="3">
+                    <div class="card-part">
+                      <!-- Contenido de la tercera parte -->
+                      <h4>Doctor</h4>
+                      <p class="font-weight-bold">{{ appointment?.appointment?.doctor?.firstname }} {{ appointment?.appointment?.doctor?.lastname }}</p>
+
+                    </div>
+                  </b-col>
+                  <b-col md="3">
+                    <div class="card-part">
+                      <!-- Contenido de la cuarta parte -->
+                      <h4>Nurse</h4>
+                      <p class="font-weight-bold"></p>
+                    </div>
+                  </b-col>
+                  <b-col md="2">
+                    <div class="card-part">
+                      <!-- Contenido de la cuarta parte -->
+                      <h5 class="text-primary text-center"><i class="nav-icon i-Notepad"></i> Notes</h5>
+                    </div>
+                  </b-col>
+                </b-row>
+              </b-card>
+            </b-tab>
+            <b-tab title="Past appointments">
+              <b-card class="m-2" v-for="(appointment,index) in appointments_past" :key="index">
+                <b-row>
+                  <b-col md="2">
+                    <div class="circle"></div>
+                    <div class="card-part">
+                      <!-- Contenido de la primera parte -->
+                      <h4>{{appointment?.date}}</h4>
+                      <p></p>
+                    </div>
+                  </b-col>
+                  <b-col md="2">
+                    <div class="card-part">
+                      <!-- Contenido de la segunda parte -->
+                      <h4>Type</h4>
+                      <p class="font-weight-bold"></p>
+                    </div>
+                  </b-col>
+                  <b-col md="3">
+                    <div class="card-part">
+                      <!-- Contenido de la tercera parte -->
+                      <h4>Doctor</h4>
+                      <p class="font-weight-bold">{{ appointment?.appointment?.doctor?.firstname }} {{ appointment?.appointment?.doctor?.lastname }}</p>
+
+                    </div>
+                  </b-col>
+                  <b-col md="3">
+                    <div class="card-part">
+                      <!-- Contenido de la cuarta parte -->
+                      <h4>Nurse</h4>
+                      <p class="font-weight-bold"></p>
+                    </div>
+                  </b-col>
+                  <b-col md="2">
+                    <div class="card-part">
+                      <!-- Contenido de la cuarta parte -->
+                      <h5 class="text-primary text-center"><i class="nav-icon i-Notepad"></i> Notes</h5>
+                    </div>
+                  </b-col>
+                </b-row>
+              </b-card>
+            </b-tab>
+          </b-tabs>
         </b-col>
 
         <b-col md="3" sm="12" xs="12" lg="3">
@@ -150,7 +219,8 @@
                 :small="small"
                 :items="items"
                 :fields="fields"
-              ></b-table>
+              >
+            </b-table>
             </div>
           </div>
         </b-col>
@@ -162,29 +232,12 @@
   <script>
   import NProgress from "nprogress";
   import { mapGetters, mapActions } from "vuex";
-  import TabView from 'primevue/tabview';
-  import TabPanel from 'primevue/tabpanel';
-  import Timeline from 'primevue/timeline';
-  import Button from 'primevue/button';
-  import 'primevue/resources/primevue.min.css';
-  import 'primevue/resources/themes/saga-blue/theme.css';
-  import 'primeicons/primeicons.css';
   export default {
     metaInfo: {
-      // if no subcomponents specify a metaInfo.title, this title will be used
       title: "Profile"
     },
     data() {
       return {
-        events: [
-                {status: 'Ordered', date: '15/10/2020 10:30', icon: 'pi pi-shopping-cart', color: '#9C27B0', image: 'game-controller.jpg'},
-                {status: 'Processing', date: '15/10/2020 14:00', icon: 'pi pi-cog', color: '#673AB7'},
-                {status: 'Shipped', date: '15/10/2020 16:15', icon: 'pi pi-shopping-cart', color: '#FF9800'},
-                {status: 'Delivered', date: '16/10/2020 10:00', icon: 'pi pi-check', color: '#607D8B'}
-            ],
-            events2: [
-                "2020", "2021", "2022", "2023"
-            ],
         data: new FormData(),
         avatar: "",
         username: "",
@@ -194,12 +247,17 @@
           { Amount: 21, Transaction: 'Larsen'},
           { Amount: 89, Transaction: 'Geneva'}
         ],
+        appointments_pending:[],
+        appointments_past:[],
+        appointments:[],
         isLoading: true,
         user: {
           id: "",
           firstname: "",
           lastname: "",
           username: "",
+          registration_date:"",
+          name_role:"",
           NewPassword: null,
           email: "",
           phone: "",
@@ -218,17 +276,21 @@
         }
       };
     },
-    components:{
-      TabView,
-      TabPanel,
-      Timeline,
-      Button
-    },
     computed: {
+      Avatar(){
+        return this.user?.avatar ?? 'no-image.png'
+      },
       ...mapGetters(["currentUser"])
     },
   
     methods: {
+      openFileInput() {
+        // Simula un clic en el botón de subir archivo oculto
+        this.$refs.fileInput.click();
+      },
+      calculateTotalAmount(items) {
+        return items.reduce((total, item) => total + item.Amount, 0);
+      },
       //------------- Submit Update Profile
       Submit_Profile() {
         this.$refs.Update_Profile.validate().then(success => {
@@ -275,7 +337,11 @@
             this.user.phone = response.data.user.phone;
             this.user.username = response.data.user.username;
             this.user.files = response.data.user.documents;
-
+            this.user.registration_date= response.data.user.registration_date;
+            this.user.name_role= response.data.user.name_role;
+            this.appointments_pending= response.data.user.reservations_pending;
+            this.appointments_past= response.data.user.reservations_past;
+            this.appointments= response.data.user.reservations;
             console.log(this.user)
 
             this.avatar = this.currentUser.avatar;
@@ -387,6 +453,30 @@
     height: 330px;
     overflow: auto;
     max-height: 330px;
+    @media (max-width: 767px) {
+      height: auto; /* Ajustar altura en pantallas pequeñas */
+      max-height: none;
+    }
+    
   }
+
+  .card-part {
+    padding: 15px;
+    text-align: center;
+    border-radius: 5px;
+    position: relative;
+  }
+
+  .circle {
+  width: 20px;
+  height: 20px;
+  background-color: #007bff;
+  border-radius: 50%;
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 </style>
   

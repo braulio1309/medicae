@@ -76,16 +76,8 @@
               :columns="columns_patients"
               styleClass="order-table vgt-table"
               row-style-class="text-left"
-              >
               :rows="patients"
-              <template slot="table-row" slot-scope="props">
-                <div v-if="props.column.field == 'quantity'">
-                  <span>{{formatNumber(props.row.quantity ,2)}} {{props.row.unit_product}}</span>
-                </div>
-                <div v-else-if="props.column.field == 'total'">
-                  <span>{{currentUser.currency}} {{formatNumber(props.row.total ,2)}}</span>
-                </div>
-              </template>
+              >
             </vue-good-table>
           </div>
         </div>
@@ -152,6 +144,13 @@ export default {
           sortable: false
         },
         {
+          label: this.$t("Patient"),
+          field: "patient_name",
+          tdClass: "gull-border-none text-left",
+          thClass: "text-left",
+          sortable: false
+        },
+        {
           label: this.$t("Day"),
           field: "day",
           html: true,
@@ -210,14 +209,7 @@ export default {
           sortable: false
         },
         {
-          label: this.$t("Email"),
-          field: "quantity",
-          tdClass: "text-left",
-          thClass: "text-left",
-          sortable: false
-        },
-        {
-          label: this.$t("Phone"),
+          label: this.$t("Value"),
           field: "total",
           tdClass: "text-left",
           thClass: "text-left",
@@ -237,8 +229,8 @@ export default {
           this.report_today = response.data.report_dashboard.original.report;
           // this.stock_alerts =
             // response.data.report_dashboard.original.stock_alert;
-            this.appointments = response.data.report_dashboard.original.last_appointments;
-            this.patients = response.data.report_dashboard.original.patients;
+          this.appointments = response.data.report_dashboard.original.last_appointments;
+          this.patients = response.data.report_dashboard.original.patients;
           var dark_heading = "#c2c6dc";
           this.echartPatient = {
             color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
@@ -450,19 +442,20 @@ export default {
     //------------------------------Get Month -------------------------\\
     GetMonth() {
       var months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
       ];
+
       var now = new Date();
       this.CurrentMonth = months[now.getMonth()];
     },

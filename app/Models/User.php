@@ -68,4 +68,23 @@ class User extends Authenticatable
     {
         return $this->hasMany(Document::class, 'userId');
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'user_id', 'id');
+    }
+
+    public function reservations_pending(){
+        return $this->hasMany(Reservation::class, 'user_id', 'id')
+                     ->where('canceled',0)
+                     ->where('date','<',now());
+
+    }
+    
+    public function reservations_past(){
+        return $this->hasMany(Reservation::class, 'user_id', 'id')
+                     ->where('canceled',0)
+                     ->where('date','>',now());
+
+    }
 }

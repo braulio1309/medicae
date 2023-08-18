@@ -84,16 +84,18 @@ class VacationController extends Controller
      */
     public function show($id)
     {
-        $vacation = Vacation::where('userId', '=', \Auth::user()->id)
+        $vacation = Vacation::where('userId', '=', auth()->user()->id)
         ->orderBy('startDate', 'asc')
         ->first();
         $dates = [];
-        $currentDate = \DateTime::createFromFormat('Y-m-d',$vacation->startDate);
-
-        while ($currentDate <= \DateTime::createFromFormat('Y-m-d',$vacation->endDate)) {
-            $dates[] = $currentDate->format('d/m/Y');
-            $currentDate->modify('+1 day');
+        if($vacation){
+            $currentDate = \DateTime::createFromFormat('Y-m-d',$vacation->startDate);
+            while ($currentDate <= \DateTime::createFromFormat('Y-m-d',$vacation->endDate)) {
+                $dates[] = $currentDate->format('d/m/Y');
+                $currentDate->modify('+1 day');
+            }
         }
+        
 
         return response()->json([
             'dates' => $dates

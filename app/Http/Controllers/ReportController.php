@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Client;
 use App\Models\Provider;
+use App\Models\Reservation;
 use App\Models\Role;
 use App\Models\User;
 use App\utils\helpers;
@@ -22,13 +23,13 @@ class ReportController extends BaseController
     public function TopPatients()
     {
 
-        $data = Appointment::whereBetween('appointments.created_at', [
+        $data = Reservation::whereBetween('reservations.created_at', [
             Carbon::now()->startOfMonth(),
             Carbon::now()->endOfMonth(),
         ])
-            ->join('clients', 'appointments.userId', '=', 'clients.id')
-            ->select(DB::raw('clients.name'), DB::raw("count(*) as value"))
-            ->groupBy('clients.name')
+            ->join('users', 'reservations.user_id', '=', 'users.id')
+            ->select(DB::raw("CONCAT(users.firstname,' ',users.lastname) as name"), DB::raw("count(*) as value"))
+            ->groupBy('name')
             ->orderBy('value', 'desc')
             ->take(5)
             ->get();
@@ -64,23 +65,23 @@ class ReportController extends BaseController
         }
 
         $date_range = \Carbon\Carbon::today()->subDays(6);
-        // Get the sales counts
-        $appointments_received = Appointment::where('created_at', '>=', $date_range)
-            ->groupBy(DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')"))
-            ->orderBy('created_at', 'asc')
-            ->where('status',1)
+        $appointments_received = Reservation::where('date', '>=', $date_range)
+            ->groupBy(DB::raw("DATE_FORMAT(date,'%Y-%m-%d')"))
+            ->orderBy('date', 'asc')
+            ->where('canceled',0)
+            ->where('date','<',now())
             ->get([
                 DB::raw(DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date")),
                 DB::raw('SUM(id) AS count'),
             ])
             ->pluck('count', 'date');
 
-        $appointments_pending = Appointment::where('created_at', '>=', $date_range)
-            ->groupBy(DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')"))
-            ->orderBy('created_at', 'asc')
-            ->where('status',0)
+        $appointments_pending = Reservation::where('date', '>=', $date_range)
+            ->groupBy(DB::raw("DATE_FORMAT(date,'%Y-%m-%d')"))
+            ->orderBy('date', 'asc')
+            ->where('canceled',0)
             ->get([
-                DB::raw(DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date")),
+                DB::raw(DB::raw("DATE_FORMAT(date,'%Y-%m-%d') as date")),
                 DB::raw('SUM(id) AS count'),
             ])
             ->pluck('count', 'date');
@@ -133,31 +134,21 @@ class ReportController extends BaseController
 
     public function report_dashboard()
     {
-         // top selling product this month
-        //  $patients = SaleDetail::join('sales', 'sale_details.sale_id', '=', 'sales.id')
-        //  ->join('products', 'sale_details.product_id', '=', 'products.id')
-        //  ->join('units', 'products.unit_sale_id', '=', 'units.id')
-        //  ->whereBetween('sale_details.date', [
-        //      Carbon::now()->startOfMonth(),
-        //      Carbon::now()->endOfMonth(),
-        //  ])
-        //  ->select(
-        //      DB::raw('products.name as name'),
-        //      DB::raw('units.ShortName as unit_product'),
-        //      DB::raw('count(*) as count'),
-        //      DB::raw('sum(total) as total'),
-        //      DB::raw('sum(quantity) as quantity'),
-        //  )
-        //  ->groupBy('products.name')
-        //  ->orderBy('count', 'desc')
-        //  ->take(5)
-        //  ->get();
 
-         $patients= [];
+        $patients = Reservation::whereBetween('reservations.created_at', [
+            Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth(),
+        ])
+            ->join('users', 'reservations.user_id', '=', 'users.id')
+            ->select(DB::raw("CONCAT(users.firstname,' ',users.lastname) as name"), DB::raw("count(*) as value"))
+            ->groupBy('name')
+            ->orderBy('value', 'desc')
+            ->take(5)
+            ->get();
         $last_appointments = [];
 
         //last appointments
-        $appointments = Appointment::with('doctor')
+        $appointments = Reservation::with('appointment.doctor','patient')
                             ->orderBy('id', 'desc')
                             ->take(5)
                             ->get();
@@ -167,7 +158,8 @@ class ReportController extends BaseController
 
             $item['id'] = $appointment['id'];
             $item['statut'] = $appointment['status'];
-            $item['doctor_name'] = $appointment['doctor']['name'] ?? '';
+            $item['doctor_name'] = $appointment['appointment']['doctor']['firstname'].' '.$appointment['appointment']['doctor']['lastname'] ?? '';
+            $item['patient_name'] = $appointment['patient']['firstname'].' '.$appointment['patient']['lastname'] ?? '';
             $item['day'] = $appointment['day'];
             $item['time'] = $appointment['time'];
 

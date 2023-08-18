@@ -54,7 +54,6 @@ export default {
       return {
         selectedDoctor: null,
         SubmitProcessing:false,
-        disabledDates: [],
         isLoading: true,
         selectedDate: null,
         disabledDates: [],
@@ -77,7 +76,6 @@ export default {
               });
               NProgress.done();
               this.isLoading = false;
-              console.log(this.disabledDates)
             })
             .catch(error => {
                 console.error(error);
@@ -88,12 +86,13 @@ export default {
       loadAvailableTimes() {
         if (this.selectedDate) {
           // Realiza la llamada al backend para obtener los horarios disponibles del fisioterapeuta y la fecha seleccionada
+          const id = this.$route.params.id ?? -1;
           const dateObj = new Date(this.selectedDate);
           const day = String(dateObj.getDate()).padStart(2, '0');
           const month = String(dateObj.getMonth() + 1).padStart(2, '0');
           const year = dateObj.getFullYear();
           const formattedDate = `${day}-${month}-${year}`;
-          axios.get(`/available-times?doctorId=${1}&date=${formattedDate}`)
+          axios.get(`/available-times?doctorId=${id}&date=${formattedDate}`)
             .then(response => {
                 
               this.availableTimes = response.data;

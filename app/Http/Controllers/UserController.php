@@ -378,22 +378,22 @@ class UserController extends BaseController
     {
         $id = ($id == null)? Auth::user()->id: $id;
         $user = User::findOrFail($id);
-        $patience = Patient::where('userId', $id)->first();
+        // $patience = Patient::where('userId', $id)->first();
 
-        $current = $user->password;
+        // $current = $user->password;
 
-        if ($request->NewPassword != 'undefined') {
-            if ($request->NewPassword != $current) {
-                $pass = Hash::make($request->NewPassword);
-            } else {
-                $pass = $user->password;
-            }
+        // if ($request->NewPassword != 'undefined') {
+        //     if ($request->NewPassword != $current) {
+        //         $pass = Hash::make($request->NewPassword);
+        //     } else {
+        //         $pass = $user->password;
+        //     }
 
-        } else {
-            $pass = $user->password;
-        }
+        // } else {
+        //     $pass = $user->password;
+        // }
 
-        $currentAvatar = $user->avatar;
+        // $currentAvatar = $user->avatar;
         /*if ($request->avatar != $currentAvatar) {
 
             $image = $request->file('avatar');
@@ -427,24 +427,24 @@ class UserController extends BaseController
             
             $file->storeAs('uploads', $fileName);
             $user = User::findOrFail($id);
-            $document->path =  $this->download($fileName);
+            // $document->path =  $this->download($fileName);
             $document->save();
             $user->documents()->save($document);
         }
-
+        
         //Guardar notas de consulta
 
 
-        User::whereId($id)->update([
-            'firstname' => $request['firstname'],
-            'lastname' => $request['lastname'],
-            'username' => $request['username'],
-            'email' => $request['email'],
-            'phone' => $request['phone'],
-            'password' => $pass,
+        // User::whereId($id)->update([
+        //     'firstname' => $request['firstname'],
+        //     'lastname' => $request['lastname'],
+        //     'username' => $request['username'],
+        //     'email' => $request['email'],
+        //     'phone' => $request['phone'],
+        //     'password' => $pass,
             //'avatar' => $filename,
 
-        ]);
+        // ]);
 
         return response()->json(['avatar' => null, 'user' => $request['username']]);
 

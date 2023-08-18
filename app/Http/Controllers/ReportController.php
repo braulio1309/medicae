@@ -59,7 +59,7 @@ class ReportController extends BaseController
     {
         // Build an array of the dates we want to show, oldest first
         $dates = collect();
-        foreach (range(-6, 0) as $i) {
+        foreach (range(-6, 14) as $i) {
             $date = Carbon::now()->addDays($i)->format('Y-m-d');
             $dates->put($date, 0);
         }
@@ -86,7 +86,7 @@ class ReportController extends BaseController
             ])
             ->pluck('count', 'date');
 
-
+            
         $dates_recieved = $dates->merge($appointments_received);
         $dates_pending = $dates->merge($appointments_pending);
 
@@ -160,7 +160,7 @@ class ReportController extends BaseController
             $item['statut'] = $appointment['status'];
             $item['doctor_name'] = $appointment['appointment']['doctor']['firstname'].' '.$appointment['appointment']['doctor']['lastname'] ?? '';
             $item['patient_name'] = $appointment['patient']['firstname'].' '.$appointment['patient']['lastname'] ?? '';
-            $item['day'] = $appointment['day'];
+            $item['day'] = Carbon::parse($appointment['date'])->format("d-m-Y h:i");
             $item['time'] = $appointment['time'];
 
             $last_appointments[] = $item;

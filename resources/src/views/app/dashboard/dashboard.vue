@@ -208,13 +208,6 @@ export default {
           thClass: "text-left",
           sortable: false
         },
-        {
-          label: this.$t("Value"),
-          field: "total",
-          tdClass: "text-left",
-          thClass: "text-left",
-          sortable: false
-        }
       ];
     }
   },
@@ -240,7 +233,7 @@ export default {
             },
 
             formatter: function(params) {
-              return `${params.name}: (${params.data.value} sales) (${
+              return `${params.name}: (${params.data.value} cita) (${
                 params.percent
               }%)`;
             },

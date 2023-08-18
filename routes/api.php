@@ -113,6 +113,7 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
     Route::get('Reservations/company', 'ReservationController@getReservationsByCompany');
     Route::get('Reservations/fisio', 'ReservationController@getReservationsByFisio');
     Route::post('Reservations/canceled', 'ReservationController@cancelReservation');
+    Route::post('Reservations/updateNotes/{reservation}', 'ReservationController@updateNotes');
     Route::get('Reservations/turn/reserved/{id}', 'ReservationController@getReservationsTurn');
 
     //------------------------------- Users --------------------------\\

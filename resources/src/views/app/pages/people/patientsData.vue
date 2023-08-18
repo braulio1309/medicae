@@ -72,19 +72,22 @@
         </b-col>
         <b-col sm="12" md="3" lg="3">
           <div class="card user-profile card-height mb-2">
+            <b-form @submit.prevent="updatedNote" enctype="multipart/form-data">
             <div class="card-body">
               <h6 class="font-weight-bold">Notas</h6>
               <textarea
                 class="form-control"
                 rows="8"
                 placeholder="Ingresa tu texto aquí..."
-                v-model="user.medications"
+                v-model="notes"
+                ref="myTextarea"
               ></textarea>
               <!-- <Button label="Save note" class="p-button-sm float-right mt-2 btn-sm"/> -->
               <button class="btn btn-primary float-right mt-2 btn-sm">
                 Save note
               </button>
             </div>
+            </b-form>
           </div>
         </b-col>
         <!-- <div class="col-sm-3">
@@ -130,7 +133,7 @@
                     <div class="circle"></div>
                     <div class="card-part">
                       <!-- Contenido de la primera parte -->
-                      <h4>{{appointment?.date}}</h4>
+                      <h5>{{formatDate(appointment?.date)}}</h5>
                       <p></p>
                     </div>
                   </b-col>
@@ -159,7 +162,7 @@
                   <b-col md="2">
                     <div class="card-part">
                       <!-- Contenido de la cuarta parte -->
-                      <h5 class="text-primary text-center"><i class="nav-icon i-Notepad"></i> Notes</h5>
+                      <button @click="focusTextarea(appointment)"><h5 class="text-primary text-center"><i class="nav-icon i-Notepad"></i> Notes</h5></button>
                     </div>
                   </b-col>
                 </b-row>
@@ -172,7 +175,7 @@
                     <div class="circle"></div>
                     <div class="card-part">
                       <!-- Contenido de la primera parte -->
-                      <h4>{{appointment?.date}}</h4>
+                      <h5>{{formatDate(appointment?.date)}}</h5>
                       <p></p>
                     </div>
                   </b-col>
@@ -201,7 +204,7 @@
                   <b-col md="2">
                     <div class="card-part">
                       <!-- Contenido de la cuarta parte -->
-                      <h5 class="text-primary text-center"><i class="nav-icon i-Notepad"></i> Notes</h5>
+                       <h5 class="text-primary text-center" @click="focusTextarea(appointment)"><i class="nav-icon i-Notepad"></i> Notes</h5>
                     </div>
                   </b-col>
                 </b-row>
@@ -232,6 +235,8 @@
   <script>
   import NProgress from "nprogress";
   import { mapGetters, mapActions } from "vuex";
+  import { format } from 'date-fns';
+
   export default {
     metaInfo: {
       title: "Profile"
@@ -250,6 +255,8 @@
         appointments_pending:[],
         appointments_past:[],
         appointments:[],
+        appointment:[],
+        notes: '',
         isLoading: true,
         user: {
           id: "",
@@ -284,9 +291,48 @@
     },
   
     methods: {
+      focusTextarea(appointment) {
+        this.notes = appointment.notes; 
+        this.appointment = appointment;
+        this.$refs.myTextarea.focus();
+      },
       openFileInput() {
         // Simula un clic en el botón de subir archivo oculto
         this.$refs.fileInput.click();
+      },
+      updatedNote(){
+        if(this.notes=="" || !this.appointment){
+          this.makeToast(
+            "warning",
+            "Seleccione una cita",
+            this.$t("Warning"),
+          );
+          return ;
+        }
+        var self = this;
+        self.data.append("notes", self.notes);
+
+        self.SubmitProcessing = true;
+        axios
+        .post("Reservations/updateNotes/" + this.appointment.id, self.data)
+        .then(response => {
+          this.makeToast(
+            "success",
+            this.$t("Success"),
+            this.$t("Success")
+          );
+          this.appointment = [];
+          this.notes = '';
+          this.Get_Profile_Info();
+          self.SubmitProcessing = false;
+        })
+        .catch(error => {
+          this.makeToast("danger", this.$t("InvalidData"), this.$t("Failed"));
+          self.SubmitProcessing = false;
+        });
+      },
+      formatDate(date) {
+        return format(new Date(date), 'dd-MM-yyyy HH:mm');
       },
       calculateTotalAmount(items) {
         return items.reduce((total, item) => total + item.Amount, 0);
@@ -372,9 +418,9 @@
   
       //------------------------------ Event Upload Avatar -------------------------------\\
       async onFileSelected(e) {
-        
-        if (1) {
+        if (e) {
           this.user.file = e.target.files[0];
+          this.Update_Profile();
         } else {
           this.user.file = "";
         }
@@ -386,43 +432,36 @@
         NProgress.start();
         NProgress.set(0.1);
         var self = this;
-        console.log(this.user.file)
-        self.data.append("firstname", self.user.firstname);
-        self.data.append("lastname", self.user.lastname);
-        self.data.append("username", self.user.username);
-        self.data.append("email", self.user.email);
-        self.data.append("NewPassword", self.user.NewPassword);
-        self.data.append("phone", self.user.phone);
-        self.data.append("avatar", self.user.avatar);
+        // self.data.append("firstname", self.user.firstname);
+        // self.data.append("lastname", self.user.lastname);
+        // self.data.append("username", self.user.username);
+        // self.data.append("email", self.user.email);
+        // self.data.append("NewPassword", self.user.NewPassword);
+        // self.data.append("phone", self.user.phone);
+        // self.data.append("avatar", self.user.avatar);
         self.data.append("file", self.user.file);
 
-        self.data.append("_method", "post");
-  
         this.user.userId = this.$route.params.id;
-        axios
-          .post("patients" , { patients: this.user})
-          .then(response => {
-            this.makeToast(
-              "success",
-              this.$t("Update.TitleProfile"),
-              this.$t("Success")
-            );
-            NProgress.done(), 500;
+        // axios
+        //   .post("patients" , { patients: this.user})
+        //   .then(response => {
+        //     this.makeToast(
+        //       "success",
+        //       this.$t("Update.TitleProfile"),
+        //       this.$t("Success")
+        //     );
+        //     NProgress.done(), 500;
   
-            setTimeout(() => {
-              this.Get_Profile_Info();
-            }, 500);
-          })
-          .catch(error => {
-            NProgress.done(), 500;
-          });
+        //     setTimeout(() => {
+        //       this.Get_Profile_Info();
+        //     }, 500);
+        //   })
+        //   .catch(error => {
+        //     NProgress.done(), 500;
+        //   });
 
         axios
-          .post("update/profile/patience/" + this.$route.params.id, self.data, { 
-            headers: {
-              "Content-Type": "multipart/form-data",
-            }
-          })
+          .post("update/profile/patience/" + this.$route.params.id, self.data)
           .then(response => {
             this.makeToast(
               "success",
@@ -436,7 +475,8 @@
             }, 500);
           })
           .catch(error => {
-            NProgress.done(), 500;
+            console.log(error)
+            NProgress.done()
           });
         
       }

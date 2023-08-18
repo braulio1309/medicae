@@ -26,6 +26,7 @@
         "bootstrap-vue": "^2.21.2",
         "core-js": "^3.8.2",
         "cross-env": "^7.0.3",
+        "date-fns": "^2.30.0",
         "echarts": "^4.9.0",
         "es6-promise": "^4.2.8",
         "jquery": "^3.7.0",

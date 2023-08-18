@@ -200,4 +200,18 @@ class ReservationController extends Controller
             return response()->json(['success' => false, 'message' => 'La fecha seleccionada ya ha sido reservada']);
         }
     }
+
+    public function updateNotes(Request $request,Reservation $reservation)
+    {
+        try {
+            $reservation->notes = $request->notes;
+            $reservation->save();
+            return response()->json(['success' => true, 'message' => 'Nota agregada exitosamente']);
+
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false, 'message' => 'Error al guardar']);
+        }
+      
+
+    }
 }

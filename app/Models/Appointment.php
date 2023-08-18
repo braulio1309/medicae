@@ -15,9 +15,10 @@ class Appointment extends Model
         'id', 'userId', 'day', 'time', 'status'
     ];
 
+    
     public function doctor()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasOne(User::class, 'id', 'userId');
     }
 
     public function getAppointmentsByDuration($duration, $hours, $day){

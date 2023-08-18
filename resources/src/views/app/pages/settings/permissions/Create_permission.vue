@@ -120,166 +120,6 @@
                   </b-card>
                 </b-col>
 
-                <!--Users Company -->
-                <b-col md="4">
-                  <b-card no-body class="ul-card__border-radius">
-                    <b-card-header header-tag="header" class="p-1" role="tab">
-                      <b-button
-                        class="card-title mb-0"
-                        block
-                        href="#"
-                        v-b-toggle.panel-UserManagement
-                        variant="transparent"
-                      >Empresas</b-button>
-                    </b-card-header>
-                    <b-collapse
-                      id="panel-UserManagement "
-                      :visible="true"
-                      accordion="my-accordion2"
-                      role="tabpanel"
-                    >
-                      <b-card-body>
-                        <b-card-text>
-                          <b-row>
-                            <!--Users View -->
-                            <b-col md="6">
-                              <label class="checkbox checkbox-outline-primary">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  v-model="permissions"
-                                  value="users_company_view"
-                                >
-                                <span>{{$t('View')}}</span>
-                                <span class="checkmark"></span>
-                              </label>
-                            </b-col>
-                            <!--Users ADD -->
-                            <b-col md="6">
-                              <label class="checkbox checkbox-outline-primary">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  v-model="permissions"
-                                  value="users_company_add"
-                                >
-                                <span>{{$t('Add')}}</span>
-                                <span class="checkmark"></span>
-                              </label>
-                            </b-col>
-                            <!--Users Edit -->
-                            <b-col md="6">
-                              <label class="checkbox checkbox-outline-primary">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  v-model="permissions"
-                                  value="users_company_edit"
-                                >
-                                <span>{{$t('Edit')}}</span>
-                                <span class="checkmark"></span>
-                              </label>
-                            </b-col>
-                            <!--Users Delete -->
-                            <b-col md="6">
-                              <label class="checkbox checkbox-outline-primary">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  v-model="permissions"
-                                  value="users_company_delete"
-                                >
-                                <span>{{$t('Del')}}</span>
-                                <span class="checkmark"></span>
-                              </label>
-                            </b-col>
-                          </b-row>
-                        </b-card-text>
-                      </b-card-body>
-                    </b-collapse>
-                  </b-card>
-                </b-col>
-
-                <!--  Users Fisios -->
-                <b-col md="4">
-                  <b-card no-body class="ul-card__border-radius">
-                    <b-card-header header-tag="header" class="p-1" role="tab">
-                      <b-button
-                        class="card-title mb-0"
-                        block
-                        href="#"
-                        v-b-toggle.panel-Products
-                        variant="transparent"
-                      >Fisioterapeutas</b-button>
-                    </b-card-header>
-                    <b-collapse
-                      id="panel-Products"
-                      :visible="true"
-                      accordion="my-accordion3"
-                      role="tabpanel"
-                    >
-                      <b-card-body>
-                        <b-card-text>
-                          <b-row>
-                            <!--Products View -->
-                            <b-col md="6">
-                              <label class="checkbox checkbox-outline-primary">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  v-model="permissions"
-                                  value="users_fisio_view"
-                                >
-                                <span>{{$t('View')}}</span>
-                                <span class="checkmark"></span>
-                              </label>
-                            </b-col>
-                            <!--Products ADD -->
-                            <b-col md="6">
-                              <label class="checkbox checkbox-outline-primary">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  v-model="permissions"
-                                  value="users_fisio_add"
-                                >
-                                <span>{{$t('Add')}}</span>
-                                <span class="checkmark"></span>
-                              </label>
-                            </b-col>
-                            <!--Products Edit -->
-                            <b-col md="6">
-                              <label class="checkbox checkbox-outline-primary">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  v-model="permissions"
-                                  value="users_fisio_edit"
-                                >
-                                <span>{{$t('Edit')}}</span>
-                                <span class="checkmark"></span>
-                              </label>
-                            </b-col>
-                            <!--Products Delete -->
-                            <b-col md="6">
-                              <label class="checkbox checkbox-outline-primary">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  v-model="permissions"
-                                  value="users_fisio_delete"
-                                >
-                                <span>{{$t('Del')}}</span>
-                                <span class="checkmark"></span>
-                              </label>
-                            </b-col>
-                          </b-row>
-                        </b-card-text>
-                      </b-card-body>
-                    </b-collapse>
-                  </b-card>
-                </b-col>
-
                 <!--  Users Patients -->
                 <b-col md="4">
                   <b-card no-body class="ul-card__border-radius">
@@ -541,19 +381,7 @@
                       <b-card-body>
                         <b-card-text>
                           <b-row>
-                            <!--Reports_payments_Sales  -->
-                            <b-col md="12">
-                              <label class="checkbox checkbox-outline-primary">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  v-model="permissions"
-                                  value="reports_fisio"
-                                >
-                                <span>Reportes de Fisioterapeutas</span>
-                                <span class="checkmark"></span>
-                              </label>
-                            </b-col>
+                           
                             <!--Reports_payments_Purchases  -->
                             <b-col md="12">
                               <label class="checkbox checkbox-outline-primary">
@@ -580,19 +408,7 @@
                                 <span class="checkmark"></span>
                               </label>
                             </b-col>
-                            <!--Reports_payments_purchase_Return  -->
-                            <b-col md="12">
-                              <label class="checkbox checkbox-outline-primary">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  v-model="permissions"
-                                  value="reports_company"
-                                >
-                                <span>Reportes de empresas</span>
-                                <span class="checkmark"></span>
-                              </label>
-                            </b-col>
+                           
                           </b-row>
                         </b-card-text>
                       </b-card-body>

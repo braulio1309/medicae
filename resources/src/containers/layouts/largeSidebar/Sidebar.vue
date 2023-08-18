@@ -71,9 +71,7 @@
           </li>
 
           <li
-            v-show="currentUserPermissions && (currentUserPermissions.includes('users_company_view') 
-                                               || currentUserPermissions.includes('users_patients_view')
-                                               || currentUserPermissions.includes('users_fisio_view'))"
+            v-show="currentUserPermissions && (currentUserPermissions.includes('vacations_view'))"
             @mouseenter="toggleSubMenu"
             :class="{ active: selectedParentMenu == 'Appointment' }"
             class="nav-item"
@@ -88,7 +86,7 @@
           </li>
 
           <li
-            v-show="currentUserPermissions && (currentUserPermissions.includes('appointments_view'))"
+            v-show="currentUserPermissions && (currentUserPermissions.includes('vacations_view'))"
             @mouseenter="toggleSubMenu"
             :class="{ active: selectedParentMenu == 'Reservation' }"
             class="nav-item"
@@ -102,7 +100,7 @@
             
           </li>
           <li
-            v-show="currentUserPermissions && (currentUserPermissions.includes('reservations_view'))"
+            v-show="currentUserPermissions && (!currentUserPermissions.includes('vacations_view'))"
             @mouseenter="toggleSubMenu"
             :class="{ active: selectedParentMenu == 'Appointment' }"
             class="nav-item"

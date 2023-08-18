@@ -123,9 +123,10 @@ class AppointmentsController extends BaseController
     public function reserveTurn2(Request $request){
         $data = $request->all();
         $time = Appointment::find($request->input('turnId'))->time;
-        
         $datetime = Carbon::parse($request->input('date'))->setTimeFromTimeString($time);
-
+        $turn = Appointment::where('id', '=', $data['turnId'] )->first();
+        $turn->status = 0;
+        $turn->save();
         $reserva = Reservation::create([
             'user_id' => auth()->user()->id,
             'turnId' => $data['turnId'],

@@ -113,8 +113,8 @@
                   <i class="nav-icon i-Files"></i> Add Files
                 </a>
               </div>
-              <div class="card" v-for="(file, index) in user.files" :key="index">
-                  <div class="container p-2">
+              <div class="card card-hover" v-for="(file, index) in user.files" :key="index">
+                  <div class="container p-2" @click.prevent="loadLink(file)">
                     <h6 class="mt-1"><i class="center nav-icon i-Files"></i>{{ file.name }} </h6>
                   </div>
               </div>
@@ -294,14 +294,23 @@
       focusTextarea(appointment) {
         this.notes = appointment.notes; 
         this.appointment = appointment;
+        this.user.files = appointment.documents;
         this.$refs.myTextarea.focus();
       },
       openFileInput() {
+        if(this.appointment.length==0 || typeof(this.appointment)=='undefined'){
+          this.makeToast(
+            "warning",
+            "Seleccione una cita",
+            this.$t("Warning"),
+          );
+          return ;
+        }
         // Simula un clic en el botón de subir archivo oculto
         this.$refs.fileInput.click();
       },
       updatedNote(){
-        if(this.notes=="" || !this.appointment){
+        if(this.notes=="" || this.appointment.length==0 || typeof(this.appointment)=='undefined'){
           this.makeToast(
             "warning",
             "Seleccione una cita",
@@ -322,6 +331,7 @@
             this.$t("Success")
           );
           this.appointment = [];
+          this.user.files = [];
           this.notes = '';
           this.Get_Profile_Info();
           self.SubmitProcessing = false;
@@ -366,9 +376,21 @@
         return dirty || validated ? valid : null;
       },
 
-      loadLink(document) {
-        const link = axios.get("/documents/"+document.id+'/download');
-        return link.data;
+      loadLink(documento) {
+        // const link = axios.get("/documents/"+document.id+'/download');
+        // return link.data;
+        axios({
+          url: "/documents/" + documento.id + '/download',
+          method: 'GET',
+          responseType: 'blob', // Importante: establece el tipo de respuesta a 'blob'
+        }).then(response => {
+          const blob = new Blob([response.data], { type: response.headers['content-type'] });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = documento.name; // Establece el nombre del archivo para la descarga
+          link.click();
+          URL.revokeObjectURL(link.href); // Libera recursos después de la descarga
+        });
       },
   
       //------------------ Get Profile Info ----------------------\\
@@ -381,15 +403,11 @@
             this.user.lastname = response.data.user.lastname;
             this.user.email = response.data.user.email;
             this.user.phone = response.data.user.phone;
-            this.user.username = response.data.user.username;
-            this.user.files = response.data.user.documents;
             this.user.registration_date= response.data.user.registration_date;
             this.user.name_role= response.data.user.name_role;
             this.appointments_pending= response.data.user.reservations_pending;
             this.appointments_past= response.data.user.reservations_past;
             this.appointments= response.data.user.reservations;
-            console.log(this.user)
-
             this.avatar = this.currentUser.avatar;
             this.username = this.currentUser.username;
             this.isLoading = false;
@@ -461,7 +479,7 @@
         //   });
 
         axios
-          .post("update/profile/patience/" + this.$route.params.id, self.data)
+          .post("update/profile/patience/" + this.appointment.id, self.data)
           .then(response => {
             this.makeToast(
               "success",
@@ -469,7 +487,10 @@
               this.$t("Success")
             );
             NProgress.done(), 500;
-  
+            this.appointment = [];
+            this.user.files = [];
+            this.user.file = '';
+            this.notes = '';
             setTimeout(() => {
               this.Get_Profile_Info();
             }, 500);
@@ -518,5 +539,8 @@
   transform: translateY(-50%);
 }
 
+.card-hover:hover {
+  background-color: #90979e; /* Change this color as desired */
+}
 </style>
   

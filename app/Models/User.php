@@ -64,11 +64,6 @@ class User extends Authenticatable
         return !!$role->intersect($this->roles)->count();
     }
 
-    public function documents()
-    {
-        return $this->hasMany(Document::class, 'userId');
-    }
-
     public function reservations()
     {
         return $this->hasMany(Reservation::class, 'user_id', 'id');

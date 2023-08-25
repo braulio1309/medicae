@@ -23,5 +23,9 @@ class Reservation extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'reservation_id','id');
+    }
 
 }

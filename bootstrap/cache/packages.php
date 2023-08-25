@@ -10,6 +10,17 @@
       'PDF' => 'Barryvdh\\DomPDF\\Facade',
     ),
   ),
+  'codedge/laravel-fpdf' => 
+  array (
+    'aliases' => 
+    array (
+      'Fpdf' => 'Codedge\\Fpdf\\Facades\\Fpdf',
+    ),
+    'providers' => 
+    array (
+      0 => 'Codedge\\Fpdf\\FpdfServiceProvider',
+    ),
+  ),
   'facade/ignition' => 
   array (
     'providers' => 

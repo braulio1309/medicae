@@ -8,6 +8,7 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Models\Document;
 use App\Models\Patient;
+use App\Models\Reservation;
 use App\Models\role_user;
 use App\utils\helpers;
 use Illuminate\Support\Facades\Validator;
@@ -376,77 +377,28 @@ class UserController extends BaseController
 
     public function updateProfilePatience(Request $request, $id = null)
     {
-        $id = ($id == null)? Auth::user()->id: $id;
-        $user = User::findOrFail($id);
-        // $patience = Patient::where('userId', $id)->first();
-
-        // $current = $user->password;
-
-        // if ($request->NewPassword != 'undefined') {
-        //     if ($request->NewPassword != $current) {
-        //         $pass = Hash::make($request->NewPassword);
-        //     } else {
-        //         $pass = $user->password;
-        //     }
-
-        // } else {
-        //     $pass = $user->password;
-        // }
-
-        // $currentAvatar = $user->avatar;
-        /*if ($request->avatar != $currentAvatar) {
-
-            $image = $request->file('avatar');
-            $path = public_path() . '/images/avatar';
-            $filename = rand(11111111, 99999999) . $image->getClientOriginalName();
-
-            $image_resize = Image::make($image->getRealPath());
-            $image_resize->resize(128, 128);
-            $image_resize->save(public_path('/images/avatar/' . $filename));
-
-            $userPhoto = $path . '/' . $currentAvatar;
-
-            if (file_exists($userPhoto)) {
-                if ($user->avatar != 'no_avatar.png') {
-                    @unlink($userPhoto);
-                }
+        try {
+            $reservation = Reservation::findOrFail($id);
+            //Guardar documentos
+            if ($request->hasFile('file')) {
+                
+                $file = $request->file('file');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $document = Document::create([
+                    'name'           => $fileName,
+                    'reservation_id' => $id,
+                    'path' => ''
+                ]);
+                
+                $file->storeAs('uploads', $fileName);
+                $document->save();
             }
-        } else {
-            $filename = $currentAvatar;
-        }*/
-
-        //Guardar documentos
-        if ($request->hasFile('file')) {
-            
-            $file = $request->file('file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $document = Document::create([
-                'name' => $fileName,
-                'path' => ''
-            ]);
-            
-            $file->storeAs('uploads', $fileName);
-            $user = User::findOrFail($id);
-            // $document->path =  $this->download($fileName);
-            $document->save();
-            $user->documents()->save($document);
-        }
         
-        //Guardar notas de consulta
-
-
-        // User::whereId($id)->update([
-        //     'firstname' => $request['firstname'],
-        //     'lastname' => $request['lastname'],
-        //     'username' => $request['username'],
-        //     'email' => $request['email'],
-        //     'phone' => $request['phone'],
-        //     'password' => $pass,
-            //'avatar' => $filename,
-
-        // ]);
-
-        return response()->json(['avatar' => null, 'user' => $request['username']]);
+            return response()->json(['avatar' => null, 'user' => $request['username']]);
+        } catch (\Exception $e) {
+            response()->json(['success' => false, 'msg' => $e->getMessage()]);
+        }
+       
 
     }
 
@@ -501,11 +453,13 @@ class UserController extends BaseController
         $data = User::join("roles","roles.id","users.role_id")
                                 ->with([
                                     'reservations.appointment.doctor',
+                                    'reservations.documents',
                                     'reservations_pending.appointment.doctor',
-                                    'reservations_past.appointment.doctor'
+                                    'reservations_pending.documents',
+                                    'reservations_past.documents'
                                 ])
                                 ->select('users.*','roles.name as name_role', \DB::raw("DATE_FORMAT(users.created_at,'%d-%m-%Y') as registration_date"))
-                                ->with('documents')->where('users.id', $id)->first();
+                                ->where('users.id', $id)->first();
 
         return response()->json(['success' => true, 'user' => $data]);
     }

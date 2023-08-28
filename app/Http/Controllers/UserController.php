@@ -11,6 +11,7 @@ use App\Models\Patient;
 use App\Models\Reservation;
 use App\Models\role_user;
 use App\utils\helpers;
+use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use File;
@@ -24,7 +25,6 @@ use DB;
 
 class UserController extends BaseController
 {
-
     //------------- GET ALL USERS---------\\
 
     public function index(request $request)
@@ -480,5 +480,85 @@ class UserController extends BaseController
                         ->select("users.*",DB::raw("CONCAT(firstname,' ',lastname) as fullname"))
                         ->get();
         return response()->json($doctors);
+    }
+
+    public function getRecipeProfile(Request $request){
+
+        $patient = User::find($request->id);
+        $fpdf = new Fpdf;
+
+        $fpdf->AddPage("P","Letter");
+
+        $fpdf->setXY(10,10);
+        $fpdf->SetFont('Arial', 'B', 10);
+        $fpdf->Cell(30, 5, 'MEDICAL CENTER');
+        $fpdf->setXY(10,15);
+        $fpdf->SetFont('Arial', '', 10);
+        $fpdf->Cell(30, 5, 'COMPANY NAME');
+        
+        $fpdf->setXY(160,10);
+        $fpdf->SetFont('Arial', '', 9);
+        $fpdf->Cell(30, 5, '123 Lorem ipsum St.');
+        $fpdf->setXY(160,15);
+        $fpdf->Cell(30, 5, '+00 123 456 789');
+        $fpdf->setXY(160,20);
+        $fpdf->Cell(30, 5, 'clinicname@email.com');
+        
+        $fpdf->Image('images/template_pdf2.png', 0, 0,216,281);
+        
+        $fpdf->setXY(85,70);
+        $fpdf->SetFont('Arial', 'B', 14);
+        $fpdf->Cell(30, 5, 'MD. PETER LEWIS');
+        
+        $fpdf->setXY(90,75);
+        $fpdf->SetFont('Arial', 'B', 8);
+        $fpdf->Cell(30, 5, 'NEUROLOGIST DOCTOR');
+        
+        $fpdf->setXY(95,80);
+        $fpdf->SetFont('Arial', '', 8);
+        $fpdf->Cell(30, 5, 'ID No. 123456789');
+
+        $fpdf->setXY(155,92);
+        $fpdf->SetFont('Helvetica', '', 12);
+        $fpdf->Cell(25, 5, "123343245456");
+        
+        $fpdf->setXY(53,104);
+        $fpdf->SetFont('Helvetica', '', 12);
+        $fpdf->Cell(25, 5, $patient->firstname.' '.$patient->lastname);
+        
+        $fpdf->setXY(155,104);
+        $fpdf->SetFont('Helvetica', '', 12);
+        $fpdf->Cell(25, 5, now());
+
+    
+        $fpdf->setXY(48,115);
+        $fpdf->SetFont('Helvetica', '', 12);
+        $fpdf->Cell(25, 5, "13-09-2000");
+        
+        $fpdf->setXY(102,115);
+        $fpdf->SetFont('Helvetica', '', 12);
+        $fpdf->Cell(25, 5, utf8_decode("22 años"));
+        
+        $fpdf->setXY(160,115);
+        $fpdf->SetFont('Helvetica', '', 12);
+        $fpdf->Cell(25, 5, "No binario");
+
+
+        $fpdf->setXY(42,126);
+        $fpdf->SetFont('Helvetica', '', 12);
+        $fpdf->Cell(25, 5, $request->diagnosic);
+        
+        $fpdf->setXY(50,150);
+        $fpdf->SetFont('Helvetica', 'I', 16);
+        $fpdf->Cell(25, 5, $request->recipe);
+        // $fpdf->Line($fpdf->GetPageWidth() -70, $fpdf->GetPageHeight() - 30, $fpdf->GetPageWidth() - 10, $fpdf->GetPageHeight() - 30);
+
+        // // Agrega el texto "Doctor's Signature" debajo de la línea
+        $fpdf->SetFont('Arial', '', 12);
+        $fpdf->Text($fpdf->GetPageWidth() - 55, $fpdf->GetPageHeight() - 37, "Tu Love");
+
+
+        return $fpdf->Output();
+        exit;
     }
 }

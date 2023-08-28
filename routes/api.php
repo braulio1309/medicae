@@ -127,6 +127,7 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
     Route::get('users/export/Excel', 'UserController@exportExcel');
     Route::get('users/Get_Info/Profile', 'UserController@GetInfoProfile');
     Route::get('patients/Get_Info/Profile/{id}', 'UserController@getInfoProfilePatient');
+    Route::post('patient/recipe', 'UserController@getRecipeProfile');
 
     Route::put('updateProfile/{id?}', 'UserController@updateProfile');
     Route::post('update/profile/patience/{id?}', 'UserController@updateProfilePatience');

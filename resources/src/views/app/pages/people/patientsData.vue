@@ -25,6 +25,9 @@
                         <button class="btn btn-primary">
                             Send Message
                         </button>
+                        <button  @click="New_Recipe()" class="btn btn-primary mt-1">
+                            Generar recipe
+                        </button>
                     </b-row>
                   </b-container>
               </b-col>
@@ -228,6 +231,151 @@
           </div>
         </b-col>
       </b-row>
+          <!-- Add & Edit Recipe -->
+      <validation-observer ref="Create_Recipe">
+        <b-modal hide-footer size="lg" id="New_Recipe" :title="editmode?$t('Edit'):$t('Add')">
+          <b-form @submit.prevent="Submit_Recipe" enctype="multipart/form-data">
+            <b-row>
+              <!-- Full name -->
+              <b-col md="6" sm="12">
+                <validation-provider
+                  name="Name"
+                  v-slot="validationContext"
+                >
+                  <b-form-group :label="'Nombre'">
+                    <b-form-input
+                      :state="getValidationState(validationContext)"
+                      aria-describedby="Name-feedback"
+                      label="Name"
+                      readonly
+                      :value="Fullname"
+                    ></b-form-input>
+                    <b-form-invalid-feedback id="Name-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                  </b-form-group>
+                </validation-provider>
+              </b-col>
+
+              <b-col lg="6" md="6" sm="6">
+                    <validation-provider
+                      name="start_date"
+                      v-slot="validationContext"
+                    >
+                      <b-form-group :label="$t('StartDate')">
+                        <b-form-input
+                          :state="getValidationState(validationContext)"
+                          aria-describedby="date-feedback"
+                          type="date"
+                          readonly
+                          v-model="user.date"
+                        ></b-form-input>
+                        <b-form-invalid-feedback
+                          id="date-feedback"
+                        >{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                      </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+                 <!-- Date of Birth -->
+               <b-col lg="4" md="4" sm="12">
+                      <validation-provider
+                        name="datebirth"
+                        v-slot="validationContext"
+                      >
+                        <b-form-group :label="$t('datebirth')" id="DateBirth-input">
+                          <b-form-input
+                            label="datebirth"
+                            v-model="user.birth"
+                            :state="getValidationState(validationContext)"
+                            aria-describedby="DateBirth-feedback"
+                          ></b-form-input>
+                         
+                        </b-form-group>
+                      </validation-provider>
+                </b-col>
+                 <!-- Age -->
+               <b-col lg="4" md="4" sm="12">
+                      <validation-provider
+                        name="Age"
+                        v-slot="validationContext"
+                      >
+                        <b-form-group :label="$t('Age')" id="Age-input">
+                          <b-form-input
+                            label="Age"
+                            v-model="user.age"
+                            :state="getValidationState(validationContext)"
+                            aria-describedby="Age-feedback"
+                          ></b-form-input>
+                         
+                        </b-form-group>
+                      </validation-provider>
+                </b-col>
+
+               <!-- Gender -->
+               <b-col lg="4" md="4" sm="12">
+                      <validation-provider
+                        name="Gender"
+                        v-slot="validationContext"
+                      >
+                        <b-form-group :label="$t('Gender')" id="Gender-input">
+                          <b-form-input
+                            label="Gender"
+                            v-model="user.gender"
+                            :state="getValidationState(validationContext)"
+                            aria-describedby="Gender-feedback"
+                          ></b-form-input>
+                         
+                        </b-form-group>
+                      </validation-provider>
+                </b-col>
+
+                  <!-- Diagnosic -->
+               <b-col lg="12" md="12" sm="12">
+                      <validation-provider
+                        name="Diagnosic"
+                        v-slot="validationContext"
+                      >
+                        <b-form-group :label="$t('Diagnosic')" id="Diagnostic-input">
+                          <b-form-input
+                            label="Diagnosic"
+                            v-model="user.diagnosic"
+                            :state="getValidationState(validationContext)"
+                            aria-describedby="Diagnostic-feedback"
+                          ></b-form-input>
+                         
+                        </b-form-group>
+                      </validation-provider>
+                </b-col>
+               
+                <!-- Recipe -->
+               <b-col lg="12" md="12" sm="12">
+                      <validation-provider
+                        name="Recipe"
+                        v-slot="validationContext"
+                      >
+                        <b-form-group :label="$t('Recipe')" id="Recipe-input">
+                          <b-form-textarea
+                            label="Recipe"
+                            v-model="user.recipe"
+                            rows="5"
+                            :state="getValidationState(validationContext)"
+                            aria-describedby="Recipe-feedback"
+                          ></b-form-textarea>
+                         
+                        </b-form-group>
+                      </validation-provider>
+                </b-col>
+
+              <b-col md="12" class="mt-3">
+                  <b-button variant="primary" type="submit"  :disabled="SubmitProcessing">{{$t('submit')}}</b-button>
+                    <div v-once class="typo__p" v-if="SubmitProcessing">
+                      <div class="spinner sm spinner-primary mt-3"></div>
+                    </div>
+              </b-col>
+
+            </b-row>
+          </b-form>
+        </b-modal>
+      </validation-observer>
     </div>
   </template>
   
@@ -243,6 +391,7 @@
     },
     data() {
       return {
+        SubmitProcessing: false,
         data: new FormData(),
         avatar: "",
         username: "",
@@ -256,6 +405,7 @@
         appointments_past:[],
         appointments:[],
         appointment:[],
+        editmode:false,
         notes: '',
         isLoading: true,
         user: {
@@ -274,9 +424,12 @@
           weight: "",
           height: "",
           allergies: "",
+          recipe: "",
+          diagnosic: "",
           medication: "",
           file: '',
-          files: ''
+          files: '',
+          date: new Date().toISOString().substr(0, 10)
         },
         patient: {
             
@@ -287,15 +440,75 @@
       Avatar(){
         return this.user?.avatar ?? 'no-image.png'
       },
+      Fullname(){
+        return this.user?.firstname+' '+ this.user?.lastname
+      },
       ...mapGetters(["currentUser"])
     },
   
     methods: {
+      Submit_Recipe() {
+        this.$refs.Create_Recipe.validate().then(success => {
+          if (!success) {
+            this.makeToast(
+              "danger",
+              this.$t("Please_fill_the_form_correctly"),
+              this.$t("Failed")
+            );
+          } else {
+            if (!this.editmode) {
+              this.Create_Recipe();
+            } else {
+              this.Update_Recipe();
+            }
+          }
+        });
+      },
+      //------------------------ Create Recipe ---------------------------\\
+    Create_Recipe() {
+      var self = this;
+      self.SubmitProcessing = true;
+      self.data.append("id", self.user.id);
+      self.data.append("recipe", self.user.recipe);
+      self.data.append("diagnosic", self.user.diagnosic);
+
+      axios
+        .post("patient/recipe", self.data, {
+          responseType: "blob", // important
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        .then(response => {
+          self.SubmitProcessing = false;
+          var file = new Blob([response.data], {type: 'application/pdf'});
+          var fileURL = URL.createObjectURL(file);
+          const pdfWindow = window.open();
+          pdfWindow.document.title="Recipe"
+          pdfWindow.document.write("<iframe width='100%' height='100%' src='"+ fileURL + "'></iframe>");
+          //var printWindow = window.open(fileURL, '', 'width=800,height=500');
+          //printWindow.print()
+          this.makeToast(
+            "success",
+            this.$t("Create.TitleUser"),
+            this.$t("Success")
+          );
+        })
+        .catch(error => {
+          self.SubmitProcessing = false;
+          this.makeToast("danger", this.$t("InvalidData"), this.$t("Failed"));
+        });
+    },
       focusTextarea(appointment) {
         this.notes = appointment.notes; 
         this.appointment = appointment;
         this.user.files = appointment.documents;
         this.$refs.myTextarea.focus();
+      },
+      //------------------------------ Show Modal (Create User) -------------------------------\\
+      New_Recipe() {
+        this.editmode = false;
+        this.$bvModal.show("New_Recipe");
       },
       openFileInput() {
         if(this.appointment.length==0 || typeof(this.appointment)=='undefined'){

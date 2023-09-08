@@ -88,7 +88,7 @@ const routes = [
                             import(/* webpackChunkName: "store_date" */"./views/app/pages/dates/calendar")
                     },
                     {
-                        path: "date2",
+                        path: "date2/:id",
                         name: "date_calendar2",
                         component: () =>
                             import(/* webpackChunkName: "store_date" */"./views/app/pages/dates/calendar2")

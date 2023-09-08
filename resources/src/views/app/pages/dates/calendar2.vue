@@ -68,7 +68,7 @@ export default {
     },
     methods: {
       loadVacations() {
-        axios.get(`/vacations/` + 1)
+        axios.get(`/vacations/` + this.$route.params.id)
             .then(response => {
               this.disabledDates = response.data.dates.map(date => {
                 const [day, month, year] = date.split('/');
@@ -86,7 +86,7 @@ export default {
       loadAvailableTimes() {
         if (this.selectedDate) {
           // Realiza la llamada al backend para obtener los horarios disponibles del fisioterapeuta y la fecha seleccionada
-          const id = this.$route.query.id ?? -1;
+          const id = this.$route.params.id ?? -1;
           const dateObj = new Date(this.selectedDate);
           const day = String(dateObj.getDate()).padStart(2, '0');
           const month = String(dateObj.getMonth() + 1).padStart(2, '0');

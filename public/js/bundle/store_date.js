@@ -1088,7 +1088,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   methods: {
     loadVacations: function loadVacations() {
       var _this = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/vacations/" + 1).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/vacations/" + this.$route.params.id).then(function (response) {
         _this.disabledDates = response.data.dates.map(function (date) {
           var _date$split = date.split('/'),
             _date$split2 = _slicedToArray(_date$split, 3),
@@ -1106,9 +1106,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     loadAvailableTimes: function loadAvailableTimes() {
       var _this2 = this;
       if (this.selectedDate) {
-        var _this$$route$query$id;
+        var _this$$route$params$i;
         // Realiza la llamada al backend para obtener los horarios disponibles del fisioterapeuta y la fecha seleccionada
-        var id = (_this$$route$query$id = this.$route.query.id) !== null && _this$$route$query$id !== void 0 ? _this$$route$query$id : -1;
+        var id = (_this$$route$params$i = this.$route.params.id) !== null && _this$$route$params$i !== void 0 ? _this$$route$params$i : -1;
         var dateObj = new Date(this.selectedDate);
         var day = String(dateObj.getDate()).padStart(2, '0');
         var month = String(dateObj.getMonth() + 1).padStart(2, '0');

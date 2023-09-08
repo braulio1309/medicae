@@ -18,7 +18,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'firstname', 'lastname', 'username', 'email', 'password', 'phone', 'status', 'avatar', 'role_id','user_id', 'bloodType'
+        'firstname', 'lastname', 'username', 'email', 'password', 'phone', 'status', 'avatar', 
+        'role_id','user_id', 'bloodType', 'waiting_for_doctor', 'waiting_for_doctor_selection', 'doctor_options'
     ];
 
     /**
@@ -39,6 +40,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'role_id' => 'integer',
         'statut' => 'integer',
+        'doctor_options' => 'array',
     ];
 
     public function oauthAccessToken()

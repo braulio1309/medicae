@@ -17,10 +17,16 @@ class ChatBotController extends Controller
         // Verificar si el usuario está registrado por su número de teléfono
         $user = User::where('phone', $from)->first();
 
+
         if (!$user) {
             // Usuario no registrado, esperar el saludo
             if (strpos(strtolower($body), 'hola') !== false || strpos(strtolower($body), 'saludos') !== false) {
                 $message = "¡Hola! Soy el chatbot Medicae. ¿Cómo puedo ayudarte hoy? Por favor, dime tu nombre y apellido para empezar.";
+                $user = New User();
+                $user->password =  Hash::make('1234');
+                $user->role_id = 4;
+                $user->phone = $from;
+                $user->save();
             } else {
                 $message = "¡Hola! Soy el chatbot Medicae. Para empezar, por favor saluda con 'Hola' o 'Saludos'.";
             }
@@ -34,10 +40,9 @@ class ChatBotController extends Controller
                     // Se encontró al menos un espacio, separe el nombre y el apellido
                     $user->firstname = $nameParts[0];
                     $user->lastname = $nameParts[1];
-                    $message = "Gracias, {$user->firstname}. Ahora, por favor, dime tu correo electrónico para completar tu registro.";
-                    $user->password =  Hash::make('1234');
-                    $user->role_id = 4;
                     $user->save();
+                    $message = "Gracias, {$user->firstname}. Ahora, por favor, dime tu correo electrónico para completar tu registro.";
+                   
                 } else {
                     // No se encontró un espacio, solicitar nuevamente el nombre completo
                     $message = "Por favor, proporciona tu nombre completo (nombre y apellido) para continuar.";
@@ -79,18 +84,20 @@ class ChatBotController extends Controller
                         // Mostrar opciones de doctores encontrados
                         $message = "Selecciona un doctor para agendar una cita:\n";
                         foreach ($doctors as $index => $doctor) {
-                            $message .= ($index + 1) . ". {$doctor->name}\n";
+                            $message .= ($index + 1) . ". {$doctor->firstname}\n";
                         }
         
                         // Guardar los doctores encontrados en el estado del usuario
-                        $user->update(['doctor_options' => $doctors->pluck('name')->toArray()]);
+                        $user->update(['doctor_options' => $doctors->pluck('id')->toArray()]);
                         $user->update(['waiting_for_doctor_selection' => true]);
+                        $user->update(['waiting_for_doctor' => false]);
                     }
         
                     $this->sendWhatsAppMessage($message, $from);
         
                     return;
                 } elseif ($user->waiting_for_doctor_selection) {
+
                     // El usuario seleccionó un doctor de la lista
                     $selectedDoctorIndex = (int) $body;
         
@@ -98,18 +105,19 @@ class ChatBotController extends Controller
                         $selectedDoctorName = $user->doctor_options[$selectedDoctorIndex - 1];
         
                         // Generar un enlace acortado para que el usuario haga la reserva
-                        $longUrl = "https://tu-sitio-web/reservar/{$selectedDoctorName}";
+                         $longUrl = "https://medicae.tiendogs/app/dates/date2?id={$selectedDoctorName}";
                        // $shortUrl = $this->shortenUrl($longUrl);
         
                         // Enviar el enlace al usuario
-                        $message = "Has seleccionado al Dr. {$selectedDoctorName}.\n";
-                        $message .= "Puedes hacer tu reserva en el siguiente enlace: {$longUrl}";
-        
+                        $message = "Has seleccionado al Dr. {$selectedDoctorName}. Puedes hacer tu reserva en el siguiente enlace: {$longUrl}";
+
+                        $this->sendWhatsAppMessage($message, $from);
+
                         // Restablecer el estado del usuario
                         $user->update(['waiting_for_doctor' => false]);
                         $user->update(['waiting_for_doctor_selection' => false]);
-        
-                        $this->sendWhatsAppMessage($message, $from);
+                        $user->update(['doctor_options' => null]);
+
         
                         return;
                     }

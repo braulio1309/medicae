@@ -18,6 +18,8 @@ class CreateReservationsTable extends Migration
             $table->integer('turnId');
             $table->dateTime('date');
             $table->integer('user_id');
+            $table->string('weight');
+            $table->string('height');
             $table->integer('canceled')->default(0);
             $table->timestamps();
             

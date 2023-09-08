@@ -23,6 +23,7 @@ class AppointmentReminder extends Mailable
     public function build()
     {
         return $this->markdown('emails.appointmentReminder')
+            ->with('appointment', $this->appointment)
             ->subject('Recordatorio de cita');
     }
 }

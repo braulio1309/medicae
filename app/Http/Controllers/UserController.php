@@ -209,11 +209,11 @@ class UserController extends BaseController
     }
 
     //------------ function show -----------\\
-
-    public function show($id){
-        //
-        
-        }
+    public function show($id)
+    {
+        $Patient = User::where('id', $id)->get();
+        return response()->json(['patient' => (count($Patient) == 0)? null: $Patient[0]], 201);
+    }
 
     //------------- UPDATE  USER ---------\\
 

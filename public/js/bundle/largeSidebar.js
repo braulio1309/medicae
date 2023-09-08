@@ -347,16 +347,14 @@ var render = function render() {
       tag: "a",
       to: "/app/dashboard"
     }
-  }, [_c("i", {
-    staticClass: "nav-icon i-Bar-Chart"
-  }), _vm._v(" "), _c("span", {
+  }, [_c("span", {
     staticClass: "nav-text"
   }, [_vm._v(_vm._s(_vm.$t("dashboard")))])])], 1), _vm._v(" "), _c("li", {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("users_company_view") || _vm.currentUserPermissions.includes("users_patients_view") || _vm.currentUserPermissions.includes("users_fisio_view")),
-      expression: "currentUserPermissions && (currentUserPermissions.includes('users_company_view') \n                                             || currentUserPermissions.includes('users_patients_view')\n                                             || currentUserPermissions.includes('users_fisio_view'))"
+      value: _vm.currentUserPermissions && _vm.currentUserPermissions.includes("patients_view"),
+      expression: "currentUserPermissions && currentUserPermissions.includes('patients_view')"
     }],
     staticClass: "nav-item",
     "class": {
@@ -375,16 +373,14 @@ var render = function render() {
       tag: "a",
       to: "/app/pages/people/patients"
     }
-  }, [_c("i", {
-    staticClass: "nav-icon i-Business-Mens"
-  }), _vm._v(" "), _c("span", {
+  }, [_c("span", {
     staticClass: "nav-text"
   }, [_vm._v(_vm._s(_vm.$t("Patients")))])])], 1), _vm._v(" "), _c("li", {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("users_company_view") || _vm.currentUserPermissions.includes("users_patients_view") || _vm.currentUserPermissions.includes("users_fisio_view")),
-      expression: "currentUserPermissions && (currentUserPermissions.includes('users_company_view') \n                                             || currentUserPermissions.includes('users_patients_view')\n                                             || currentUserPermissions.includes('users_fisio_view'))"
+      value: _vm.currentUserPermissions && _vm.currentUserPermissions.includes("doctor_view"),
+      expression: "currentUserPermissions && (currentUserPermissions.includes('doctor_view'))"
     }],
     staticClass: "nav-item",
     "class": {
@@ -403,44 +399,14 @@ var render = function render() {
       tag: "a",
       to: "/app/pages/people/doctors"
     }
-  }, [_c("i", {
-    staticClass: "nav-icon i-Business-Mens"
-  }), _vm._v(" "), _c("span", {
+  }, [_c("span", {
     staticClass: "nav-text"
   }, [_vm._v(_vm._s(_vm.$t("Doctors")))])])], 1), _vm._v(" "), _c("li", {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("users_company_view") || _vm.currentUserPermissions.includes("users_patients_view") || _vm.currentUserPermissions.includes("users_fisio_view")),
-      expression: "currentUserPermissions && (currentUserPermissions.includes('users_company_view') \n                                             || currentUserPermissions.includes('users_patients_view')\n                                             || currentUserPermissions.includes('users_fisio_view'))"
-    }],
-    staticClass: "nav-item",
-    "class": {
-      active: _vm.selectedParentMenu == "Vacations"
-    },
-    attrs: {
-      "data-item": "Vacations",
-      "data-submenu": false
-    },
-    on: {
-      mouseenter: _vm.toggleSubMenu
-    }
-  }, [_c("router-link", {
-    staticClass: "nav-item-hold",
-    attrs: {
-      tag: "a",
-      to: "/app/dates/date/vacation"
-    }
-  }, [_c("i", {
-    staticClass: "nav-icon i-Business-Mens"
-  }), _vm._v(" "), _c("span", {
-    staticClass: "nav-text"
-  }, [_vm._v(_vm._s(_vm.$t("Vacations")))])])], 1), _vm._v(" "), _c("li", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("users_company_view") || _vm.currentUserPermissions.includes("users_patients_view") || _vm.currentUserPermissions.includes("users_fisio_view")),
-      expression: "currentUserPermissions && (currentUserPermissions.includes('users_company_view') \n                                             || currentUserPermissions.includes('users_patients_view')\n                                             || currentUserPermissions.includes('users_fisio_view'))"
+      value: _vm.currentUserPermissions && _vm.currentUserPermissions.includes("vacations_view"),
+      expression: "currentUserPermissions && (currentUserPermissions.includes('vacations_view'))"
     }],
     staticClass: "nav-item",
     "class": {
@@ -459,16 +425,14 @@ var render = function render() {
       tag: "a",
       to: "/app/dates/date"
     }
-  }, [_c("i", {
-    staticClass: "nav-icon i-Business-Mens"
-  }), _vm._v(" "), _c("span", {
+  }, [_c("span", {
     staticClass: "nav-text"
   }, [_vm._v(_vm._s(_vm.$t("Appointment")))])])], 1), _vm._v(" "), _c("li", {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("users_company_view") || _vm.currentUserPermissions.includes("users_patients_view") || _vm.currentUserPermissions.includes("users_fisio_view")),
-      expression: "currentUserPermissions && (currentUserPermissions.includes('users_company_view') \n                                             || currentUserPermissions.includes('users_patients_view')\n                                             || currentUserPermissions.includes('users_fisio_view'))"
+      value: _vm.currentUserPermissions && _vm.currentUserPermissions.includes("vacations_view"),
+      expression: "currentUserPermissions && (currentUserPermissions.includes('vacations_view'))"
     }],
     staticClass: "nav-item",
     "class": {
@@ -487,16 +451,14 @@ var render = function render() {
       tag: "a",
       to: "/app/dates/store"
     }
-  }, [_c("i", {
-    staticClass: "nav-icon pi pi-calendar"
-  }), _vm._v(" "), _c("span", {
+  }, [_c("span", {
     staticClass: "nav-text"
   }, [_vm._v(_vm._s(_vm.$t("Schedules")))])])], 1), _vm._v(" "), _c("li", {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("users_company_view") || _vm.currentUserPermissions.includes("users_patients_view") || _vm.currentUserPermissions.includes("users_fisio_view")),
-      expression: "currentUserPermissions && (currentUserPermissions.includes('users_company_view') \n                                             || currentUserPermissions.includes('users_patients_view')\n                                             || currentUserPermissions.includes('users_fisio_view'))"
+      value: _vm.currentUserPermissions && !_vm.currentUserPermissions.includes("vacations_view"),
+      expression: "currentUserPermissions && (!currentUserPermissions.includes('vacations_view'))"
     }],
     staticClass: "nav-item",
     "class": {
@@ -515,16 +477,14 @@ var render = function render() {
       tag: "a",
       to: "/app/dates/date2"
     }
-  }, [_c("i", {
-    staticClass: "nav-icon i-Business-Mens"
-  }), _vm._v(" "), _c("span", {
+  }, [_c("span", {
     staticClass: "nav-text"
   }, [_vm._v(_vm._s(_vm.$t("Appointment")))])])], 1), _vm._v(" "), _c("li", {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("setting_system") || _vm.currentUserPermissions.includes("permissions_view")),
-      expression: "currentUserPermissions && (currentUserPermissions.includes('setting_system') \n                      || currentUserPermissions.includes('permissions_view'))"
+      value: _vm.currentUserPermissions && _vm.currentUserPermissions.includes("setting_system"),
+      expression: "currentUserPermissions && (currentUserPermissions.includes('setting_system'))"
     }],
     staticClass: "nav-item",
     "class": {
@@ -532,108 +492,20 @@ var render = function render() {
     },
     attrs: {
       "data-item": "settings",
-      "data-submenu": true
+      "data-submenu": false
     },
     on: {
       mouseenter: _vm.toggleSubMenu
     }
-  }, [_c("a", {
-    staticClass: "nav-item-hold",
-    attrs: {
-      href: "#"
-    }
-  }, [_c("i", {
-    staticClass: "nav-icon i-Data-Settings"
-  }), _vm._v(" "), _c("span", {
-    staticClass: "nav-text"
-  }, [_vm._v(_vm._s(_vm.$t("PermissionsManager")))])]), _vm._v(" "), _c("div", {
-    staticClass: "triangle"
-  })]), _vm._v(" "), _c("li", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.currentUserPermissions && (_vm.currentUserPermissions.includes("reports_fisio") || _vm.currentUserPermissions.includes("reports_reservas") || _vm.currentUserPermissions.includes("reports_patients") || _vm.currentUserPermissions.includes("reports_company")),
-      expression: "currentUserPermissions && \n                   (currentUserPermissions.includes('reports_fisio') \n                   || currentUserPermissions.includes('reports_reservas')\n                   || currentUserPermissions.includes('reports_patients')\n                   || currentUserPermissions.includes('reports_company')\n                   )"
-    }],
-    staticClass: "nav-item",
-    "class": {
-      active: _vm.selectedParentMenu == "reports"
-    },
-    attrs: {
-      "data-item": "reports",
-      "data-submenu": true
-    },
-    on: {
-      mouseenter: _vm.toggleSubMenu
-    }
-  }, [_c("a", {
-    staticClass: "nav-item-hold",
-    attrs: {
-      href: "#"
-    }
-  }, [_c("i", {
-    staticClass: "nav-icon i-Line-Chart"
-  }), _vm._v(" "), _c("span", {
-    staticClass: "nav-text"
-  }, [_vm._v(_vm._s(_vm.$t("Reports")))])]), _vm._v(" "), _c("div", {
-    staticClass: "triangle"
-  })])])])]), _vm._v(" "), _c("vue-perfect-scrollbar", {
-    staticClass: "sidebar-left-secondary ps rtl-ps-none",
-    "class": {
-      open: _vm.getSideBarToggleProperties.isSecondarySideNavOpen
-    },
-    attrs: {
-      settings: {
-        suppressScrollX: true,
-        wheelPropagation: false
-      }
-    }
-  }, [_c("div", {
-    ref: "sidebarChild"
-  }, [_c("ul", {
-    staticClass: "childNav d-none",
-    "class": {
-      "d-block": _vm.selectedParentMenu == ""
-    },
-    attrs: {
-      "data-parent": "reservations"
-    }
-  }), _vm._v(" "), _c("ul", {
-    staticClass: "childNav d-none",
-    "class": {
-      "d-block": _vm.selectedParentMenu == ""
-    },
-    attrs: {
-      "data-parent": "appointments"
-    }
-  }), _vm._v(" "), _c("ul", {
-    staticClass: "childNav d-none",
-    "class": {
-      "d-block": _vm.selectedParentMenu == "settings"
-    },
-    attrs: {
-      "data-parent": "settings"
-    }
-  }, [_vm.currentUserPermissions && _vm.currentUserPermissions.includes("permissions_view") ? _c("li", {
-    staticClass: "nav-item"
   }, [_c("router-link", {
+    staticClass: "nav-item-hold",
     attrs: {
       tag: "a",
       to: "/app/settings/permissions"
     }
-  }, [_c("i", {
-    staticClass: "nav-icon i-Key"
-  }), _vm._v(" "), _c("span", {
-    staticClass: "item-name"
-  }, [_vm._v("Gestión de permisos")])])], 1) : _vm._e()]), _vm._v(" "), _c("ul", {
-    staticClass: "childNav d-none",
-    "class": {
-      "d-block": _vm.selectedParentMenu == "reports"
-    },
-    attrs: {
-      "data-parent": "reports"
-    }
-  })])]), _vm._v(" "), _c("div", {
+  }, [_c("span", {
+    staticClass: "nav-text"
+  }, [_vm._v(_vm._s(_vm.$t("PermissionsManager")))])])], 1)])])]), _vm._v(" "), _c("div", {
     staticClass: "sidebar-overlay",
     "class": {
       open: _vm.getSideBarToggleProperties.isSecondarySideNavOpen

@@ -1,6 +1,5 @@
 <template>
     <div class="main-content small">
-      <breadcumb :page="$t('Patient')" :folder="user.firstname+' '+user.lastname"/>
       <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
   
       <div v-else class="row mb-4">
@@ -22,9 +21,7 @@
                           <h3>{{ appointments_pending.length }}</h3>
                           <p>Upcoming</p>
                         </b-col>
-                        <button class="btn btn-primary">
-                            Send Message
-                        </button>
+                        
                         <button  @click="New_Recipe()" class="btn btn-primary mt-1">
                             Generar recipe
                         </button>
@@ -285,7 +282,6 @@
                           <b-form-input
                             label="datebirth"
                             v-model="user.birth"
-                            :state="getValidationState(validationContext)"
                             aria-describedby="DateBirth-feedback"
                           ></b-form-input>
                          
@@ -584,11 +580,6 @@
         });
       },
   
-      //------ Validation State fields
-      getValidationState({ dirty, validated, valid = null }) {
-        return dirty || validated ? valid : null;
-      },
-
       loadLink(documento) {
         // const link = axios.get("/documents/"+document.id+'/download');
         // return link.data;

@@ -50,18 +50,4 @@ class PatientController extends Controller
         return response()->json(['patient' => (count($Patient) == 0)? null: $Patient[0]], 201);
     }
 
-    public function edit($id)
-    {
-        // Código para mostrar el formulario de edición (GET /posts/{id}/edit)
-    }
-
-    public function update(Request $request, $id)
-    {
-        // Código para actualizar un registro específico (PUT /posts/{id} o PATCH /posts/{id})
-    }
-
-    public function destroy($id)
-    {
-        // Código para eliminar un registro específico (DELETE /posts/{id})
-    }
 }

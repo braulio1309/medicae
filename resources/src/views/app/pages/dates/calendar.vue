@@ -22,7 +22,7 @@
             </div>
             <div class="col-xl-10 col-lg-10 col-md-10">
                 
-                <div class="statbox panel box box-shadow">
+                <div class="statbox panel box box-shadow vh-100 overflow-hidden">
                     <div class="panel-body">
                         <FullCalendar :options="this.options" ref="fullCalendar"/>
                            
@@ -83,6 +83,14 @@
   background-color: red; /* Cambiar el color de fondo */
   color: white; /* Cambiar el color del texto */
 }
+
+.full-height {
+        height: 100vh; /* Establece la altura al 100% de la altura de la ventana gráfica */
+        margin: 0; /* Elimina los márgenes */
+        padding: 0; /* Elimina el relleno */
+        overflow: hidden; /* Evita el desplazamiento */
+        overflow-y: hidden;
+    }
 </style>
 <script>
 
@@ -153,10 +161,10 @@ export default {
                 // }
             },
             customDayRender(date, cell) {
-            const dateString = date.format('DD/MM/YYYY');
-            if (this.disabledDates.includes(dateString)) {
-                cell.addClass('disabled-date');
-            }
+                const dateString = date.format('DD/MM/YYYY');
+                if (this.disabledDates.includes(dateString)) {
+                    cell.addClass('disabled-date');
+                }
             },
             disableDatesInCalendar() {
                 const fullCalendarApi = this.$refs.fullCalendar.getApi();

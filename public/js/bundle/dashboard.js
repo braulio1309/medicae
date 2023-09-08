@@ -81,6 +81,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         thClass: "text-left",
         sortable: false
       }, {
+        label: this.$t("Patient"),
+        field: "patient_name",
+        tdClass: "gull-border-none text-left",
+        thClass: "text-left",
+        sortable: false
+      }, {
         label: this.$t("Day"),
         field: "day",
         html: true,
@@ -129,18 +135,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         tdClass: "text-left",
         thClass: "text-left",
         sortable: false
-      }, {
-        label: this.$t("Email"),
-        field: "quantity",
-        tdClass: "text-left",
-        thClass: "text-left",
-        sortable: false
-      }, {
-        label: this.$t("Phone"),
-        field: "total",
-        tdClass: "text-left",
-        thClass: "text-left",
-        sortable: false
       }];
     }
   }),
@@ -163,7 +157,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             backgroundColor: "rgba(0, 0, 0, .8)"
           },
           formatter: function formatter(params) {
-            return "".concat(params.name, ": (").concat(params.data.value, " sales) (").concat(params.percent, "%)");
+            return "".concat(params.name, ": (").concat(params.data.value, " cita) (").concat(params.percent, "%)");
           },
           series: [{
             name: "Top Patients",
@@ -353,7 +347,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     //------------------------------Get Month -------------------------\\
     GetMonth: function GetMonth() {
-      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      var months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
       var now = new Date();
       this.CurrentMonth = months[now.getMonth()];
     },
@@ -484,15 +478,10 @@ var render = function render() {
     attrs: {
       columns: _vm.columns_patients,
       styleClass: "order-table vgt-table",
-      "row-style-class": "text-left"
-    },
-    scopedSlots: _vm._u([{
-      key: "table-row",
-      fn: function fn(props) {
-        return [props.column.field == "quantity" ? _c("div", [_c("span", [_vm._v(_vm._s(_vm.formatNumber(props.row.quantity, 2)) + " " + _vm._s(props.row.unit_product))])]) : props.column.field == "total" ? _c("div", [_c("span", [_vm._v(_vm._s(_vm.currentUser.currency) + " " + _vm._s(_vm.formatNumber(props.row.total, 2)))])]) : _vm._e()];
-      }
-    }])
-  }, [_vm._v('\n            :rows="patients"\n            ')])], 1)])])])], 1);
+      "row-style-class": "text-left",
+      rows: _vm.patients
+    }
+  })], 1)])])])], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;

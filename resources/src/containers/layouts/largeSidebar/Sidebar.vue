@@ -20,7 +20,7 @@
             data-item="dashboard"
           >
             <router-link tag="a" class="nav-item-hold" to="/app/dashboard">
-              <i class="nav-icon i-Bar-Chart"></i>
+              <!--<i class="nav-icon i-Bar-Chart"></i>-->
               <span class="nav-text">{{ $t("dashboard") }}</span>
             </router-link>
           </li>
@@ -34,7 +34,7 @@
             :data-submenu="false"
           >
           <router-link tag="a" class="nav-item-hold" to="/app/pages/people/patients">
-              <i class="nav-icon i-Business-Mens"></i>
+              <!--<i class="nav-icon i-Business-Mens"></i>-->
               <span class="nav-text">{{ $t('Patients') }}</span>
             </router-link>
             
@@ -49,23 +49,8 @@
             :data-submenu="false"
           >
           <router-link tag="a" class="nav-item-hold" to="/app/pages/people/doctors">
-              <i class="nav-icon i-Business-Mens"></i>
+              <!--<i class="nav-icon i-Business-Mens"></i>-->
               <span class="nav-text">{{ $t('Doctors') }}</span>
-            </router-link>
-            
-          </li>
-
-          <li
-            v-show="currentUserPermissions && (currentUserPermissions.includes('vacations_view'))"
-            @mouseenter="toggleSubMenu"
-            :class="{ active: selectedParentMenu == 'Vacations' }"
-            class="nav-item"
-            data-item="Vacations"
-            :data-submenu="false"
-          >
-          <router-link tag="a" class="nav-item-hold" to="/app/dates/date/vacation">
-              <i class="nav-icon i-Business-Mens"></i>
-              <span class="nav-text">{{ $t('Vacations') }}</span>
             </router-link>
             
           </li>
@@ -79,7 +64,7 @@
             :data-submenu="false"
           >
           <router-link tag="a" class="nav-item-hold" to="/app/dates/date">
-              <i class="nav-icon i-Business-Mens"></i>
+              <!--<i class="nav-icon i-Business-Mens"></i>-->
               <span class="nav-text">{{ $t('Appointment') }}</span>
             </router-link>
             
@@ -94,7 +79,7 @@
             :data-submenu="false"
           >
           <router-link tag="a" class="nav-item-hold" to="/app/dates/store">
-              <i class="nav-icon pi pi-calendar"></i>
+              <!--<i class="nav-icon pi pi-calendar"></i>-->
               <span class="nav-text">{{ $t('Schedules') }}</span>
             </router-link>
             
@@ -108,116 +93,31 @@
             :data-submenu="false"
           >
           <router-link tag="a" class="nav-item-hold" to="/app/dates/date2">
-              <i class="nav-icon i-Business-Mens"></i>
+              <!--<i class="nav-icon i-Business-Mens"></i>-->
               <span class="nav-text">{{ $t('Appointment') }}</span>
             </router-link>
             
           </li>
-
           <li
-            v-show="currentUserPermissions && (currentUserPermissions.includes('setting_system') 
-                        || currentUserPermissions.includes('permissions_view'))"
+            v-show="currentUserPermissions && (currentUserPermissions.includes('setting_system'))"
             @mouseenter="toggleSubMenu"
             :class="{ active: selectedParentMenu == 'settings' }"
             class="nav-item"
             data-item="settings"
-            :data-submenu="true"
+            :data-submenu="false"
           >
-            <a class="nav-item-hold" href="#">
-              <i class="nav-icon i-Data-Settings"></i>
+          <router-link tag="a" class="nav-item-hold" to="/app/settings/permissions">
+              <!--<i class="nav-icon pi pi-calendar"></i>-->
               <span class="nav-text">{{ $t('PermissionsManager') }}</span>
-            </a>
-            <div class="triangle"></div>
+            </router-link>
+            
           </li>
 
-          <li
-            v-show="currentUserPermissions && 
-                     (currentUserPermissions.includes('reports_fisio') 
-                     || currentUserPermissions.includes('reports_reservas')
-                     || currentUserPermissions.includes('reports_patients')
-                     || currentUserPermissions.includes('reports_company')
-                     )"
-            @mouseenter="toggleSubMenu"
-            :class="{ active: selectedParentMenu == 'reports' }"
-            class="nav-item"
-            data-item="reports"
-            :data-submenu="true"
-          >
-            <a class="nav-item-hold" href="#">
-              <i class="nav-icon i-Line-Chart"></i>
-              <span class="nav-text">{{ $t('Reports') }}</span>
-            </a>
-            <div class="triangle"></div>
-          </li>        
         </ul>
       </div>
     </vue-perfect-scrollbar>
 
-    <vue-perfect-scrollbar
-      :class="{ open: getSideBarToggleProperties.isSecondarySideNavOpen }"
-      :settings="{ suppressScrollX: true, wheelPropagation: false }"
-      class="sidebar-left-secondary ps rtl-ps-none"
-    >
-      <div ref="sidebarChild">
-        <ul
-          class="childNav d-none"
-          data-parent="reservations"
-          :class="{ 'd-block': selectedParentMenu == '' }"
-        >
-          
-        </ul>
-
-        <ul
-          class="childNav d-none"
-          data-parent="appointments"
-          :class="{ 'd-block': selectedParentMenu == '' }"
-        >
-          <!-- <li
-            class="nav-item"
-            v-if="currentUserPermissions && currentUserPermissions.includes('appointments_add')"
-          >
-           <router-link tag="a" class to="/app/dates/date">
-              <i class="nav-icon i-Add-File"></i>
-              <span class="item-name">Reservar cita</span>
-            </router-link>
-          </li>-->
-         <!-- <li
-            class="nav-item"
-            v-if="currentUserPermissions && currentUserPermissions.includes('appointments_view')"
-          >
-            <router-link tag="a" class to="/app/appointments/list">
-              <i class="nav-icon i-Files"></i>
-              <span class="item-name">Lista de Citas</span>
-            </router-link>
-          </li>-->
-          
-        </ul>
-
-        <ul
-          class="childNav d-none"
-          data-parent="settings"
-          :class="{ 'd-block': selectedParentMenu == 'settings' }"
-        >
-          <li
-            class="nav-item"
-            v-if="currentUserPermissions && currentUserPermissions.includes('permissions_view')"
-          >
-            <router-link tag="a" class to="/app/settings/permissions">
-              <i class="nav-icon i-Key"></i>
-              <span class="item-name">Gestión de permisos</span>
-            </router-link>
-          </li>
-        </ul>
-
-        <ul
-          class="childNav d-none"
-          data-parent="reports"
-          :class="{ 'd-block': selectedParentMenu == 'reports' }"
-        >
-          
-        </ul>
-      </div>
-    </vue-perfect-scrollbar>
+    
     <div
       @click="removeOverlay()"
       class="sidebar-overlay"

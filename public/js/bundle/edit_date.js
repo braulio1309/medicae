@@ -235,20 +235,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
 /* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var primevue_tabview__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primevue/tabview */ "./node_modules/primevue/tabview/index.js");
-/* harmony import */ var primevue_tabview__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(primevue_tabview__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var primevue_tabpanel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primevue/tabpanel */ "./node_modules/primevue/tabpanel/index.js");
-/* harmony import */ var primevue_tabpanel__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(primevue_tabpanel__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var primevue_timeline__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/timeline */ "./node_modules/primevue/timeline/index.js");
-/* harmony import */ var primevue_timeline__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(primevue_timeline__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var primevue_button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! primevue/button */ "./node_modules/primevue/button/index.js");
-/* harmony import */ var primevue_button__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(primevue_button__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! primevue/resources/primevue.min.css */ "./node_modules/primevue/resources/primevue.min.css");
-/* harmony import */ var primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! primevue/resources/themes/saga-blue/theme.css */ "./node_modules/primevue/resources/themes/saga-blue/theme.css");
-/* harmony import */ var primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! primeicons/primeicons.css */ "./node_modules/primeicons/primeicons.css");
-/* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -261,42 +248,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
-
-
-
-
-
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   metaInfo: {
-    // if no subcomponents specify a metaInfo.title, this title will be used
     title: "Profile"
   },
   data: function data() {
     return {
-      events: [{
-        status: 'Ordered',
-        date: '15/10/2020 10:30',
-        icon: 'pi pi-shopping-cart',
-        color: '#9C27B0',
-        image: 'game-controller.jpg'
-      }, {
-        status: 'Processing',
-        date: '15/10/2020 14:00',
-        icon: 'pi pi-cog',
-        color: '#673AB7'
-      }, {
-        status: 'Shipped',
-        date: '15/10/2020 16:15',
-        icon: 'pi pi-shopping-cart',
-        color: '#FF9800'
-      }, {
-        status: 'Delivered',
-        date: '16/10/2020 10:00',
-        icon: 'pi pi-check',
-        color: '#607D8B'
-      }],
-      events2: ["2020", "2021", "2022", "2023"],
+      SubmitProcessing: false,
       data: new FormData(),
       avatar: "",
       username: "",
@@ -311,12 +269,20 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         Amount: 89,
         Transaction: 'Geneva'
       }],
+      appointments_pending: [],
+      appointments_past: [],
+      appointments: [],
+      appointment: [],
+      editmode: false,
+      notes: '',
       isLoading: true,
       user: {
         id: "",
         firstname: "",
         lastname: "",
         username: "",
+        registration_date: "",
+        name_role: "",
         NewPassword: null,
         email: "",
         phone: "",
@@ -326,29 +292,128 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         weight: "",
         height: "",
         allergies: "",
+        recipe: "",
+        diagnosic: "",
         medication: "",
         file: '',
-        files: ''
+        files: '',
+        date: new Date().toISOString().substr(0, 10)
       },
       patient: {}
     };
   },
-  components: {
-    TabView: primevue_tabview__WEBPACK_IMPORTED_MODULE_2___default.a,
-    TabPanel: primevue_tabpanel__WEBPACK_IMPORTED_MODULE_3___default.a,
-    Timeline: primevue_timeline__WEBPACK_IMPORTED_MODULE_4___default.a,
-    Button: primevue_button__WEBPACK_IMPORTED_MODULE_5___default.a
-  },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(["currentUser"])),
+  computed: _objectSpread({
+    Avatar: function Avatar() {
+      var _this$user$avatar, _this$user;
+      return (_this$user$avatar = (_this$user = this.user) === null || _this$user === void 0 ? void 0 : _this$user.avatar) !== null && _this$user$avatar !== void 0 ? _this$user$avatar : 'no-image.png';
+    },
+    Fullname: function Fullname() {
+      var _this$user2, _this$user3;
+      return ((_this$user2 = this.user) === null || _this$user2 === void 0 ? void 0 : _this$user2.firstname) + ' ' + ((_this$user3 = this.user) === null || _this$user3 === void 0 ? void 0 : _this$user3.lastname);
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(["currentUser"])),
   methods: {
-    //------------- Submit Update Profile
-    Submit_Profile: function Submit_Profile() {
+    Submit_Recipe: function Submit_Recipe() {
       var _this = this;
-      this.$refs.Update_Profile.validate().then(function (success) {
+      this.$refs.Create_Recipe.validate().then(function (success) {
         if (!success) {
           _this.makeToast("danger", _this.$t("Please_fill_the_form_correctly"), _this.$t("Failed"));
         } else {
-          _this.Update_Profile();
+          if (!_this.editmode) {
+            _this.Create_Recipe();
+          } else {
+            _this.Update_Recipe();
+          }
+        }
+      });
+    },
+    //------------------------ Create Recipe ---------------------------\\
+    Create_Recipe: function Create_Recipe() {
+      var _this2 = this;
+      var self = this;
+      self.SubmitProcessing = true;
+      self.data.append("id", self.user.id);
+      self.data.append("recipe", self.user.recipe);
+      self.data.append("diagnosic", self.user.diagnosic);
+      axios.post("patient/recipe", self.data, {
+        responseType: "blob",
+        // important
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (response) {
+        self.SubmitProcessing = false;
+        var file = new Blob([response.data], {
+          type: 'application/pdf'
+        });
+        var fileURL = URL.createObjectURL(file);
+        var pdfWindow = window.open();
+        pdfWindow.document.title = "Recipe";
+        pdfWindow.document.write("<iframe width='100%' height='100%' src='" + fileURL + "'></iframe>");
+        //var printWindow = window.open(fileURL, '', 'width=800,height=500');
+        //printWindow.print()
+        _this2.makeToast("success", _this2.$t("Create.TitleUser"), _this2.$t("Success"));
+      })["catch"](function (error) {
+        self.SubmitProcessing = false;
+        _this2.makeToast("danger", _this2.$t("InvalidData"), _this2.$t("Failed"));
+      });
+    },
+    focusTextarea: function focusTextarea(appointment) {
+      this.notes = appointment.notes;
+      this.appointment = appointment;
+      this.user.files = appointment.documents;
+      this.$refs.myTextarea.focus();
+    },
+    //------------------------------ Show Modal (Create User) -------------------------------\\
+    New_Recipe: function New_Recipe() {
+      this.editmode = false;
+      this.$bvModal.show("New_Recipe");
+    },
+    openFileInput: function openFileInput() {
+      if (this.appointment.length == 0 || typeof this.appointment == 'undefined') {
+        this.makeToast("warning", "Seleccione una cita", this.$t("Warning"));
+        return;
+      }
+      // Simula un clic en el botón de subir archivo oculto
+      this.$refs.fileInput.click();
+    },
+    updatedNote: function updatedNote() {
+      var _this3 = this;
+      if (this.notes == "" || this.appointment.length == 0 || typeof this.appointment == 'undefined') {
+        this.makeToast("warning", "Seleccione una cita", this.$t("Warning"));
+        return;
+      }
+      var self = this;
+      self.data.append("notes", self.notes);
+      self.SubmitProcessing = true;
+      axios.post("Reservations/updateNotes/" + this.appointment.id, self.data).then(function (response) {
+        _this3.makeToast("success", _this3.$t("Success"), _this3.$t("Success"));
+        _this3.appointment = [];
+        _this3.user.files = [];
+        _this3.notes = '';
+        _this3.Get_Profile_Info();
+        self.SubmitProcessing = false;
+      })["catch"](function (error) {
+        _this3.makeToast("danger", _this3.$t("InvalidData"), _this3.$t("Failed"));
+        self.SubmitProcessing = false;
+      });
+    },
+    formatDate: function formatDate(date) {
+      return Object(date_fns__WEBPACK_IMPORTED_MODULE_2__["format"])(new Date(date), 'dd-MM-yyyy HH:mm');
+    },
+    calculateTotalAmount: function calculateTotalAmount(items) {
+      return items.reduce(function (total, item) {
+        return total + item.Amount;
+      }, 0);
+    },
+    //------------- Submit Update Profile
+    Submit_Profile: function Submit_Profile() {
+      var _this4 = this;
+      this.$refs.Update_Profile.validate().then(function (success) {
+        if (!success) {
+          _this4.makeToast("danger", _this4.$t("Please_fill_the_form_correctly"), _this4.$t("Failed"));
+        } else {
+          _this4.Update_Profile();
         }
       });
     },
@@ -360,57 +425,68 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         solid: true
       });
     },
-    //------ Validation State fields
-    getValidationState: function getValidationState(_ref) {
-      var dirty = _ref.dirty,
-        validated = _ref.validated,
-        _ref$valid = _ref.valid,
-        valid = _ref$valid === void 0 ? null : _ref$valid;
-      return dirty || validated ? valid : null;
-    },
-    loadLink: function loadLink(document) {
-      var link = axios.get("/documents/" + document.id + '/download');
-      return link.data;
+    loadLink: function loadLink(documento) {
+      // const link = axios.get("/documents/"+document.id+'/download');
+      // return link.data;
+      axios({
+        url: "/documents/" + documento.id + '/download',
+        method: 'GET',
+        responseType: 'blob' // Importante: establece el tipo de respuesta a 'blob'
+      }).then(function (response) {
+        var blob = new Blob([response.data], {
+          type: response.headers['content-type']
+        });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = documento.name; // Establece el nombre del archivo para la descarga
+        link.click();
+        URL.revokeObjectURL(link.href); // Libera recursos después de la descarga
+      });
     },
     //------------------ Get Profile Info ----------------------\\
     Get_Profile_Info: function Get_Profile_Info() {
-      var _this2 = this;
+      var _this5 = this;
       axios.get("patients/Get_Info/Profile/" + this.$route.params.id).then(function (response) {
-        _this2.user.id = response.data.user.id;
-        _this2.user.firstname = response.data.user.firstname;
-        _this2.user.lastname = response.data.user.lastname;
-        _this2.user.email = response.data.user.email;
-        _this2.user.phone = response.data.user.phone;
-        _this2.user.username = response.data.user.username;
-        _this2.user.files = response.data.user.documents;
-        console.log(_this2.user);
-        _this2.avatar = _this2.currentUser.avatar;
-        _this2.username = _this2.currentUser.username;
-        _this2.isLoading = false;
+        _this5.user.id = response.data.user.id;
+        _this5.user.firstname = response.data.user.firstname;
+        _this5.user.lastname = response.data.user.lastname;
+        _this5.user.email = response.data.user.email;
+        _this5.user.phone = response.data.user.phone;
+        _this5.user.registration_date = response.data.user.registration_date;
+        _this5.user.name_role = response.data.user.name_role;
+        _this5.appointments_pending = response.data.user.reservations_pending;
+        _this5.appointments_past = response.data.user.reservations_past;
+        _this5.appointments = response.data.user.reservations;
+        _this5.avatar = _this5.currentUser.avatar;
+        _this5.username = _this5.currentUser.username;
+        _this5.isLoading = false;
       })["catch"](function (response) {
-        _this2.isLoading = false;
+        _this5.isLoading = false;
       });
       axios.get("patients/" + this.$route.params.id).then(function (response) {
         if (response.data.patient) {
-          _this2.user.weight = response.data.patient.weight;
-          _this2.user.allergies = response.data.patient.allergies;
-          _this2.user.height = response.data.patient.height;
-          _this2.user.bloodType = response.data.patient.bloodType;
+          _this5.user.weight = response.data.patient.weight;
+          _this5.user.allergies = response.data.patient.allergies;
+          _this5.user.height = response.data.patient.height;
+          _this5.user.bloodType = response.data.patient.bloodType;
         }
       })["catch"](function (response) {
-        _this2.isLoading = false;
+        _this5.isLoading = false;
       });
     },
     //------------------------------ Event Upload Avatar -------------------------------\\
     onFileSelected: function onFileSelected(e) {
-      var _this3 = this;
+      var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              if (1) {
-                _this3.user.file = e.target.files[0];
-              } else {}
+              if (e) {
+                _this6.user.file = e.target.files[0];
+                _this6.Update_Profile();
+              } else {
+                _this6.user.file = "";
+              }
             case 1:
             case "end":
               return _context.stop();
@@ -420,45 +496,51 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     //------------------ Update Profile ----------------------\\
     Update_Profile: function Update_Profile() {
-      var _this4 = this;
+      var _this7 = this;
       // Start the progress bar.
       nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.start();
       nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.set(0.1);
       var self = this;
-      console.log(this.user.file);
-      self.data.append("firstname", self.user.firstname);
-      self.data.append("lastname", self.user.lastname);
-      self.data.append("username", self.user.username);
-      self.data.append("email", self.user.email);
-      self.data.append("NewPassword", self.user.NewPassword);
-      self.data.append("phone", self.user.phone);
-      self.data.append("avatar", self.user.avatar);
+      // self.data.append("firstname", self.user.firstname);
+      // self.data.append("lastname", self.user.lastname);
+      // self.data.append("username", self.user.username);
+      // self.data.append("email", self.user.email);
+      // self.data.append("NewPassword", self.user.NewPassword);
+      // self.data.append("phone", self.user.phone);
+      // self.data.append("avatar", self.user.avatar);
       self.data.append("file", self.user.file);
-      self.data.append("_method", "post");
       this.user.userId = this.$route.params.id;
-      axios.post("patients", {
-        patients: this.user
-      }).then(function (response) {
-        _this4.makeToast("success", _this4.$t("Update.TitleProfile"), _this4.$t("Success"));
+      // axios
+      //   .post("patients" , { patients: this.user})
+      //   .then(response => {
+      //     this.makeToast(
+      //       "success",
+      //       this.$t("Update.TitleProfile"),
+      //       this.$t("Success")
+      //     );
+      //     NProgress.done(), 500;
+
+      //     setTimeout(() => {
+      //       this.Get_Profile_Info();
+      //     }, 500);
+      //   })
+      //   .catch(error => {
+      //     NProgress.done(), 500;
+      //   });
+
+      axios.post("update/profile/patience/" + this.appointment.id, self.data).then(function (response) {
+        _this7.makeToast("success", _this7.$t("Update.TitleProfile"), _this7.$t("Success"));
         nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done(), 500;
+        _this7.appointment = [];
+        _this7.user.files = [];
+        _this7.user.file = '';
+        _this7.notes = '';
         setTimeout(function () {
-          _this4.Get_Profile_Info();
+          _this7.Get_Profile_Info();
         }, 500);
       })["catch"](function (error) {
-        nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done(), 500;
-      });
-      axios.post("update/profile/patience/" + this.$route.params.id, self.data, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      }).then(function (response) {
-        _this4.makeToast("success", _this4.$t("Update.TitleProfile"), _this4.$t("Success"));
-        nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done(), 500;
-        setTimeout(function () {
-          _this4.Get_Profile_Info();
-        }, 500);
-      })["catch"](function (error) {
-        nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done(), 500;
+        console.log(error);
+        nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done();
       });
     }
   },
@@ -1301,12 +1383,7 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("div", {
     staticClass: "main-content small"
-  }, [_c("breadcumb", {
-    attrs: {
-      page: _vm.$t("Patient"),
-      folder: _vm.user.firstname + " " + _vm.user.lastname
-    }
-  }), _vm._v(" "), _vm.isLoading ? _c("div", {
+  }, [_vm.isLoading ? _c("div", {
     staticClass: "loading_page spinner spinner-primary mr-3"
   }) : _c("div", {
     staticClass: "row mb-4"
@@ -1317,7 +1394,7 @@ var render = function render() {
       lg: "6"
     }
   }, [_c("b-card", {
-    staticClass: "card-height"
+    staticClass: "card-height mb-2"
   }, [_c("b-row", [_c("b-col", {
     staticClass: "text-center border-right border-secondary",
     attrs: {
@@ -1327,7 +1404,7 @@ var render = function render() {
     }
   }, [_c("b-avatar", {
     attrs: {
-      src: "https://placekitten.com/300/300",
+      src: "images/avatar/" + _vm.user.avatar,
       size: "6rem"
     }
   }), _vm._v(" "), _c("h5", {
@@ -1344,17 +1421,20 @@ var render = function render() {
       md: "6",
       lg: "6"
     }
-  }, [_c("h3", [_vm._v("5")]), _vm._v(" "), _c("p", [_vm._v("Past")])]), _vm._v(" "), _c("b-col", {
+  }, [_c("h3", [_vm._v(_vm._s(_vm.appointments_past.length))]), _vm._v(" "), _c("p", [_vm._v("Past")])]), _vm._v(" "), _c("b-col", {
     attrs: {
       sm: "6",
       md: "6",
       lg: "6"
     }
-  }, [_c("h3", [_vm._v("5")]), _vm._v(" "), _c("p", [_vm._v("Upcoming")])]), _vm._v(" "), _c("Button", {
-    attrs: {
-      label: "Send Message"
+  }, [_c("h3", [_vm._v(_vm._s(_vm.appointments_pending.length))]), _vm._v(" "), _c("p", [_vm._v("Upcoming")])]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-primary mt-1",
+    on: {
+      click: function click($event) {
+        return _vm.New_Recipe();
+      }
     }
-  })], 1)], 1)], 1), _vm._v(" "), _c("b-col", {
+  }, [_vm._v("\n                        Generar recipe\n                    ")])], 1)], 1)], 1), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "8",
       lg: "8",
@@ -1370,7 +1450,7 @@ var render = function render() {
     }
   }, [_c("label", [_vm._v("Gender")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  }, [_vm._v("Female")])]), _vm._v(" "), _c("b-col", {
+  })]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
       lg: "6",
@@ -1378,7 +1458,7 @@ var render = function render() {
     }
   }, [_c("label", [_vm._v("Birthday")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  }, [_vm._v("Oct, 25 1992")])]), _vm._v(" "), _c("b-col", {
+  })]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
       lg: "6",
@@ -1386,7 +1466,7 @@ var render = function render() {
     }
   }, [_c("label", [_vm._v("Phone Number")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  })]), _vm._v(" "), _c("b-col", {
+  }, [_vm._v(_vm._s(_vm.user.phone))])]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
       lg: "6",
@@ -1418,7 +1498,7 @@ var render = function render() {
     }
   }, [_c("label", [_vm._v("Registration Date")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  })]), _vm._v(" "), _c("b-col", {
+  }, [_vm._v(_vm._s(_vm.user.registration_date))])]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
       lg: "6",
@@ -1426,14 +1506,24 @@ var render = function render() {
     }
   }, [_c("label", [_vm._v("Member Status")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  })])], 1)], 1)], 1)], 1)], 1)], 1), _vm._v(" "), _c("b-col", {
+  }, [_vm._v(_vm._s(_vm.user.name_role))])])], 1)], 1)], 1)], 1)], 1)], 1), _vm._v(" "), _c("b-col", {
     attrs: {
       sm: "12",
       md: "3",
       lg: "3"
     }
   }, [_c("div", {
-    staticClass: "card user-profile card-height"
+    staticClass: "card user-profile card-height mb-2"
+  }, [_c("b-form", {
+    attrs: {
+      enctype: "multipart/form-data"
+    },
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.updatedNote.apply(null, arguments);
+      }
+    }
   }, [_c("div", {
     staticClass: "card-body"
   }, [_c("h6", {
@@ -1442,29 +1532,27 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.user.medications,
-      expression: "user.medications"
+      value: _vm.notes,
+      expression: "notes"
     }],
+    ref: "myTextarea",
     staticClass: "form-control",
     attrs: {
       rows: "8",
       placeholder: "Ingresa tu texto aquí..."
     },
     domProps: {
-      value: _vm.user.medications
+      value: _vm.notes
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.$set(_vm.user, "medications", $event.target.value);
+        _vm.notes = $event.target.value;
       }
     }
-  }), _vm._v(" "), _c("Button", {
-    staticClass: "p-button-sm float-right mt-2 btn-sm",
-    attrs: {
-      label: "Save note"
-    }
-  })], 1)])]), _vm._v(" "), _c("b-col", {
+  }), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-primary float-right mt-2 btn-sm"
+  }, [_vm._v("\n            Save note\n          ")])])])], 1)]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "3",
       sm: "12",
@@ -1475,76 +1563,174 @@ var render = function render() {
     staticClass: "card user-profile card-height"
   }, [_c("div", {
     staticClass: "card-body"
+  }, [_c("input", {
+    ref: "fileInput",
+    staticClass: "d-none",
+    attrs: {
+      type: "file"
+    },
+    on: {
+      change: _vm.onFileSelected
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "col-md-12 col-lg-12 col-sm-12 mb-2 d-flex",
+    staticStyle: {
+      "justify-content": "space-between"
+    }
   }, [_c("h6", {
     staticClass: "font-weight-bold"
-  }, [_vm._v("Files / Documents")]), _vm._v(" "), _c("div", {
-    staticClass: "card"
-  }, [_c("div", {
-    staticClass: "container p-2"
-  }, [_c("h6", {
-    staticClass: "mt-1"
+  }, [_vm._v("Files / Documents")]), _vm._v(" "), _c("a", {
+    staticClass: "float-right text-primary",
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.openFileInput.apply(null, arguments);
+      }
+    }
   }, [_c("i", {
-    staticClass: "center nav-icon i-Files"
-  }), _vm._v("Blood test.pdf ")])])])])])])], 1), _vm._v(" "), _c("b-row", {
-    staticClass: "small"
-  }, [_c("b-col", {
+    staticClass: "nav-icon i-Files"
+  }), _vm._v(" Add Files\n            ")])]), _vm._v(" "), _vm._l(_vm.user.files, function (file, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "card card-hover"
+    }, [_c("div", {
+      staticClass: "container p-2",
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.loadLink(file);
+        }
+      }
+    }, [_c("h6", {
+      staticClass: "mt-1"
+    }, [_c("i", {
+      staticClass: "center nav-icon i-Files"
+    }), _vm._v(_vm._s(file.name) + " ")])])]);
+  })], 2)])])], 1), _vm._v(" "), !_vm.isLoading ? _c("b-row", [_c("b-col", {
+    staticClass: "card-height",
     attrs: {
       md: "9",
       sm: "12",
       xs: "12",
       lg: "9"
     }
-  }, [_c("TabView", {
-    staticClass: "tabview-custom"
-  }, [_c("TabPanel", {
-    scopedSlots: _vm._u([{
-      key: "header",
-      fn: function fn() {
-        return [_c("span", {
-          staticClass: "small"
-        }, [_vm._v("Upcoming appointments")])];
-      },
-      proxy: true
-    }])
-  }, [_vm._v(" "), _c("b-row", [_c("b-col", {
+  }, [_c("b-tabs", [_c("b-tab", {
     attrs: {
-      md: "4",
-      lg: "3",
-      sm: "12",
-      xs: "12"
+      title: "Upcoming appointments",
+      active: ""
     }
-  }, [_c("Timeline", {
-    attrs: {
-      value: _vm.events,
-      align: "left"
-    },
-    scopedSlots: _vm._u([{
-      key: "content",
-      fn: function fn(slotProps) {
-        return [_vm._v("\n                  " + _vm._s(slotProps.item.status) + "\n                ")];
+  }, _vm._l(_vm.appointments_pending, function (appointment, index) {
+    var _appointment$appointm, _appointment$appointm2, _appointment$appointm3, _appointment$appointm4;
+    return _c("b-card", {
+      key: index,
+      staticClass: "m-2"
+    }, [_c("b-row", [_c("b-col", {
+      attrs: {
+        md: "2"
       }
-    }])
-  })], 1)], 1)], 1), _vm._v(" "), _c("TabPanel", {
-    scopedSlots: _vm._u([{
-      key: "header",
-      fn: function fn() {
-        return [_c("span", {
-          staticClass: "small"
-        }, [_vm._v("Past appointments")])];
-      },
-      proxy: true
-    }])
-  }, [_vm._v("\n          Content II\n        ")]), _vm._v(" "), _c("TabPanel", {
-    scopedSlots: _vm._u([{
-      key: "header",
-      fn: function fn() {
-        return [_c("span", {
-          staticClass: "small"
-        }, [_vm._v("Medici")])];
-      },
-      proxy: true
-    }])
-  }, [_vm._v("\n          Content II\n        ")])], 1)], 1), _vm._v(" "), _c("b-col", {
+    }, [_c("div", {
+      staticClass: "circle"
+    }), _vm._v(" "), _c("div", {
+      staticClass: "card-part"
+    }, [_c("h5", [_vm._v(_vm._s(_vm.formatDate(appointment === null || appointment === void 0 ? void 0 : appointment.date)))]), _vm._v(" "), _c("p")])]), _vm._v(" "), _c("b-col", {
+      attrs: {
+        md: "2"
+      }
+    }, [_c("div", {
+      staticClass: "card-part"
+    }, [_c("h4", [_vm._v("Type")]), _vm._v(" "), _c("p", {
+      staticClass: "font-weight-bold"
+    })])]), _vm._v(" "), _c("b-col", {
+      attrs: {
+        md: "3"
+      }
+    }, [_c("div", {
+      staticClass: "card-part"
+    }, [_c("h4", [_vm._v("Doctor")]), _vm._v(" "), _c("p", {
+      staticClass: "font-weight-bold"
+    }, [_vm._v(_vm._s(appointment === null || appointment === void 0 ? void 0 : (_appointment$appointm = appointment.appointment) === null || _appointment$appointm === void 0 ? void 0 : (_appointment$appointm2 = _appointment$appointm.doctor) === null || _appointment$appointm2 === void 0 ? void 0 : _appointment$appointm2.firstname) + " " + _vm._s(appointment === null || appointment === void 0 ? void 0 : (_appointment$appointm3 = appointment.appointment) === null || _appointment$appointm3 === void 0 ? void 0 : (_appointment$appointm4 = _appointment$appointm3.doctor) === null || _appointment$appointm4 === void 0 ? void 0 : _appointment$appointm4.lastname))])])]), _vm._v(" "), _c("b-col", {
+      attrs: {
+        md: "3"
+      }
+    }, [_c("div", {
+      staticClass: "card-part"
+    }, [_c("h4", [_vm._v("Nurse")]), _vm._v(" "), _c("p", {
+      staticClass: "font-weight-bold"
+    })])]), _vm._v(" "), _c("b-col", {
+      attrs: {
+        md: "2"
+      }
+    }, [_c("div", {
+      staticClass: "card-part"
+    }, [_c("button", {
+      on: {
+        click: function click($event) {
+          return _vm.focusTextarea(appointment);
+        }
+      }
+    }, [_c("h5", {
+      staticClass: "text-primary text-center"
+    }, [_c("i", {
+      staticClass: "nav-icon i-Notepad"
+    }), _vm._v(" Notes")])])])])], 1)], 1);
+  }), 1), _vm._v(" "), _c("b-tab", {
+    attrs: {
+      title: "Past appointments"
+    }
+  }, _vm._l(_vm.appointments_past, function (appointment, index) {
+    var _appointment$appointm5, _appointment$appointm6, _appointment$appointm7, _appointment$appointm8;
+    return _c("b-card", {
+      key: index,
+      staticClass: "m-2"
+    }, [_c("b-row", [_c("b-col", {
+      attrs: {
+        md: "2"
+      }
+    }, [_c("div", {
+      staticClass: "circle"
+    }), _vm._v(" "), _c("div", {
+      staticClass: "card-part"
+    }, [_c("h5", [_vm._v(_vm._s(_vm.formatDate(appointment === null || appointment === void 0 ? void 0 : appointment.date)))]), _vm._v(" "), _c("p")])]), _vm._v(" "), _c("b-col", {
+      attrs: {
+        md: "2"
+      }
+    }, [_c("div", {
+      staticClass: "card-part"
+    }, [_c("h4", [_vm._v("Type")]), _vm._v(" "), _c("p", {
+      staticClass: "font-weight-bold"
+    })])]), _vm._v(" "), _c("b-col", {
+      attrs: {
+        md: "3"
+      }
+    }, [_c("div", {
+      staticClass: "card-part"
+    }, [_c("h4", [_vm._v("Doctor")]), _vm._v(" "), _c("p", {
+      staticClass: "font-weight-bold"
+    }, [_vm._v(_vm._s(appointment === null || appointment === void 0 ? void 0 : (_appointment$appointm5 = appointment.appointment) === null || _appointment$appointm5 === void 0 ? void 0 : (_appointment$appointm6 = _appointment$appointm5.doctor) === null || _appointment$appointm6 === void 0 ? void 0 : _appointment$appointm6.firstname) + " " + _vm._s(appointment === null || appointment === void 0 ? void 0 : (_appointment$appointm7 = appointment.appointment) === null || _appointment$appointm7 === void 0 ? void 0 : (_appointment$appointm8 = _appointment$appointm7.doctor) === null || _appointment$appointm8 === void 0 ? void 0 : _appointment$appointm8.lastname))])])]), _vm._v(" "), _c("b-col", {
+      attrs: {
+        md: "3"
+      }
+    }, [_c("div", {
+      staticClass: "card-part"
+    }, [_c("h4", [_vm._v("Nurse")]), _vm._v(" "), _c("p", {
+      staticClass: "font-weight-bold"
+    })])]), _vm._v(" "), _c("b-col", {
+      attrs: {
+        md: "2"
+      }
+    }, [_c("div", {
+      staticClass: "card-part"
+    }, [_c("h5", {
+      staticClass: "text-primary text-center",
+      on: {
+        click: function click($event) {
+          return _vm.focusTextarea(appointment);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "nav-icon i-Notepad"
+    }), _vm._v(" Notes")])])])], 1)], 1);
+  }), 1)], 1)], 1), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "3",
       sm: "12",
@@ -1564,9 +1750,286 @@ var render = function render() {
       items: _vm.items,
       fields: _vm.fields
     }
-  })], 1)])])], 1)], 1);
+  })], 1)])])], 1) : _vm._e(), _vm._v(" "), _c("validation-observer", {
+    ref: "Create_Recipe"
+  }, [_c("b-modal", {
+    attrs: {
+      "hide-footer": "",
+      size: "lg",
+      id: "New_Recipe",
+      title: _vm.editmode ? _vm.$t("Edit") : _vm.$t("Add")
+    }
+  }, [_c("b-form", {
+    attrs: {
+      enctype: "multipart/form-data"
+    },
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.Submit_Recipe.apply(null, arguments);
+      }
+    }
+  }, [_c("b-row", [_c("b-col", {
+    attrs: {
+      md: "6",
+      sm: "12"
+    }
+  }, [_c("validation-provider", {
+    attrs: {
+      name: "Name"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(validationContext) {
+        return [_c("b-form-group", {
+          attrs: {
+            label: "Nombre"
+          }
+        }, [_c("b-form-input", {
+          attrs: {
+            state: _vm.getValidationState(validationContext),
+            "aria-describedby": "Name-feedback",
+            label: "Name",
+            readonly: "",
+            value: _vm.Fullname
+          }
+        }), _vm._v(" "), _c("b-form-invalid-feedback", {
+          attrs: {
+            id: "Name-feedback"
+          }
+        }, [_vm._v(_vm._s(validationContext.errors[0]))])], 1)];
+      }
+    }])
+  })], 1), _vm._v(" "), _c("b-col", {
+    attrs: {
+      lg: "6",
+      md: "6",
+      sm: "6"
+    }
+  }, [_c("validation-provider", {
+    attrs: {
+      name: "start_date"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(validationContext) {
+        return [_c("b-form-group", {
+          attrs: {
+            label: _vm.$t("StartDate")
+          }
+        }, [_c("b-form-input", {
+          attrs: {
+            state: _vm.getValidationState(validationContext),
+            "aria-describedby": "date-feedback",
+            type: "date",
+            readonly: ""
+          },
+          model: {
+            value: _vm.user.date,
+            callback: function callback($$v) {
+              _vm.$set(_vm.user, "date", $$v);
+            },
+            expression: "user.date"
+          }
+        }), _vm._v(" "), _c("b-form-invalid-feedback", {
+          attrs: {
+            id: "date-feedback"
+          }
+        }, [_vm._v(_vm._s(validationContext.errors[0]))])], 1)];
+      }
+    }])
+  })], 1), _vm._v(" "), _c("b-col", {
+    attrs: {
+      lg: "4",
+      md: "4",
+      sm: "12"
+    }
+  }, [_c("validation-provider", {
+    attrs: {
+      name: "datebirth"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(validationContext) {
+        return [_c("b-form-group", {
+          attrs: {
+            label: _vm.$t("datebirth"),
+            id: "DateBirth-input"
+          }
+        }, [_c("b-form-input", {
+          attrs: {
+            label: "datebirth",
+            "aria-describedby": "DateBirth-feedback"
+          },
+          model: {
+            value: _vm.user.birth,
+            callback: function callback($$v) {
+              _vm.$set(_vm.user, "birth", $$v);
+            },
+            expression: "user.birth"
+          }
+        })], 1)];
+      }
+    }])
+  })], 1), _vm._v(" "), _c("b-col", {
+    attrs: {
+      lg: "4",
+      md: "4",
+      sm: "12"
+    }
+  }, [_c("validation-provider", {
+    attrs: {
+      name: "Age"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(validationContext) {
+        return [_c("b-form-group", {
+          attrs: {
+            label: _vm.$t("Age"),
+            id: "Age-input"
+          }
+        }, [_c("b-form-input", {
+          attrs: {
+            label: "Age",
+            state: _vm.getValidationState(validationContext),
+            "aria-describedby": "Age-feedback"
+          },
+          model: {
+            value: _vm.user.age,
+            callback: function callback($$v) {
+              _vm.$set(_vm.user, "age", $$v);
+            },
+            expression: "user.age"
+          }
+        })], 1)];
+      }
+    }])
+  })], 1), _vm._v(" "), _c("b-col", {
+    attrs: {
+      lg: "4",
+      md: "4",
+      sm: "12"
+    }
+  }, [_c("validation-provider", {
+    attrs: {
+      name: "Gender"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(validationContext) {
+        return [_c("b-form-group", {
+          attrs: {
+            label: _vm.$t("Gender"),
+            id: "Gender-input"
+          }
+        }, [_c("b-form-input", {
+          attrs: {
+            label: "Gender",
+            state: _vm.getValidationState(validationContext),
+            "aria-describedby": "Gender-feedback"
+          },
+          model: {
+            value: _vm.user.gender,
+            callback: function callback($$v) {
+              _vm.$set(_vm.user, "gender", $$v);
+            },
+            expression: "user.gender"
+          }
+        })], 1)];
+      }
+    }])
+  })], 1), _vm._v(" "), _c("b-col", {
+    attrs: {
+      lg: "12",
+      md: "12",
+      sm: "12"
+    }
+  }, [_c("validation-provider", {
+    attrs: {
+      name: "Diagnosic"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(validationContext) {
+        return [_c("b-form-group", {
+          attrs: {
+            label: _vm.$t("Diagnosic"),
+            id: "Diagnostic-input"
+          }
+        }, [_c("b-form-input", {
+          attrs: {
+            label: "Diagnosic",
+            state: _vm.getValidationState(validationContext),
+            "aria-describedby": "Diagnostic-feedback"
+          },
+          model: {
+            value: _vm.user.diagnosic,
+            callback: function callback($$v) {
+              _vm.$set(_vm.user, "diagnosic", $$v);
+            },
+            expression: "user.diagnosic"
+          }
+        })], 1)];
+      }
+    }])
+  })], 1), _vm._v(" "), _c("b-col", {
+    attrs: {
+      lg: "12",
+      md: "12",
+      sm: "12"
+    }
+  }, [_c("validation-provider", {
+    attrs: {
+      name: "Recipe"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn(validationContext) {
+        return [_c("b-form-group", {
+          attrs: {
+            label: _vm.$t("Recipe"),
+            id: "Recipe-input"
+          }
+        }, [_c("b-form-textarea", {
+          attrs: {
+            label: "Recipe",
+            rows: "5",
+            state: _vm.getValidationState(validationContext),
+            "aria-describedby": "Recipe-feedback"
+          },
+          model: {
+            value: _vm.user.recipe,
+            callback: function callback($$v) {
+              _vm.$set(_vm.user, "recipe", $$v);
+            },
+            expression: "user.recipe"
+          }
+        })], 1)];
+      }
+    }])
+  })], 1), _vm._v(" "), _c("b-col", {
+    staticClass: "mt-3",
+    attrs: {
+      md: "12"
+    }
+  }, [_c("b-button", {
+    attrs: {
+      variant: "primary",
+      type: "submit",
+      disabled: _vm.SubmitProcessing
+    }
+  }, [_vm._v(_vm._s(_vm.$t("submit")))]), _vm._v(" "), _vm.SubmitProcessing ? _vm._m(0) : _vm._e()], 1)], 1)], 1)], 1)], 1)], 1);
 };
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "typo__p"
+  }, [_c("div", {
+    staticClass: "spinner sm spinner-primary mt-3"
+  })]);
+}];
 render._withStripped = true;
 
 
@@ -1584,7 +2047,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "\n.card-height{\n  height: 330px;\n  overflow: auto;\n  max-height: 330px;\n}\n", ""]);
+exports.push([module.i, "\n.card-height{\n    height: 330px;\n    overflow: auto;\n    max-height: 330px;\n@media (max-width: 767px) {\n      height: auto; /* Ajustar altura en pantallas pequeñas */\n      max-height: none;\n}\n}\n.card-part {\n    padding: 15px;\n    text-align: center;\n    border-radius: 5px;\n    position: relative;\n}\n.circle {\n  width: 20px;\n  height: 20px;\n  background-color: #007bff;\n  border-radius: 50%;\n  position: absolute;\n  left: -10px;\n  top: 50%;\n  transform: translateY(-50%);\n}\n.card-hover:hover {\n  background-color: #90979e; /* Change this color as desired */\n}\n", ""]);
 
 // exports
 

@@ -115,6 +115,7 @@ class AppointmentsController extends BaseController
         $patient = $reserva->patient;
         Mail::to($patient->email)
             ->send(new PatientAppointmentNotification($reserva));
+        //Enviar whatsapp
 
         return response()->json(['success' => true]);
 
@@ -133,13 +134,14 @@ class AppointmentsController extends BaseController
             'date' => $datetime->format('Y-m-d H:i:s'),
         ]);
         $doctor = $reserva->appointment->doctor;
-        /*Mail::to($doctor->email)
+        //Enviar whatsapp al doctor
+        Mail::to($doctor->email)
         ->send(new DoctorAppointmentNotification($reserva));
-
-        // Envía el correo electrónico al paciente
+        
+        //Envía whatsapp al paciente
         $patient = $reserva->patient;
         Mail::to($patient->email)
-            ->send(new PatientAppointmentNotification($reserva));*/
+            ->send(new PatientAppointmentNotification($reserva));
 
         return response()->json(['success' => true]);
 
@@ -199,8 +201,6 @@ class AppointmentsController extends BaseController
         
 
     }
-
-
     //-------------- Update Product  ---------------\\
     //-----------------------------------------------\\
 

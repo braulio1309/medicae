@@ -21,6 +21,7 @@ class DoctorAppointmentNotification extends Mailable
     public function build()
     {
         return $this->markdown('emails.doctorAppointmentNotification')
+            ->with('appointment', $this->appointment)
             ->subject('Se ha agendado una cita con usted');
     }
 }

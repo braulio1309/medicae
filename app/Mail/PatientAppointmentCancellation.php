@@ -21,6 +21,7 @@ class PatientAppointmentCancellation extends Mailable
     public function build()
     {
         return $this->markdown('emails.patientAppointmentCancellation')
+            ->with('appointment', $this->appointment)
             ->subject('Cita cancelada');
     }
 }

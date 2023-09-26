@@ -488,6 +488,7 @@ class UserController extends BaseController
         $fpdf = new Fpdf;
 
         $fpdf->AddPage("P","Letter");
+        $fpdf->SetAutoPageBreak(false);
 
         $fpdf->Image('images/background_medicae.png', 0, 0,216,281);
         
@@ -525,6 +526,21 @@ class UserController extends BaseController
         // $fpdf->MultiCell(150, 5, "Cannabis");
         $fpdf->Cell(150, 5, $request->diagnosic);
 
+
+        $fpdf->SetTextColor(255,255,255);
+        $fpdf->setXY(30,255);
+        $fpdf->SetFont('Helvetica', 'B', 14);
+        $fpdf->Cell(20, 5, auth()->user()->phone);
+        
+        $fpdf->SetTextColor(255,255,255);
+        $fpdf->setXY(95,265);
+        $fpdf->SetFont('Helvetica', 'B', 14);
+        $fpdf->Cell(20, 5, "Direccion");
+        
+
+        $fpdf->setXY(150,255);
+        $fpdf->SetFont('Helvetica', 'B', 14);
+        $fpdf->Cell(20, 5, auth()->user()->email);
 
         // $fpdf->Line($fpdf->GetPageWidth() -70, $fpdf->GetPageHeight() - 30, $fpdf->GetPageWidth() - 10, $fpdf->GetPageHeight() - 30);
         // $fpdf->SetFont('Arial', '', 12);

@@ -489,73 +489,47 @@ class UserController extends BaseController
 
         $fpdf->AddPage("P","Letter");
 
-        $fpdf->setXY(10,10);
-        $fpdf->SetFont('Arial', 'B', 10);
-        $fpdf->Cell(30, 5, 'MEDICAL CENTER');
-        $fpdf->setXY(10,15);
-        $fpdf->SetFont('Arial', '', 10);
-        $fpdf->Cell(30, 5, 'COMPANY NAME');
+        $fpdf->Image('images/background_medicae.png', 0, 0,216,281);
         
-        $fpdf->setXY(160,10);
-        $fpdf->SetFont('Arial', '', 9);
-        $fpdf->Cell(30, 5, '123 Lorem ipsum St.');
-        $fpdf->setXY(160,15);
-        $fpdf->Cell(30, 5, '+00 123 456 789');
-        $fpdf->setXY(160,20);
-        $fpdf->Cell(30, 5, 'clinicname@email.com');
-        
-        $fpdf->Image('images/template_pdf2.png', 0, 0,216,281);
-        
-        $fpdf->setXY(85,70);
-        $fpdf->SetFont('Arial', 'B', 14);
+        $fpdf->setXY(45,20);
+        $fpdf->SetFont('Times', '', 28);
         $fpdf->Cell(30, 5, 'MD. PETER LEWIS');
         
-        $fpdf->setXY(90,75);
-        $fpdf->SetFont('Arial', 'B', 8);
+        $fpdf->SetTextColor(108,164,204);
+        $fpdf->setXY(45,27);
+        $fpdf->SetFont('Arial', 'B', 12);
         $fpdf->Cell(30, 5, 'NEUROLOGIST DOCTOR');
         
-        $fpdf->setXY(95,80);
-        $fpdf->SetFont('Arial', '', 8);
-        $fpdf->Cell(30, 5, 'ID No. 123456789');
-
-        $fpdf->setXY(155,92);
-        $fpdf->SetFont('Helvetica', '', 12);
-        $fpdf->Cell(25, 5, "123343245456");
-        
-        $fpdf->setXY(53,104);
+        $fpdf->SetTextColor(0,0,0);
+        $fpdf->setXY(53,65);
         $fpdf->SetFont('Helvetica', '', 12);
         $fpdf->Cell(25, 5, $patient->firstname.' '.$patient->lastname);
+        // $fpdf->Cell(25, 5, "Braulio Zapata");
         
-        $fpdf->setXY(155,104);
-        $fpdf->SetFont('Helvetica', '', 12);
+        $fpdf->setXY(145,76);
+        $fpdf->SetFont('Helvetica', '', 10);
         $fpdf->Cell(25, 5, now());
-
     
-        $fpdf->setXY(48,115);
-        $fpdf->SetFont('Helvetica', '', 12);
-        $fpdf->Cell(25, 5, "13-09-2000");
-        
-        $fpdf->setXY(102,115);
+        $fpdf->setXY(43,76);
         $fpdf->SetFont('Helvetica', '', 12);
         $fpdf->Cell(25, 5, utf8_decode("22 años"));
         
-        $fpdf->setXY(160,115);
-        $fpdf->SetFont('Helvetica', '', 12);
-        $fpdf->Cell(25, 5, "No binario");
+
+        $fpdf->setXY(21,53);
+        $fpdf->SetFont('Helvetica', 'I', 12);
+        // $fpdf->Cell(173, 5, "Cannabis");
+        $fpdf->Cell(173, 5, $request->recipe);
+
+        $fpdf->setXY(45,110);
+        $fpdf->SetFont('Helvetica', 'I', 14);
+        // $fpdf->MultiCell(150, 5, "Cannabis");
+        $fpdf->Cell(150, 5, $request->diagnosic);
 
 
-        $fpdf->setXY(42,126);
-        $fpdf->SetFont('Helvetica', '', 12);
-        $fpdf->Cell(25, 5, $request->diagnosic);
-        
-        $fpdf->setXY(50,150);
-        $fpdf->SetFont('Helvetica', 'I', 16);
-        $fpdf->Cell(25, 5, $request->recipe);
         // $fpdf->Line($fpdf->GetPageWidth() -70, $fpdf->GetPageHeight() - 30, $fpdf->GetPageWidth() - 10, $fpdf->GetPageHeight() - 30);
+        // $fpdf->SetFont('Arial', '', 12);
+        // $fpdf->Text($fpdf->GetPageWidth() - 55, $fpdf->GetPageHeight() - 37, "Tu Love");
 
-        // // Agrega el texto "Doctor's Signature" debajo de la línea
-        $fpdf->SetFont('Arial', '', 12);
-        $fpdf->Text($fpdf->GetPageWidth() - 55, $fpdf->GetPageHeight() - 37, "Tu Love");
 
 
         return $fpdf->Output();

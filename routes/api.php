@@ -101,6 +101,7 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
 
     // Ruta para obtener los horarios disponibles de un doctor y fecha específicos
     Route::get('available-times', 'AppointmentsController@getAvailableTimes');
+    Route::get('appointments/turns/reserved', 'AppointmentsController@getReserved');
 
     // Ruta para verificar la disponibilidad de una fecha específica
     Route::get('check-availability', 'AppointmentsController@checkAvailability');

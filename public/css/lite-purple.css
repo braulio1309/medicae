@@ -27515,7 +27515,7 @@ a.typo_link.text-gray-900:after {
 }
 
 .main-header .logo img {
-  width: 60px;
+  width: 200px;
   height: 60px;
   margin: 0 auto;
   display: block;
@@ -28238,7 +28238,7 @@ a.typo_link.text-gray-900:after {
   padding: 2rem 2rem 0;
   position: relative;
   min-height: calc(100vh - 80px);
-  background: #fff;
+  background-color: #F1F5F8;
 }
 
 .layout-sidebar-large .main-content-wrap.sidenav-open {
@@ -28283,12 +28283,14 @@ a.typo_link.text-gray-900:after {
   width: 100%;
   color: #05070b;
   cursor: pointer;
-  border-bottom: 1px solid #D1D5DB;
+  /*border-bottom: 1px solid #D1D5DB;*/
 }
 
 .layout-sidebar-large .sidebar-left .navigation-left .nav-item:focus,
 .layout-sidebar-large .sidebar-left .navigation-left .nav-item:active {
   outline: none;
+  background-color: #51D5D5;
+  color: white;
 }
 
 .layout-sidebar-large .sidebar-left .navigation-left .nav-item.lvl1 {

@@ -901,13 +901,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   }), _defineProperty(_methods, "bind_events", function bind_events() {
     var _this = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-      var dt, data, i, day, info;
+      var dt, data, i, day, info, _i, currentDate, parts, year, month, _day, formattedDate, result;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            dt = new Date(); //pide el axios con los horarios de los fisiatras 
+            dt = new Date();
             _context.next = 3;
-            return axios.get("Appointments/turns/available");
+            return axios.get("appointments/turns/reserved");
           case 3:
             data = _context.sent;
             data = data.data.data;
@@ -920,12 +920,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               if (data[i].day == 'Viernes') day = 5;
               _this.options.events.push({
                 id: data[i].turnId,
-                title: data[i].username,
-                startTime: data[i].time,
-                daysOfWeek: [day],
+                title: data[i].firstname + ' ' + data[i].lastname,
+                start: data[i].date,
+                //daysOfWeek: [day],
                 allDay: false,
-                description: 'Etiam a odio eget enim aliquet laoreet. Vivamus auctor nunc ultrices varius lobortis.',
-                classNames: data[i].status == 0 ? 'ocupado' : 'custom-event-class'
+                classNames: 'custom-event-class'
               });
             }
             ;
@@ -933,22 +932,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             return axios.get('/vacations/dates');
           case 9:
             info = _context.sent;
-            console.log(info.data);
-            //info = info.data.vacation;
-            _this.disabledDates = info.data.dates;
-            //this.disableDatesInCalendar();
-
-            // let dateArray = [];
-            // let currentDate = moment(info.startDate);
-            // const endDate = moment(info.endDate);
-
-            // while (currentDate <= endDate) {
-            //     dateArray.push(currentDate.format('YYYY-MM-DD'));
-            //     currentDate.add(1, 'days');
-            // }
-
-            // this.options.events = dateArray.filter((date) =>{ return !exceptionDates.includes(date.startTime)});
-          case 12:
+            for (_i = 0; _i < info.data.dates.length; _i++) {
+              // Crea una nueva fecha para el día actual del ciclo
+              currentDate = info.data.dates[_i];
+              parts = currentDate.split('/'); // Obtener el año, mes y día
+              year = parts[2];
+              month = parts[1];
+              _day = parts[0]; // Crear una nueva fecha con la hora predeterminada (08:00:00)
+              formattedDate = new Date("".concat(year, "-").concat(month, "-").concat(_day, " 08:00:00")); // Formatear la fecha como cadena de texto
+              result = formattedDate.toISOString().slice(0, 19).replace('T', ' '); // Agrega el evento al arreglo this.options.events
+              _this.options.events.push({
+                title: 'Vacation',
+                start: result,
+                // Fecha actual del ciclo
+                allDay: true,
+                classNames: 'vacation'
+              });
+            }
+          case 11:
           case "end":
             return _context.stop();
         }
@@ -1141,7 +1142,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         var year = dateObj.getFullYear();
         var formattedDate = "".concat(day, "-").concat(month, "-").concat(year);
         // Verificar si la fecha seleccionada ya ha sido reservada
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/check-availability?doctorId=".concat(1, "&date=", formattedDate, "&time=").concat(this.selectedTime)).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/check-availability?doctorId=".concat(this.$route.params.id, "&date=").concat(formattedDate, "&time=").concat(this.selectedTime, "&patientId=").concat(this.$route.params.patientId)).then(function (response) {
           if (response.data.isAvailable) {
             axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("Appointments/turns/reserve2", {
               'turnId': _this3.selectedTime,
@@ -1431,7 +1432,9 @@ var render = function render() {
     attrs: {
       md: "12"
     }
-  }, [_c("h1", [_vm._v(_vm._s(_vm.$t("AppointmentManagement")))]), _vm._v(" "), _c("label", {
+  }, [_c("h1", {
+    staticClass: "font-weight-bold"
+  }, [_vm._v(_vm._s(_vm.$t("AppointmentManagement")))]), _vm._v(" "), _c("label", {
     attrs: {
       "for": "duracion-consulta"
     }
@@ -1445,6 +1448,7 @@ var render = function render() {
     staticClass: "form-control col-xs-5 col-sm-5 col-md-5 col-lg-5",
     attrs: {
       type: "number",
+      autocomplete: "off",
       id: "duracion-consulta"
     },
     domProps: {
@@ -1501,6 +1505,7 @@ var render = function render() {
         }
       }, [_vm._v("Desde:")]), _vm._v(" "), _c("Calendar", {
         attrs: {
+          autocomplete: "off",
           id: "hora-inicio",
           timeOnly: ""
         },
@@ -1519,6 +1524,7 @@ var render = function render() {
         }
       }, [_vm._v("Hasta:")]), _vm._v(" "), _c("Calendar", {
         attrs: {
+          autocomplete: "off",
           id: "hora-final",
           timeOnly: ""
         },
@@ -1537,6 +1543,7 @@ var render = function render() {
         }
       }, [_vm._v("Desde (Descanso):")]), _vm._v(" "), _c("Calendar", {
         attrs: {
+          autocomplete: "off",
           id: "hora-inicio",
           timeOnly: true,
           showSeconds: false,
@@ -1557,6 +1564,7 @@ var render = function render() {
         }
       }, [_vm._v("Hasta (Descanso):")]), _vm._v(" "), _c("Calendar", {
         attrs: {
+          autocomplete: "off",
           id: "hora-final",
           timeOnly: true,
           showSeconds: false,
@@ -1954,7 +1962,7 @@ var render = function render() {
       id: "cancel-row"
     }
   }, [_c("div", {
-    staticClass: "col-xl-2 col-lg-2 col-md-2"
+    staticClass: "col-xl-3 col-lg-3 col-md-3"
   }, [_c("div", {
     staticClass: "row"
   }, [_c("div", {
@@ -1965,17 +1973,42 @@ var render = function render() {
     return _c("div", {
       key: reservation,
       staticClass: "card mb-2"
+    }, [_c("a", {
+      attrs: {
+        href: "/app/dates/profile/patient/" + reservation.userId
+      }
     }, [_c("div", {
       staticClass: "card-body"
-    }, [_c("h5", {
-      staticClass: "card-title"
-    }, [_vm._v(_vm._s(reservation.firstname))]), _vm._v(" "), _c("h6", {
+    }, [_c("div", {
+      staticClass: "row"
+    }, [_c("div", {
+      staticClass: "col-sm-4"
+    }, [_c("b-avatar", {
+      attrs: {
+        src: "images/avatar/no_avatar.png",
+        size: "3rem"
+      }
+    })], 1), _vm._v(" "), _c("div", {
+      staticClass: "col-sm-8"
+    }, [_c("h6", {
       staticClass: "card-subtitle mb-2 text-muted"
-    }, [_vm._v(_vm._s(reservation.date))])])]);
+    }, [_vm._v("\n                                                " + _vm._s(new Date(reservation.date).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    })) + " - \n                                                " + _vm._s(new Date(new Date(reservation.date).getTime() + 60 * 60 * 1000).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    })) + "\n                                            ")]), _vm._v(" "), _c("h5", {
+      staticClass: "card-title"
+    }, [_vm._v(_vm._s(reservation.firstname) + " " + _vm._s(reservation.lastname))])])])])])]);
   })], 2)])]), _vm._v(" "), _c("div", {
-    staticClass: "col-xl-10 col-lg-10 col-md-10"
+    staticClass: "col-xl-9 col-lg-9 col-md-9"
   }, [_c("div", {
-    staticClass: "statbox panel box box-shadow vh-100 overflow-hidden"
+    staticClass: "statbox panel box box-shadow vh-200 overflow-hidden",
+    staticStyle: {
+      "max-height": "240vh",
+      overflow: "hidden"
+    }
   }, [_c("div", {
     staticClass: "panel-body"
   }, [_c("FullCalendar", {
@@ -2370,7 +2403,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "\r\n/* Estilos CSS para la clase 'custom-event-class' */\n.custom-event-class {\r\n  background-color: blue; /* Cambiar el color de fondo */\r\n  color: white; /* Cambiar el color del texto */\n}\n.ocupado {\r\n  background-color: red; /* Cambiar el color de fondo */\r\n  color: white; /* Cambiar el color del texto */\n}\n.full-height {\r\n        height: 100vh; /* Establece la altura al 100% de la altura de la ventana gráfica */\r\n        margin: 0; /* Elimina los márgenes */\r\n        padding: 0; /* Elimina el relleno */\r\n        overflow: hidden; /* Evita el desplazamiento */\r\n        overflow-y: hidden;\n}\r\n", ""]);
+exports.push([module.i, "\r\n/* Estilos CSS para la clase 'custom-event-class' */\n.custom-event-class {\r\n    background-color: rgba(255, 0, 0, 0.7); /* Color de fondo rojo con opacidad */\r\n  color: white; /* Color del texto */\r\n  border-radius: 10px; /* Esquinas redondeadas */\r\n  padding: 2px 10px; /* Espaciado interno con height más angosto */\n}\n.vacation {\r\n  background-color: rgba(40, 196, 40, 0.7); /* Color de fondo verdoso claro con opacidad */\r\n  color: white; /* Color del texto */\r\n  border-radius: 10px; /* Esquinas redondeadas */\r\n  padding: 2px 10px; /* Espaciado interno con height más angosto */\n}\n.ocupado {\r\n  background-color: rgba(255, 0, 0, 0.7); /* Color de fondo rojo con opacidad */\r\n  color: white; /* Color del texto */\r\n  border-radius: 10px; /* Esquinas redondeadas */\r\n  padding: 2px 10px; /* Espaciado interno con height más angosto */\n}\n.full-height {\r\n        height: 100vh; /* Establece la altura al 100% de la altura de la ventana gráfica */\r\n        margin: 0; /* Elimina los márgenes */\r\n        padding: 0; /* Elimina el relleno */\r\n        overflow: hidden; /* Evita el desplazamiento */\r\n        overflow-y: hidden;\n}\r\n", ""]);
 
 // exports
 

@@ -84,6 +84,7 @@ export default {
       
         
       loadAvailableTimes() {
+
         if (this.selectedDate) {
           // Realiza la llamada al backend para obtener los horarios disponibles del fisioterapeuta y la fecha seleccionada
           const id = this.$route.params.id ?? -1;
@@ -121,7 +122,7 @@ export default {
           const year = dateObj.getFullYear();
           const formattedDate = `${day}-${month}-${year}`;
           // Verificar si la fecha seleccionada ya ha sido reservada
-          axios.get(`/check-availability?doctorId=${1}&date=${formattedDate}&time=${this.selectedTime}`)
+          axios.get(`/check-availability?doctorId=${this.$route.params.id}&date=${formattedDate}&time=${this.selectedTime}&patientId=${this.$route.params.patientId}`)
             .then(response => {
               if (response.data.isAvailable) {
                 axios

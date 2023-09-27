@@ -88,8 +88,11 @@ const routes = [
                             import(/* webpackChunkName: "store_date" */"./views/app/pages/dates/calendar")
                     },
                     {
-                        path: "date2/:id",
+                        path: "date2/:id/:patientId",
                         name: "date_calendar2",
+                        meta: {
+                            requiresAuth: false, // Indicación de que la ruta requiere autenticación
+                          },
                         component: () =>
                             import(/* webpackChunkName: "store_date" */"./views/app/pages/dates/calendar2")
                     },

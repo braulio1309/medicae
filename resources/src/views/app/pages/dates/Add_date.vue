@@ -8,9 +8,9 @@
             <b-form @submit.prevent="Submit_Appointment" enctype="multipart/form-data">
               <b-row>
                 <b-col md="12">
-                  <h1>{{ $t('AppointmentManagement') }}</h1>
-                  <label for="duracion-consulta">{{ $t('DurationOfAppointment') }}</label>
-                  <input type="number" class='form-control col-xs-5 col-sm-5 col-md-5 col-lg-5' id="duracion-consulta"
+                  <h1 class="font-weight-bold">{{ $t('AppointmentManagement') }}</h1>
+                  <label for="duracion-consulta" >{{ $t('DurationOfAppointment') }}</label>
+                  <input type="number"  autocomplete="off" class='form-control col-xs-5 col-sm-5 col-md-5 col-lg-5' id="duracion-consulta"
                     v-model="this.duration" />
                   <div v-for="(day, index) in dayss" :key="index" class="mt-1">
                     <b-card>
@@ -26,23 +26,23 @@
 
                             <div class="col-sm-2">
                               <label for="hora-final">Desde:</label>
-                              <Calendar id="hora-inicio" v-model="input.startHour" timeOnly />
+                              <Calendar  autocomplete="off" id="hora-inicio" v-model="input.startHour" timeOnly />
                             </div>
                             <div class="col-sm-2">
                               <label for="hora-final">Hasta:</label>
-                              <Calendar id="hora-final" v-model="input.finalHour" timeOnly />
+                              <Calendar  autocomplete="off" id="hora-final" v-model="input.finalHour" timeOnly />
                             </div>
 
 
                             <div class="col-sm-2">
                               <label for="hora-final">Desde (Descanso):</label>
-                              <Calendar id="hora-inicio" v-model="input.startHourRest" :timeOnly="true"
+                              <Calendar  autocomplete="off" id="hora-inicio" v-model="input.startHourRest" :timeOnly="true"
                                 :showSeconds="false" :showMillisec="false" />
                             </div>
                             <div class="col-sm-2">
                               <label for="hora-final">Hasta (Descanso):</label>
 
-                              <Calendar id="hora-final" v-model="input.finalHourRest" :timeOnly="true"
+                              <Calendar  autocomplete="off" id="hora-final" v-model="input.finalHourRest" :timeOnly="true"
                                 :showSeconds="false" :showMillisec="false" />
                             </div>
 

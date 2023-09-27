@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'documents', 'userId', 'id');
+    }
+
     public function assignRole(Role $role)
     {
         return $this->roles()->save($role);

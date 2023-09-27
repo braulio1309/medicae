@@ -1,88 +1,130 @@
 <template>
   <!-- ============ Body content start ============= -->
-  <div class="main-content">
+  <div class="main-content" >
     <b-row>
-      <b-col lg="8" md="12" sm="12">
-        <b-card class="mb-30">
-          <h4 class="card-title m-0">{{$t('appointment_received')}}</h4>
-          <div class="chart-wrapper">
-            <v-chart :options="echartAppointment" :autoresize="true"></v-chart>
+      <b-col cols="8">
+        <div class="card" style="background-color: #F1F5F8; padding: 10px; height: 100%;">
+          <div class="row mb-6" style="margin-bottom: 10px;">
+            <div class="col-sm-4">
+              <h2 class="text-center">Agenda del día</h2>
+            </div>
+              <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4">
+              <h2 class="text-center" style="color:">Miercoles</h2>
+            </div>
+            
           </div>
-        </b-card>
+          
+          <div class="col-sm-12">
+            <div class="row text-center" style="font-size: 25px; ">
+              <div class="col-sm-4" >
+                8:00 am
+              </div>
+              <div class="col-sm-4" style="letter-spacing: 2px;">
+                ......................................
+              </div>
+              <div class="col-sm-4">
+                Braulio Zapata
+              </div>
+            </div>
+            <div class="row text-center" style="font-size: 25px; ">
+              <div class="col-sm-4" >
+                9:00 am
+              </div>
+              <div class="col-sm-4" style="letter-spacing: 2px;">
+                ......................................
+              </div>
+              <div class="col-sm-4">
+                Matías Rodriguez
+              </div>
+            </div>
+            <div class="row text-center" style="font-size: 25px; ">
+              <div class="col-sm-4" >
+                10:00 am
+              </div>
+              <div class="col-sm-4" style="letter-spacing: 2px;">
+                ......................................
+              </div>
+              <div class="col-sm-4">
+                Test Alex
+              </div>
+            </div>
+
+            
+            
+          </div>
+        </div>
       </b-col>
-      <b-col col lg="4" md="12" sm="12">
-        <b-card class="mb-30">
-          <h4 class="card-title m-0">{{$t('TopPatient')}} ({{CurrentMonth}})</h4>
-          <div class="chart-wrapper">
-            <v-chart :options="echartPatient" :autoresize="true"></v-chart>
-          </div>
-        </b-card>
+      <b-col cols="4">
+        <b-row>
+          <b-col cols="12">
+            <b-card class="mb-30">
+              <h4 class="font-weight-bold mb-4">Ultimas citas</h4>
+              <div class="">
+                      <!-- Título de la tarjeta -->
+                <div class="row">
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-2">
+                          <b-avatar :src="'images/avatar/no_avatar.png'"></b-avatar>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5 class="">Braulio Zapata</h5>
+                            <h6 class="text-muted">
+                                Hace 1 hora 
+                            </h6>
+                        </div>
+                        <div class="col-sm-4">
+                          <br>
+                          <span class="badge rounded-pill bg-success">Actualizado</span>
+
+                        </div>
+                      </div>
+                      <hr style="margin-top: -1px;">
+                    </div>
+                </div>
+              </div>
+              <div class="">
+                      <!-- Título de la tarjeta -->
+                <div class="row">
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-2">
+                          <b-avatar :src="'images/avatar/no_avatar.png'"></b-avatar>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5 class="">Braulio Zapata</h5>
+                            <h6 class="text-muted">
+                                Hace 1 hora 
+                            </h6>
+                        </div>
+                        <div class="col-sm-4">
+                          <br>
+                          <span class="badge rounded-pill bg-success">Actualizado</span>
+                        </div>
+                      </div>
+                      <hr style="margin-top: -1px;">
+                    </div>
+                </div>
+              </div>
+            </b-card>
+          </b-col>
+
+        </b-row>
+        <b-row>
+          <b-col cols="12">
+            <b-card class="mb-30" style="background-color: #4B9AEB;">
+            <h4 class="card-title m-0">{{ $t('TopPatient') }} ({{ CurrentMonth }})</h4>
+            <div class="chart-wrapper">
+              <v-chart :options="echartPatient" :autoresize="true"></v-chart>
+            </div>
+          </b-card>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
-
     
-    <!-- Last Appointments -->
-    <b-row>
-      <div class="col-md-8">
-        <div class="card mb-30">
-          <div class="card-body p-0">
-            <h5 class="card-title border-bottom p-3 mb-2">{{$t('pending_appointment')}}</h5>
-
-            <vue-good-table
-              v-if="!loading"
-              :columns="columns_appointment"
-              styleClass="order-table vgt-table"
-              row-style-class="text-left"
-              :rows="appointments"
-            >
-              <template slot="table-row" slot-scope="props">
-                <div v-if="props.column.field == 'statut'">
-                  <span
-                    v-if="props.row.statut == 'completed'"
-                    class="badge badge-outline-success"
-                  >{{$t('complete')}}</span>
-                  <span
-                    v-else-if="props.row.statut == 'pending'"
-                    class="badge badge-outline-info"
-                  >{{$t('Pending')}}</span>
-                  <span v-else class="badge badge-outline-warning">{{$t('Ordered')}}</span>
-                </div>
-
-                <div v-else-if="props.column.field == 'payment_status'">
-                  <span
-                    v-if="props.row.payment_status == 'paid'"
-                    class="badge badge-outline-success"
-                  >{{$t('Paid')}}</span>
-                  <span
-                    v-else-if="props.row.payment_status == 'partial'"
-                    class="badge badge-outline-primary"
-                  >{{$t('partial')}}</span>
-                  <span v-else class="badge badge-outline-warning">{{$t('Unpaid')}}</span>
-                </div>
-              </template>
-            </vue-good-table>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card mb-30">
-          <div class="card-body p-3">
-            <h5
-              class="card-title border-bottom p-3 mb-2"
-            >Pacientes frecuentes ({{CurrentMonth}})</h5>
-
-            <vue-good-table
-              :columns="columns_patients"
-              styleClass="order-table vgt-table"
-              row-style-class="text-left"
-              :rows="patients"
-              >
-            </vue-good-table>
-          </div>
-        </div>
-      </div>
-    </b-row>
   </div>
   <!-- ============ Body content End ============= -->
 </template>
@@ -221,7 +263,7 @@ export default {
 
           this.report_today = response.data.report_dashboard.original.report;
           // this.stock_alerts =
-            // response.data.report_dashboard.original.stock_alert;
+          // response.data.report_dashboard.original.stock_alert;
           this.appointments = response.data.report_dashboard.original.last_appointments;
           this.patients = response.data.report_dashboard.original.patients;
           var dark_heading = "#c2c6dc";
@@ -232,10 +274,9 @@ export default {
               backgroundColor: "rgba(0, 0, 0, .8)"
             },
 
-            formatter: function(params) {
-              return `${params.name}: (${params.data.value} cita) (${
-                params.percent
-              }%)`;
+            formatter: function (params) {
+              return `${params.name}: (${params.data.value} cita) (${params.percent
+                }%)`;
             },
 
             series: [
@@ -429,7 +470,7 @@ export default {
           // };
           this.loading = false;
         })
-        .catch(response => {});
+        .catch(response => { });
     },
 
     //------------------------------Get Month -------------------------\\

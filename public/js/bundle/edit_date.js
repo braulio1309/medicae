@@ -335,6 +335,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       self.data.append("id", self.user.id);
       self.data.append("recipe", self.user.recipe);
       self.data.append("diagnosic", self.user.diagnosic);
+      self.data.append('reservation_id', self.appointment.id);
       axios.post("patient/recipe", self.data, {
         responseType: "blob",
         // important
@@ -350,8 +351,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         var pdfWindow = window.open();
         pdfWindow.document.title = "Recipe";
         pdfWindow.document.write("<iframe width='100%' height='100%' src='" + fileURL + "'></iframe>");
-        //var printWindow = window.open(fileURL, '', 'width=800,height=500');
-        //printWindow.print()
+        /*var printWindow = window.open(fileURL, '', 'width=800,height=500');
+        printWindow.print()*/
+        _this2.appointment = [];
+        _this2.user.files = [];
+        _this2.user.file = '';
+        _this2.notes = '';
+        setTimeout(function () {
+          _this2.Get_Profile_Info();
+        }, 500);
         _this2.makeToast("success", _this2.$t("Create.TitleUser"), _this2.$t("Success"));
       })["catch"](function (error) {
         self.SubmitProcessing = false;
@@ -399,7 +407,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       });
     },
     formatDate: function formatDate(date) {
-      return Object(date_fns__WEBPACK_IMPORTED_MODULE_2__["format"])(new Date(date), 'dd-MM-yyyy HH:mm');
+      return Object(date_fns__WEBPACK_IMPORTED_MODULE_2__["format"])(new Date(date), 'dd-MM-yyyy');
     },
     calculateTotalAmount: function calculateTotalAmount(items) {
       return items.reduce(function (total, item) {
@@ -424,6 +432,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         variant: variant,
         solid: true
       });
+    },
+    //------ Validation State fields
+    getValidationState: function getValidationState(_ref) {
+      var dirty = _ref.dirty,
+        validated = _ref.validated,
+        _ref$valid = _ref.valid,
+        valid = _ref$valid === void 0 ? null : _ref$valid;
+      return dirty || validated ? valid : null;
     },
     loadLink: function loadLink(documento) {
       // const link = axios.get("/documents/"+document.id+'/download');
@@ -1434,14 +1450,14 @@ var render = function render() {
         return _vm.New_Recipe();
       }
     }
-  }, [_vm._v("\n                        Generar recipe\n                    ")])], 1)], 1)], 1), _vm._v(" "), _c("b-col", {
+  }, [_vm._v("\n                  Generar recipe\n                ")])], 1)], 1)], 1), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "8",
       lg: "8",
       sm: "12"
     }
   }, [_c("b-container", {
-    staticClass: "mt-5"
+    staticClass: "mt-5 infouser"
   }, [_c("b-row", [_c("b-col", {
     attrs: {
       md: "6",
@@ -1513,7 +1529,10 @@ var render = function render() {
       lg: "3"
     }
   }, [_c("div", {
-    staticClass: "card user-profile card-height mb-2"
+    staticClass: "card user-profile card-height mb-2",
+    staticStyle: {
+      height: "100%"
+    }
   }, [_c("b-form", {
     attrs: {
       enctype: "multipart/form-data"
@@ -1552,7 +1571,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("button", {
     staticClass: "btn btn-primary float-right mt-2 btn-sm"
-  }, [_vm._v("\n            Save note\n          ")])])])], 1)]), _vm._v(" "), _c("b-col", {
+  }, [_vm._v("\n              Save note\n            ")])])])], 1)]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "3",
       sm: "12",
@@ -1560,7 +1579,11 @@ var render = function render() {
       lg: "3"
     }
   }, [_c("div", {
-    staticClass: "card user-profile card-height"
+    staticClass: "card user-profile card-height",
+    staticStyle: {
+      "max-height": "340px",
+      "overflow-y": "auto"
+    }
   }, [_c("div", {
     staticClass: "card-body"
   }, [_c("input", {
@@ -1626,7 +1649,7 @@ var render = function render() {
       staticClass: "m-2"
     }, [_c("b-row", [_c("b-col", {
       attrs: {
-        md: "2"
+        md: "4"
       }
     }, [_c("div", {
       staticClass: "circle"
@@ -1634,15 +1657,7 @@ var render = function render() {
       staticClass: "card-part"
     }, [_c("h5", [_vm._v(_vm._s(_vm.formatDate(appointment === null || appointment === void 0 ? void 0 : appointment.date)))]), _vm._v(" "), _c("p")])]), _vm._v(" "), _c("b-col", {
       attrs: {
-        md: "2"
-      }
-    }, [_c("div", {
-      staticClass: "card-part"
-    }, [_c("h4", [_vm._v("Type")]), _vm._v(" "), _c("p", {
-      staticClass: "font-weight-bold"
-    })])]), _vm._v(" "), _c("b-col", {
-      attrs: {
-        md: "3"
+        md: "6"
       }
     }, [_c("div", {
       staticClass: "card-part"
@@ -1650,29 +1665,20 @@ var render = function render() {
       staticClass: "font-weight-bold"
     }, [_vm._v(_vm._s(appointment === null || appointment === void 0 ? void 0 : (_appointment$appointm = appointment.appointment) === null || _appointment$appointm === void 0 ? void 0 : (_appointment$appointm2 = _appointment$appointm.doctor) === null || _appointment$appointm2 === void 0 ? void 0 : _appointment$appointm2.firstname) + " " + _vm._s(appointment === null || appointment === void 0 ? void 0 : (_appointment$appointm3 = appointment.appointment) === null || _appointment$appointm3 === void 0 ? void 0 : (_appointment$appointm4 = _appointment$appointm3.doctor) === null || _appointment$appointm4 === void 0 ? void 0 : _appointment$appointm4.lastname))])])]), _vm._v(" "), _c("b-col", {
       attrs: {
-        md: "3"
-      }
-    }, [_c("div", {
-      staticClass: "card-part"
-    }, [_c("h4", [_vm._v("Nurse")]), _vm._v(" "), _c("p", {
-      staticClass: "font-weight-bold"
-    })])]), _vm._v(" "), _c("b-col", {
-      attrs: {
         md: "2"
       }
     }, [_c("div", {
       staticClass: "card-part"
     }, [_c("button", {
+      staticClass: "btn btn-primary",
       on: {
         click: function click($event) {
           return _vm.focusTextarea(appointment);
         }
       }
-    }, [_c("h5", {
-      staticClass: "text-primary text-center"
     }, [_c("i", {
       staticClass: "nav-icon i-Notepad"
-    }), _vm._v(" Notes")])])])])], 1)], 1);
+    }), _vm._v(" Notes\n                  ")])])])], 1)], 1);
   }), 1), _vm._v(" "), _c("b-tab", {
     attrs: {
       title: "Past appointments"
@@ -1692,14 +1698,6 @@ var render = function render() {
       staticClass: "card-part"
     }, [_c("h5", [_vm._v(_vm._s(_vm.formatDate(appointment === null || appointment === void 0 ? void 0 : appointment.date)))]), _vm._v(" "), _c("p")])]), _vm._v(" "), _c("b-col", {
       attrs: {
-        md: "2"
-      }
-    }, [_c("div", {
-      staticClass: "card-part"
-    }, [_c("h4", [_vm._v("Type")]), _vm._v(" "), _c("p", {
-      staticClass: "font-weight-bold"
-    })])]), _vm._v(" "), _c("b-col", {
-      attrs: {
         md: "3"
       }
     }, [_c("div", {
@@ -1707,14 +1705,6 @@ var render = function render() {
     }, [_c("h4", [_vm._v("Doctor")]), _vm._v(" "), _c("p", {
       staticClass: "font-weight-bold"
     }, [_vm._v(_vm._s(appointment === null || appointment === void 0 ? void 0 : (_appointment$appointm5 = appointment.appointment) === null || _appointment$appointm5 === void 0 ? void 0 : (_appointment$appointm6 = _appointment$appointm5.doctor) === null || _appointment$appointm6 === void 0 ? void 0 : _appointment$appointm6.firstname) + " " + _vm._s(appointment === null || appointment === void 0 ? void 0 : (_appointment$appointm7 = appointment.appointment) === null || _appointment$appointm7 === void 0 ? void 0 : (_appointment$appointm8 = _appointment$appointm7.doctor) === null || _appointment$appointm8 === void 0 ? void 0 : _appointment$appointm8.lastname))])])]), _vm._v(" "), _c("b-col", {
-      attrs: {
-        md: "3"
-      }
-    }, [_c("div", {
-      staticClass: "card-part"
-    }, [_c("h4", [_vm._v("Nurse")]), _vm._v(" "), _c("p", {
-      staticClass: "font-weight-bold"
-    })])]), _vm._v(" "), _c("b-col", {
       attrs: {
         md: "2"
       }
@@ -1859,6 +1849,7 @@ var render = function render() {
         }, [_c("b-form-input", {
           attrs: {
             label: "datebirth",
+            state: _vm.getValidationState(validationContext),
             "aria-describedby": "DateBirth-feedback"
           },
           model: {
@@ -2035,55 +2026,6 @@ render._withStripped = true;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.card-height{\n    height: 330px;\n    overflow: auto;\n    max-height: 330px;\n@media (max-width: 767px) {\n      height: auto; /* Ajustar altura en pantallas pequeñas */\n      max-height: none;\n}\n}\n.card-part {\n    padding: 15px;\n    text-align: center;\n    border-radius: 5px;\n    position: relative;\n}\n.circle {\n  width: 20px;\n  height: 20px;\n  background-color: #007bff;\n  border-radius: 50%;\n  position: absolute;\n  left: -10px;\n  top: 50%;\n  transform: translateY(-50%);\n}\n.card-hover:hover {\n  background-color: #90979e; /* Change this color as desired */\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../../node_modules/css-loader??ref--6-1!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./resources/src/views/app/pages/dates/Edit_date.vue":
 /*!***********************************************************!*\
   !*** ./resources/src/views/app/pages/dates/Edit_date.vue ***!
@@ -2164,9 +2106,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _patientsData_vue_vue_type_template_id_d1a0a6ea___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./patientsData.vue?vue&type=template&id=d1a0a6ea& */ "./resources/src/views/app/pages/people/patientsData.vue?vue&type=template&id=d1a0a6ea&");
 /* harmony import */ var _patientsData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./patientsData.vue?vue&type=script&lang=js& */ "./resources/src/views/app/pages/people/patientsData.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& */ "./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -2174,7 +2114,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _patientsData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _patientsData_vue_vue_type_template_id_d1a0a6ea___WEBPACK_IMPORTED_MODULE_0__["render"],
   _patientsData_vue_vue_type_template_id_d1a0a6ea___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -2203,22 +2143,6 @@ component.options.__file = "resources/src/views/app/pages/people/patientsData.vu
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./patientsData.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/src/views/app/pages/people/patientsData.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&":
-/*!************************************************************************************************************!*\
-  !*** ./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& ***!
-  \************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/style-loader!../../../../../../node_modules/css-loader??ref--6-1!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/src/views/app/pages/people/patientsData.vue?vue&type=style&index=0&id=d1a0a6ea&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_patientsData_vue_vue_type_style_index_0_id_d1a0a6ea_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-
 
 /***/ }),
 

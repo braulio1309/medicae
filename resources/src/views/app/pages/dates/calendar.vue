@@ -1,28 +1,40 @@
 <template>
     <div class="layout-px-spacing apps-calendar">
         <div class="row layout-top-spacing" id="cancel-row">
-            <div class="col-xl-2 col-lg-2 col-md-2">
+            <div class="col-xl-3 col-lg-3 col-md-3">
                 <div class="row">
                     <div class="col-sm-12">
                         <h4 class="font-weight-bold">Visitas de hoy</h4>
                         <h6>{{ currentDate }}</h6>
-                        <div class="card mb-2" v-for="reservation in this.todayTurns" :key="reservation">
-                            <div class="card-body">
-                            <!-- Título de la tarjeta -->
-                            <h5 class="card-title">{{ reservation.firstname }}</h5>
-                            <!-- Subtítulo de la tarjeta -->
-                            <h6 class="card-subtitle mb-2 text-muted">{{ reservation.date }}</h6>
-                            <!-- Contenido adicional de la tarjeta si es necesario -->
-                            <!-- ... -->
+                            <div class="card mb-2" v-for="reservation in this.todayTurns" :key="reservation">
+                                <a :href="'/app/dates/profile/patient/'+reservation.userId">
+
+                                    <div class="card-body">
+                                    <!-- Título de la tarjeta -->
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <b-avatar :src="'images/avatar/no_avatar.png'" size="3rem"></b-avatar>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <h6 class="card-subtitle mb-2 text-muted">
+                                                    {{ new Date(reservation.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }} - 
+                                                    {{ new Date(new Date(reservation.date).getTime() + 60 * 60 * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}
+                                                </h6>
+                                                <h5 class="card-title">{{ reservation.firstname }} {{ reservation.lastname }}</h5>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                </a>
+
                             </div>
-                        </div>
                     </div>
                     
                 </div>
             </div>
-            <div class="col-xl-10 col-lg-10 col-md-10">
+            <div class="col-xl-9 col-lg-9 col-md-9">
                 
-                <div class="statbox panel box box-shadow vh-100 overflow-hidden">
+                <div class="statbox panel box box-shadow vh-200 overflow-hidden" style="max-height: 240vh; overflow: hidden;">
                     <div class="panel-body">
                         <FullCalendar :options="this.options" ref="fullCalendar"/>
                            
@@ -74,14 +86,23 @@
 <style>
 /* Estilos CSS para la clase 'custom-event-class' */
 .custom-event-class {
-  background-color: blue; /* Cambiar el color de fondo */
-  color: white; /* Cambiar el color del texto */
+    background-color: rgba(255, 0, 0, 0.7); /* Color de fondo rojo con opacidad */
+  color: white; /* Color del texto */
+  border-radius: 10px; /* Esquinas redondeadas */
+  padding: 2px 10px; /* Espaciado interno con height más angosto */
   
 }
-
+.vacation {
+  background-color: rgba(40, 196, 40, 0.7); /* Color de fondo verdoso claro con opacidad */
+  color: white; /* Color del texto */
+  border-radius: 10px; /* Esquinas redondeadas */
+  padding: 2px 10px; /* Espaciado interno con height más angosto */
+}
 .ocupado {
-  background-color: red; /* Cambiar el color de fondo */
-  color: white; /* Cambiar el color del texto */
+  background-color: rgba(255, 0, 0, 0.7); /* Color de fondo rojo con opacidad */
+  color: white; /* Color del texto */
+  border-radius: 10px; /* Esquinas redondeadas */
+  padding: 2px 10px; /* Espaciado interno con height más angosto */
 }
 
 .full-height {
@@ -199,10 +220,8 @@ export default {
             },
             async bind_events () {
                 let dt = new Date();
-                //pide el axios con los horarios de los fisiatras 
-                let data = await axios.get("Appointments/turns/available");
+                let data = await axios.get("appointments/turns/reserved");
                 data = data.data.data;
-                
                 for (let i = 0; i < data.length; i++) {
                     let day = 0;
                     if(data[i].day == 'Lunes')
@@ -216,36 +235,44 @@ export default {
                     if(data[i].day == 'Viernes')
                         day = 5;
 
-                    
-
-                    
                     this.options.events.push(
                     {
                         id: data[i].turnId,
-                        title: data[i].username,
-                        startTime: data[i].time,
-                        daysOfWeek: [day],
+                        title: data[i].firstname +' '+data[i].lastname,
+                        start: data[i].date,
+                        //daysOfWeek: [day],
                         allDay: false,
-                        description: 'Etiam a odio eget enim aliquet laoreet. Vivamus auctor nunc ultrices varius lobortis.',
-                        classNames: (data[i].status == 0)? 'ocupado' : 'custom-event-class'
+                        classNames: 'custom-event-class'
                     });
+                    
+                    
                 };
                 let info = await axios.get('/vacations/dates');
-                console.log(info.data)
-                //info = info.data.vacation;
-                this.disabledDates = info.data.dates;
-                //this.disableDatesInCalendar();
+                
 
-                // let dateArray = [];
-                // let currentDate = moment(info.startDate);
-                // const endDate = moment(info.endDate);
+                for (let i = 0; i < info.data.dates.length; i++) {
+                    // Crea una nueva fecha para el día actual del ciclo
+                    let currentDate = info.data.dates[i];
+                    const parts = currentDate.split('/');
+                    // Obtener el año, mes y día
+                    const year = parts[2];
+                    const month = parts[1];
+                    const day = parts[0];
+                    
+                    // Crear una nueva fecha con la hora predeterminada (08:00:00)
+                    const formattedDate = new Date(`${year}-${month}-${day} 08:00:00`);
+                    
+                    // Formatear la fecha como cadena de texto
+                    const result = formattedDate.toISOString().slice(0, 19).replace('T', ' ');
 
-                // while (currentDate <= endDate) {
-                //     dateArray.push(currentDate.format('YYYY-MM-DD'));
-                //     currentDate.add(1, 'days');
-                // }
-
-                // this.options.events = dateArray.filter((date) =>{ return !exceptionDates.includes(date.startTime)});
+                    // Agrega el evento al arreglo this.options.events
+                    this.options.events.push({
+                        title: 'Vacation',
+                        start: result, // Fecha actual del ciclo
+                        allDay: true,
+                        classNames: 'vacation'
+                    });
+                }
 
             },
             edit_event(data) {

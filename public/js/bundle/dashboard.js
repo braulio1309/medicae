@@ -400,30 +400,144 @@ var render = function render() {
     staticClass: "main-content"
   }, [_c("b-row", [_c("b-col", {
     attrs: {
-      lg: "8",
-      md: "12",
-      sm: "12"
+      cols: "8"
+    }
+  }, [_c("div", {
+    staticClass: "card",
+    staticStyle: {
+      "background-color": "#F1F5F8",
+      padding: "10px",
+      height: "100%"
+    }
+  }, [_c("div", {
+    staticClass: "row mb-6",
+    staticStyle: {
+      "margin-bottom": "10px"
+    }
+  }, [_c("div", {
+    staticClass: "col-sm-4"
+  }, [_c("h2", {
+    staticClass: "text-center"
+  }, [_vm._v("Agenda del día")])]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-4"
+  }), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-4"
+  }, [_c("h2", {
+    staticClass: "text-center",
+    staticStyle: {}
+  }, [_vm._v("Miercoles")])])]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-12"
+  }, [_c("div", {
+    staticClass: "row text-center",
+    staticStyle: {
+      "font-size": "25px"
+    }
+  }, [_c("div", {
+    staticClass: "col-sm-4"
+  }, [_vm._v("\n              8:00 am\n            ")]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-4",
+    staticStyle: {
+      "letter-spacing": "2px"
+    }
+  }, [_vm._v("\n              ......................................\n            ")]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-4"
+  }, [_vm._v("\n              Braulio Zapata\n            ")])]), _vm._v(" "), _c("div", {
+    staticClass: "row text-center",
+    staticStyle: {
+      "font-size": "25px"
+    }
+  }, [_c("div", {
+    staticClass: "col-sm-4"
+  }, [_vm._v("\n              9:00 am\n            ")]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-4",
+    staticStyle: {
+      "letter-spacing": "2px"
+    }
+  }, [_vm._v("\n              ......................................\n            ")]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-4"
+  }, [_vm._v("\n              Matías Rodriguez\n            ")])]), _vm._v(" "), _c("div", {
+    staticClass: "row text-center",
+    staticStyle: {
+      "font-size": "25px"
+    }
+  }, [_c("div", {
+    staticClass: "col-sm-4"
+  }, [_vm._v("\n              10:00 am\n            ")]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-4",
+    staticStyle: {
+      "letter-spacing": "2px"
+    }
+  }, [_vm._v("\n              ......................................\n            ")]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-4"
+  }, [_vm._v("\n              Test Alex\n            ")])])])])]), _vm._v(" "), _c("b-col", {
+    attrs: {
+      cols: "4"
+    }
+  }, [_c("b-row", [_c("b-col", {
+    attrs: {
+      cols: "12"
     }
   }, [_c("b-card", {
     staticClass: "mb-30"
   }, [_c("h4", {
-    staticClass: "card-title m-0"
-  }, [_vm._v(_vm._s(_vm.$t("appointment_received")))]), _vm._v(" "), _c("div", {
-    staticClass: "chart-wrapper"
-  }, [_c("v-chart", {
+    staticClass: "font-weight-bold mb-4"
+  }, [_vm._v("Ultimas citas")]), _vm._v(" "), _c("div", {}, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-sm-12"
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-sm-2"
+  }, [_c("b-avatar", {
     attrs: {
-      options: _vm.echartAppointment,
-      autoresize: true
+      src: "images/avatar/no_avatar.png"
     }
-  })], 1)])], 1), _vm._v(" "), _c("b-col", {
+  })], 1), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-6"
+  }, [_c("h5", {}, [_vm._v("Braulio Zapata")]), _vm._v(" "), _c("h6", {
+    staticClass: "text-muted"
+  }, [_vm._v("\n                              Hace 1 hora \n                          ")])]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-4"
+  }, [_c("br"), _vm._v(" "), _c("span", {
+    staticClass: "badge rounded-pill bg-success"
+  }, [_vm._v("Actualizado")])])]), _vm._v(" "), _c("hr", {
+    staticStyle: {
+      "margin-top": "-1px"
+    }
+  })])])]), _vm._v(" "), _c("div", {}, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-sm-12"
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-sm-2"
+  }, [_c("b-avatar", {
     attrs: {
-      col: "",
-      lg: "4",
-      md: "12",
-      sm: "12"
+      src: "images/avatar/no_avatar.png"
+    }
+  })], 1), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-6"
+  }, [_c("h5", {}, [_vm._v("Braulio Zapata")]), _vm._v(" "), _c("h6", {
+    staticClass: "text-muted"
+  }, [_vm._v("\n                              Hace 1 hora \n                          ")])]), _vm._v(" "), _c("div", {
+    staticClass: "col-sm-4"
+  }, [_c("br"), _vm._v(" "), _c("span", {
+    staticClass: "badge rounded-pill bg-success"
+  }, [_vm._v("Actualizado")])])]), _vm._v(" "), _c("hr", {
+    staticStyle: {
+      "margin-top": "-1px"
+    }
+  })])])])])], 1)], 1), _vm._v(" "), _c("b-row", [_c("b-col", {
+    attrs: {
+      cols: "12"
     }
   }, [_c("b-card", {
-    staticClass: "mb-30"
+    staticClass: "mb-30",
+    staticStyle: {
+      "background-color": "#4B9AEB"
+    }
   }, [_c("h4", {
     staticClass: "card-title m-0"
   }, [_vm._v(_vm._s(_vm.$t("TopPatient")) + " (" + _vm._s(_vm.CurrentMonth) + ")")]), _vm._v(" "), _c("div", {
@@ -433,55 +547,7 @@ var render = function render() {
       options: _vm.echartPatient,
       autoresize: true
     }
-  })], 1)])], 1)], 1), _vm._v(" "), _c("b-row", [_c("div", {
-    staticClass: "col-md-8"
-  }, [_c("div", {
-    staticClass: "card mb-30"
-  }, [_c("div", {
-    staticClass: "card-body p-0"
-  }, [_c("h5", {
-    staticClass: "card-title border-bottom p-3 mb-2"
-  }, [_vm._v(_vm._s(_vm.$t("pending_appointment")))]), _vm._v(" "), !_vm.loading ? _c("vue-good-table", {
-    attrs: {
-      columns: _vm.columns_appointment,
-      styleClass: "order-table vgt-table",
-      "row-style-class": "text-left",
-      rows: _vm.appointments
-    },
-    scopedSlots: _vm._u([{
-      key: "table-row",
-      fn: function fn(props) {
-        return [props.column.field == "statut" ? _c("div", [props.row.statut == "completed" ? _c("span", {
-          staticClass: "badge badge-outline-success"
-        }, [_vm._v(_vm._s(_vm.$t("complete")))]) : props.row.statut == "pending" ? _c("span", {
-          staticClass: "badge badge-outline-info"
-        }, [_vm._v(_vm._s(_vm.$t("Pending")))]) : _c("span", {
-          staticClass: "badge badge-outline-warning"
-        }, [_vm._v(_vm._s(_vm.$t("Ordered")))])]) : props.column.field == "payment_status" ? _c("div", [props.row.payment_status == "paid" ? _c("span", {
-          staticClass: "badge badge-outline-success"
-        }, [_vm._v(_vm._s(_vm.$t("Paid")))]) : props.row.payment_status == "partial" ? _c("span", {
-          staticClass: "badge badge-outline-primary"
-        }, [_vm._v(_vm._s(_vm.$t("partial")))]) : _c("span", {
-          staticClass: "badge badge-outline-warning"
-        }, [_vm._v(_vm._s(_vm.$t("Unpaid")))])]) : _vm._e()];
-      }
-    }], null, false, 2617766521)
-  }) : _vm._e()], 1)])]), _vm._v(" "), _c("div", {
-    staticClass: "col-md-4"
-  }, [_c("div", {
-    staticClass: "card mb-30"
-  }, [_c("div", {
-    staticClass: "card-body p-3"
-  }, [_c("h5", {
-    staticClass: "card-title border-bottom p-3 mb-2"
-  }, [_vm._v("Pacientes frecuentes (" + _vm._s(_vm.CurrentMonth) + ")")]), _vm._v(" "), _c("vue-good-table", {
-    attrs: {
-      columns: _vm.columns_patients,
-      styleClass: "order-table vgt-table",
-      "row-style-class": "text-left",
-      rows: _vm.patients
-    }
-  })], 1)])])])], 1);
+  })], 1)])], 1)], 1)], 1)], 1)], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;

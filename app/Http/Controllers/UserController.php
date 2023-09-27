@@ -482,6 +482,7 @@ class UserController extends BaseController
         return response()->json($doctors);
     }
 
+    
     public function getRecipeProfile(Request $request){
 
         $patient = User::find($request->id);

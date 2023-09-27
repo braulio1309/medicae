@@ -516,6 +516,17 @@ class AppointmentsController extends BaseController
         return response()->json($availableTimes);
     }
 
+    public function getReserved(){
+        $reservationsOcupadas = DB::table('reservations')
+        ->join('appointments', 'reservations.turnId', '=', 'appointments.id')
+        ->join('users', 'reservations.user_id', '=', 'users.id')
+        ->where('appointments.userId', auth()->user()->id) 
+        ->select('reservations.*', 'users.*', 'appointments.*') 
+        ->get();
+
+        return  response()->json(['data' => $reservationsOcupadas]);
+    }
+
     function getSpanishDay($date) {
         $englishDay = strtolower(date('l', strtotime($date)));
     

@@ -188,7 +188,7 @@ class ReservationController extends Controller
                 $reservation = new Reservation();
                 $reservation->appointment_id = $appointment->id;
                 $reservation->date = $date;
-                $reservation->user_id = auth()->user()->id;
+                $reservation->user_id = $request->input('patientId');;
                 $reservation->canceled = false;
                 $reservation->save();
 

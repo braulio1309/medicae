@@ -158,6 +158,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         try {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
             var turns = _step.value;
+            console.log(turns);
             _this2.slots[turns.day].push({
               startHour: turns.startHour,
               finalHour: turns.finalHour,
@@ -312,7 +313,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var _this6 = this;
       // Send Data with axios
 
-      this.prepareSlots();
+      console.log(this.slots);
+      //this.prepareSlots();
       axios.post("Appointments", {
         'hours': this.slots,
         'duration': this.duration
@@ -320,9 +322,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         // Complete the animation of theprogress bar.
         nprogress__WEBPACK_IMPORTED_MODULE_7___default.a.done();
         self.SubmitProcessing = false;
-        _this6.$router.push({
-          path: "/app/dates/store"
-        });
+        _this6.loadAvailableTimes();
         _this6.makeToast("success", _this6.$t("Successfully_Created"), _this6.$t("Success"));
       })["catch"](function (error) {
         // Complete the animation of theprogress bar.
@@ -1028,22 +1028,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var primevue_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primevue/button */ "./node_modules/primevue/button/index.js");
-/* harmony import */ var primevue_button__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(primevue_button__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var primevue_dropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primevue/dropdown */ "./node_modules/primevue/dropdown/index.js");
-/* harmony import */ var primevue_dropdown__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(primevue_dropdown__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var primevue_calendar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/calendar */ "./node_modules/primevue/calendar/index.js");
-/* harmony import */ var primevue_calendar__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(primevue_calendar__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! primevue/resources/primevue.min.css */ "./node_modules/primevue/resources/primevue.min.css");
-/* harmony import */ var primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! primevue/resources/themes/saga-blue/theme.css */ "./node_modules/primevue/resources/themes/saga-blue/theme.css");
-/* harmony import */ var primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! primeicons/primeicons.css */ "./node_modules/primeicons/primeicons.css");
-/* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
-/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var primevue_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! primevue/button */ "./node_modules/primevue/button/index.js");
+/* harmony import */ var primevue_button__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(primevue_button__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var primevue_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primevue/dropdown */ "./node_modules/primevue/dropdown/index.js");
+/* harmony import */ var primevue_dropdown__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(primevue_dropdown__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var primevue_calendar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primevue/calendar */ "./node_modules/primevue/calendar/index.js");
+/* harmony import */ var primevue_calendar__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(primevue_calendar__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/resources/primevue.min.css */ "./node_modules/primevue/resources/primevue.min.css");
+/* harmony import */ var primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(primevue_resources_primevue_min_css__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! primevue/resources/themes/saga-blue/theme.css */ "./node_modules/primevue/resources/themes/saga-blue/theme.css");
+/* harmony import */ var primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(primevue_resources_themes_saga_blue_theme_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! primeicons/primeicons.css */ "./node_modules/primeicons/primeicons.css");
+/* harmony import */ var primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(primeicons_primeicons_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_7__);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -1058,15 +1056,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   metaInfo: {
     title: "Reserva de Cita"
   },
   components: {
-    Dropdown: primevue_dropdown__WEBPACK_IMPORTED_MODULE_3___default.a,
-    Calendar: primevue_calendar__WEBPACK_IMPORTED_MODULE_4___default.a,
-    Button: primevue_button__WEBPACK_IMPORTED_MODULE_2___default.a
+    Dropdown: primevue_dropdown__WEBPACK_IMPORTED_MODULE_2___default.a,
+    Calendar: primevue_calendar__WEBPACK_IMPORTED_MODULE_3___default.a,
+    Button: primevue_button__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   data: function data() {
     return {
@@ -1098,7 +1095,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
             year = _date$split2[2];
           return new Date("".concat(month, "/").concat(day, "/").concat(year));
         });
-        nprogress__WEBPACK_IMPORTED_MODULE_8___default.a.done();
+        nprogress__WEBPACK_IMPORTED_MODULE_7___default.a.done();
         _this.isLoading = false;
       })["catch"](function (error) {
         console.error(error);
@@ -1110,6 +1107,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         var _this$$route$params$i;
         // Realiza la llamada al backend para obtener los horarios disponibles del fisioterapeuta y la fecha seleccionada
         var id = (_this$$route$params$i = this.$route.params.id) !== null && _this$$route$params$i !== void 0 ? _this$$route$params$i : -1;
+        console.log(id);
         var dateObj = new Date(this.selectedDate);
         var day = String(dateObj.getDate()).padStart(2, '0');
         var month = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -1134,8 +1132,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       var _this3 = this;
       if (this.selectedDate && this.selectedTime) {
         this.SubmitProcessing = true;
-        nprogress__WEBPACK_IMPORTED_MODULE_8___default.a.start();
-        nprogress__WEBPACK_IMPORTED_MODULE_8___default.a.set(0.1);
+        nprogress__WEBPACK_IMPORTED_MODULE_7___default.a.start();
+        nprogress__WEBPACK_IMPORTED_MODULE_7___default.a.set(0.1);
         var dateObj = new Date(this.selectedDate);
         var day = String(dateObj.getDate()).padStart(2, '0');
         var month = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -1146,28 +1144,29 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           if (response.data.isAvailable) {
             axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("Appointments/turns/reserve2", {
               'turnId': _this3.selectedTime,
-              'date': formattedDate
+              'date': formattedDate,
+              'patientId': _this3.$route.params.id
             }).then(function (response) {
               _this3.SubmitProcessing = false;
               _this3.selectedDoctor = null;
               _this3.selectedDate = null;
               _this3.selectedTime = null;
-              nprogress__WEBPACK_IMPORTED_MODULE_8___default.a.done();
+              nprogress__WEBPACK_IMPORTED_MODULE_7___default.a.done();
               _this3.makeToast("success", 'Reserva exitosa', 'Éxito');
             })["catch"](function (error) {
               _this3.SubmitProcessing = false;
-              nprogress__WEBPACK_IMPORTED_MODULE_8___default.a.done();
+              nprogress__WEBPACK_IMPORTED_MODULE_7___default.a.done();
               _this3.makeToast("danger", 'Error al realizar la Reserva', 'Falló');
             });
           } else {
             _this3.SubmitProcessing = false;
-            nprogress__WEBPACK_IMPORTED_MODULE_8___default.a.done();
+            nprogress__WEBPACK_IMPORTED_MODULE_7___default.a.done();
             // La fecha ya ha sido reservada, mostrar mensaje o realizar las acciones correspondientes
             _this3.makeToast("danger", 'La fecha ya ha sido reservada', 'Falló');
           }
         })["catch"](function (error) {
           _this3.SubmitProcessing = false;
-          nprogress__WEBPACK_IMPORTED_MODULE_8___default.a.done();
+          nprogress__WEBPACK_IMPORTED_MODULE_7___default.a.done();
           _this3.makeToast("danger", 'Error al realizar la Reserva', 'Falló');
         });
       }
@@ -1434,33 +1433,7 @@ var render = function render() {
     }
   }, [_c("h1", {
     staticClass: "font-weight-bold"
-  }, [_vm._v(_vm._s(_vm.$t("AppointmentManagement")))]), _vm._v(" "), _c("label", {
-    attrs: {
-      "for": "duracion-consulta"
-    }
-  }, [_vm._v(_vm._s(_vm.$t("DurationOfAppointment")))]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: this.duration,
-      expression: "this.duration"
-    }],
-    staticClass: "form-control col-xs-5 col-sm-5 col-md-5 col-lg-5",
-    attrs: {
-      type: "number",
-      autocomplete: "off",
-      id: "duracion-consulta"
-    },
-    domProps: {
-      value: this.duration
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(this, "duration", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _vm._l(_vm.dayss, function (day, index) {
+  }, [_vm._v(_vm._s(_vm.$t("AppointmentManagement")))]), _vm._v(" "), _vm._l(_vm.dayss, function (day, index) {
     return _c("div", {
       key: index,
       staticClass: "mt-1"
@@ -1493,7 +1466,7 @@ var render = function render() {
           return _vm.agregarInput(day);
         }
       }
-    }), _vm._v(" "), _vm._l(_vm.slots[day], function (input, index) {
+    }), _vm._v(" "), _vm._l(_vm.slots[day], function (_input, index) {
       return _c("div", {
         key: index,
         staticClass: "m-3 row"
@@ -1503,81 +1476,109 @@ var render = function render() {
         attrs: {
           "for": "hora-final"
         }
-      }, [_vm._v("Desde:")]), _vm._v(" "), _c("Calendar", {
-        attrs: {
-          autocomplete: "off",
-          id: "hora-inicio",
-          timeOnly: ""
-        },
-        model: {
-          value: input.startHour,
-          callback: function callback($$v) {
-            _vm.$set(input, "startHour", $$v);
-          },
+      }, [_vm._v("Desde:")]), _vm._v(" "), _c("input", {
+        directives: [{
+          name: "model",
+          rawName: "v-model",
+          value: _input.startHour,
           expression: "input.startHour"
+        }],
+        staticClass: "form-control",
+        attrs: {
+          type: "time",
+          id: "hora-final"
+        },
+        domProps: {
+          value: _input.startHour
+        },
+        on: {
+          input: function input($event) {
+            if ($event.target.composing) return;
+            _vm.$set(_input, "startHour", $event.target.value);
+          }
         }
-      })], 1), _vm._v(" "), _c("div", {
+      })]), _vm._v(" "), _c("div", {
         staticClass: "col-sm-2"
       }, [_c("label", {
         attrs: {
           "for": "hora-final"
         }
-      }, [_vm._v("Hasta:")]), _vm._v(" "), _c("Calendar", {
-        attrs: {
-          autocomplete: "off",
-          id: "hora-final",
-          timeOnly: ""
-        },
-        model: {
-          value: input.finalHour,
-          callback: function callback($$v) {
-            _vm.$set(input, "finalHour", $$v);
-          },
+      }, [_vm._v("Hasta:")]), _vm._v(" "), _c("input", {
+        directives: [{
+          name: "model",
+          rawName: "v-model",
+          value: _input.finalHour,
           expression: "input.finalHour"
+        }],
+        staticClass: "form-control",
+        attrs: {
+          type: "time",
+          id: "hora-final"
+        },
+        domProps: {
+          value: _input.finalHour
+        },
+        on: {
+          input: function input($event) {
+            if ($event.target.composing) return;
+            _vm.$set(_input, "finalHour", $event.target.value);
+          }
         }
-      })], 1), _vm._v(" "), _c("div", {
+      })]), _vm._v(" "), _c("div", {
         staticClass: "col-sm-2"
       }, [_c("label", {
         attrs: {
           "for": "hora-final"
         }
-      }, [_vm._v("Desde (Descanso):")]), _vm._v(" "), _c("Calendar", {
-        attrs: {
-          autocomplete: "off",
-          id: "hora-inicio",
-          timeOnly: true,
-          showSeconds: false,
-          showMillisec: false
-        },
-        model: {
-          value: input.startHourRest,
-          callback: function callback($$v) {
-            _vm.$set(input, "startHourRest", $$v);
-          },
+      }, [_vm._v("Desde (Descanso):")]), _vm._v(" "), _c("input", {
+        directives: [{
+          name: "model",
+          rawName: "v-model",
+          value: _input.startHourRest,
           expression: "input.startHourRest"
+        }],
+        staticClass: "form-control",
+        attrs: {
+          type: "time",
+          id: "hora-final"
+        },
+        domProps: {
+          value: _input.startHourRest
+        },
+        on: {
+          input: function input($event) {
+            if ($event.target.composing) return;
+            _vm.$set(_input, "startHourRest", $event.target.value);
+          }
         }
-      })], 1), _vm._v(" "), _c("div", {
+      })]), _vm._v(" "), _c("div", {
         staticClass: "col-sm-2"
       }, [_c("label", {
         attrs: {
           "for": "hora-final"
         }
-      }, [_vm._v("Hasta (Descanso):")]), _vm._v(" "), _c("Calendar", {
-        attrs: {
-          autocomplete: "off",
-          id: "hora-final",
-          timeOnly: true,
-          showSeconds: false,
-          showMillisec: false
-        },
-        model: {
-          value: input.finalHourRest,
-          callback: function callback($$v) {
-            _vm.$set(input, "finalHourRest", $$v);
-          },
+      }, [_vm._v("Hasta (Descanso):")]), _vm._v(" "), _c("input", {
+        directives: [{
+          name: "model",
+          rawName: "v-model",
+          value: _input.finalHourRest,
           expression: "input.finalHourRest"
+        }],
+        staticClass: "form-control",
+        attrs: {
+          type: "time",
+          id: "hora-final"
+        },
+        domProps: {
+          value: _input.finalHourRest
+        },
+        on: {
+          input: function input($event) {
+            if ($event.target.composing) return;
+            _vm.$set(_input, "finalHourRest", $event.target.value);
+          }
         }
-      })], 1), _vm._v(" "), _c("div", {
+      })]), _vm._v(" "), _c("div", {
         staticClass: "col-xs-4 col-sm-4 col-md-2 col-lg-2 m-auto"
       })]);
     })], 2)])], 1)], 1);
@@ -2006,13 +2007,17 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "statbox panel box box-shadow vh-200 overflow-hidden",
     staticStyle: {
-      "max-height": "240vh",
+      "max-height": "210vh",
       overflow: "hidden"
     }
   }, [_c("div", {
     staticClass: "panel-body"
   }, [_c("FullCalendar", {
     ref: "fullCalendar",
+    staticStyle: {
+      "max-height": "210vh",
+      overflow: "hidden"
+    },
     attrs: {
       options: this.options
     }
@@ -2115,7 +2120,8 @@ var render = function render() {
     staticClass: "main-content"
   }, [_c("breadcumb", {
     attrs: {
-      page: "Reserva de Cita"
+      page: "Reservar cita",
+      folder: ""
     }
   }), _vm._v(" "), _vm.isLoading ? _c("div", {
     staticClass: "loading_page spinner spinner-primary mr-3"

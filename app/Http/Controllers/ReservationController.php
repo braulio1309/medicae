@@ -141,27 +141,38 @@ class ReservationController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function getReservationsByMonth(Request $request)
     {
-        //
-    }
+        // Obtén el mes y el año actual
+        $currentMonth = now()->format('m');
+        $currentYear = now()->format('Y');
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        // Calcula el mes anterior
+        $previousMonth = now()->subMonth()->format('m');
+        $previousYear = now()->subMonth()->format('Y');
+
+        // Consulta para obtener las reservaciones del mes actual
+        $currentMonthReservations = Reservation::whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->count();
+
+        // Consulta para obtener las reservaciones del mes anterior
+        $previousMonthReservations = Reservation::whereYear('created_at', $previousYear)
+            ->whereMonth('created_at', $previousMonth)
+            ->count();
+
+        // Calcula el porcentaje de cambio
+        if ($previousMonthReservations > 0) {
+            $percentageChange = (($currentMonthReservations - $previousMonthReservations) / $previousMonthReservations) * 100;
+        } else {
+            $percentageChange = 0; // Evita división por cero
+        }
+
+        // Devuelve la respuesta
+        return response()->json([
+            'current_month_reservations' => $currentMonthReservations,
+            'percentage_change' => $percentageChange,
+        ]);
     }
 
     public function reserveAppointment(Request $request)

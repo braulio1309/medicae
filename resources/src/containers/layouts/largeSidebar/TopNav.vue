@@ -3,7 +3,7 @@
     <div class="logo">
        <router-link to="/app/dashboard">
         
-        <img :src="'/images/'+currentUser.logo" alt width="4000" height="2000"> 
+        <img :src="'/images/'+currentUser.logo" style="height: 50% !important;"> 
        </router-link>
     </div>
 

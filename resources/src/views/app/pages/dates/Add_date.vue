@@ -9,9 +9,7 @@
               <b-row>
                 <b-col md="12">
                   <h1 class="font-weight-bold">{{ $t('AppointmentManagement') }}</h1>
-                  <label for="duracion-consulta" >{{ $t('DurationOfAppointment') }}</label>
-                  <input type="number"  autocomplete="off" class='form-control col-xs-5 col-sm-5 col-md-5 col-lg-5' id="duracion-consulta"
-                    v-model="this.duration" />
+                  
                   <div v-for="(day, index) in dayss" :key="index" class="mt-1">
                     <b-card>
                       <h6 class="d-inline">{{ day }}</h6>
@@ -26,24 +24,24 @@
 
                             <div class="col-sm-2">
                               <label for="hora-final">Desde:</label>
-                              <Calendar  autocomplete="off" id="hora-inicio" v-model="input.startHour" timeOnly />
+                              <input class="form-control" type="time" id="hora-final" v-model="input.startHour" />
                             </div>
                             <div class="col-sm-2">
                               <label for="hora-final">Hasta:</label>
-                              <Calendar  autocomplete="off" id="hora-final" v-model="input.finalHour" timeOnly />
+                              <input  class="form-control" type="time" id="hora-final" v-model="input.finalHour" />
                             </div>
 
 
                             <div class="col-sm-2">
                               <label for="hora-final">Desde (Descanso):</label>
-                              <Calendar  autocomplete="off" id="hora-inicio" v-model="input.startHourRest" :timeOnly="true"
-                                :showSeconds="false" :showMillisec="false" />
+                              <input  class="form-control" type="time" id="hora-final" v-model="input.startHourRest" />
+
                             </div>
                             <div class="col-sm-2">
                               <label for="hora-final">Hasta (Descanso):</label>
 
-                              <Calendar  autocomplete="off" id="hora-final" v-model="input.finalHourRest" :timeOnly="true"
-                                :showSeconds="false" :showMillisec="false" />
+                              <input  class="form-control" type="time" id="hora-final" v-model="input.finalHourRest" />
+
                             </div>
 
                             <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 m-auto">
@@ -280,6 +278,7 @@ export default {
           this.hours = response.data.turns;
 
           for (let turns of this.hours) {
+            console.log(turns)
             this.slots[turns.day].push({
               startHour: turns.startHour, finalHour: turns.finalHour,
               startHourRest: turns.startHourRest, finalHourRest: turns.finalHourRest
@@ -447,7 +446,8 @@ export default {
     Create_Appointment() {
       // Send Data with axios
 
-      this.prepareSlots();
+      console.log(this.slots)
+      //this.prepareSlots();
       axios
         .post("Appointments", {
           'hours': this.slots,
@@ -457,7 +457,7 @@ export default {
           // Complete the animation of theprogress bar.
           NProgress.done();
           self.SubmitProcessing = false;
-          this.$router.push({ path: "/app/dates/store" });
+          this.loadAvailableTimes();
           this.makeToast(
             "success",
             this.$t("Successfully_Created"),

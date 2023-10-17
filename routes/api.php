@@ -20,6 +20,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+Route::resource('vacations', 'VacationController');
+Route::get('available-times', 'AppointmentsController@getAvailableTimes');
+Route::get('check-availability', 'AppointmentsController@checkAvailability');
+
+// Ruta para reservar una cita
+Route::post('reserve-appointment', 'ReservationController@reserveAppointment');
+Route::post('Appointments/turns/reserve2', 'AppointmentsController@reserveTurn2');
+
+//--------------------------- Reservations ------------------------\\
+
 
 //--------------------------- Reset Password  ---------------------------
 
@@ -70,7 +80,6 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
     //------------------------------------------------------------------\\
 
     
-    Route::resource('vacations', 'VacationController');
     Route::get('/vacations/dates', 'VacationController@getVacations');
     
     // Rutas del recurso "Post"
@@ -85,11 +94,12 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
     Route::resource('Appointments', 'AppointmentsController');
     Route::get('Appointments/export/Excel', 'AppointmentsController@export_Excel');
     Route::post('Appointments/turns', 'AppointmentsController@getTurns');
+    Route::get('Appointments/turns/last', 'AppointmentsController@getLastReservation');
+
     Route::get('Appointments/turns/available', 'AppointmentsController@getAvailableTurns');
     Route::get('Appointments/turns/today', 'AppointmentsController@getTodayTurns');
 
     Route::post('Appointments/turns/reserve', 'AppointmentsController@reserveTurn');
-    Route::post('Appointments/turns/reserve2', 'AppointmentsController@reserveTurn2');
     Route::post('Appointments/import/csv', 'AppointmentsController@import_products');
     Route::get('Appointments/Warehouse/{id}', 'AppointmentsController@Appointments_by_Warehouse');
     Route::get('Appointments/Detail/{id}', 'AppointmentsController@Get_Appointments_Details');
@@ -100,15 +110,10 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
     Route::get('users/getByRole/{rol}', 'UserController@getUserByRole');
 
     // Ruta para obtener los horarios disponibles de un doctor y fecha específicos
-    Route::get('available-times', 'AppointmentsController@getAvailableTimes');
     Route::get('appointments/turns/reserved', 'AppointmentsController@getReserved');
 
     // Ruta para verificar la disponibilidad de una fecha específica
-    Route::get('check-availability', 'AppointmentsController@checkAvailability');
-
-    // Ruta para reservar una cita
-    Route::post('reserve-appointment', 'ReservationController@reserveAppointment');
-    //--------------------------- Reservations ------------------------\\
+   
     //------------------------------------------------------------------\\
 
     Route::get('Reservations/company', 'ReservationController@getReservationsByCompany');
@@ -116,6 +121,7 @@ Route::middleware(['auth:api', 'Is_Active'])->group(function () {
     Route::post('Reservations/canceled', 'ReservationController@cancelReservation');
     Route::post('Reservations/updateNotes/{reservation}', 'ReservationController@updateNotes');
     Route::get('Reservations/turn/reserved/{id}', 'ReservationController@getReservationsTurn');
+    Route::get('Reservations/mounth', 'ReservationController@getReservationsByMonth');
 
     //------------------------------- Users --------------------------\\
     //------------------------------------------------------------------\\

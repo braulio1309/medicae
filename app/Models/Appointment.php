@@ -26,8 +26,7 @@ class Appointment extends Model
         $finalHour = $hours['finalHour'];
         $startHourRest = $hours['startHourRest'];
         $finalHourRest = $hours['finalHourRest'];
-        
-        $format = "Y-m-d\TH:i:s.v\Z";
+        $format = "H:i";
         $startHour = Carbon::createFromFormat($format, $startHour);
         $finalHour = Carbon::createFromFormat($format, $finalHour);
         $startHourRest = Carbon::createFromFormat($format, $startHourRest);

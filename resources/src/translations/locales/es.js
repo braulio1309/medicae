@@ -252,7 +252,7 @@ export default {
     Categories: "Categorias",
     StockTransfers: "Transferencias de stock",
     StockManagement: "Gestion de Stocks",
-    dashboard: "Tablero",
+    dashboard: "Dashboard",
     Products: "Productos",
     productsList: "lista de productos",
     ProductManagement: "Gestion de producto",

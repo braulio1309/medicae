@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Twilio\Rest\Client;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Hashids\Hashids;
 
 class ChatBotController extends Controller
 {

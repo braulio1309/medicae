@@ -24,7 +24,8 @@
         "maatwebsite/excel": "^3.0.1",
         "nesbot/carbon": "^2.38",
         "stripe/stripe-php": "^7.76",
-        "twilio/sdk": "^7.7"
+        "twilio/sdk": "^7.7",
+        "vinkla/hashids": "^9.1"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

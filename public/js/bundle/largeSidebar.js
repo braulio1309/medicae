@@ -59,7 +59,35 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       isMenuOver: false,
       isStyle: true,
       selectedParentMenu: "",
-      isMobile: mobile_device_detect__WEBPACK_IMPORTED_MODULE_1__["isMobile"]
+      isMobile: mobile_device_detect__WEBPACK_IMPORTED_MODULE_1__["isMobile"],
+      user: {
+        id: "",
+        firstname: "",
+        lastname: "",
+        username: "",
+        registration_date: "",
+        name_role: "",
+        NewPassword: null,
+        email: "",
+        phone: "",
+        avatar: "",
+        city: '',
+        address: '',
+        zip: '',
+        gender: '',
+        birthday: '',
+        notes: '',
+        userId: "",
+        weight: "",
+        height: "",
+        allergies: "",
+        recipe: "",
+        diagnosic: "",
+        medication: "",
+        file: '',
+        files: '',
+        date: new Date().toISOString().substr(0, 10)
+      }
     };
   },
   mounted: function mounted() {
@@ -67,6 +95,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     window.addEventListener("resize", this.handleWindowResize);
     document.addEventListener("click", this.returnSelectedParentMenu);
     this.handleWindowResize();
+    this.Get_Profile_Info();
+    console.log(this.user);
   },
   beforeDestroy: function beforeDestroy() {
     document.removeEventListener("click", this.returnSelectedParentMenu);
@@ -74,6 +104,31 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(["getSideBarToggleProperties", "currentUserPermissions"])),
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])(["changeSecondarySidebarProperties", "changeSecondarySidebarPropertiesViaMenuItem", "changeSecondarySidebarPropertiesViaOverlay", "changeSidebarProperties"])), {}, {
+    Get_Profile_Info: function Get_Profile_Info() {
+      var _this = this;
+      axios.get("patients/Get_Info/Profile/" + 0).then(function (response) {
+        _this.user.id = response.data.user.id;
+        _this.user.firstname = response.data.user.firstname;
+        _this.user.lastname = response.data.user.lastname;
+        _this.user.email = response.data.user.email;
+        _this.user.phone = response.data.user.phone;
+        _this.user.registration_date = response.data.user.created_at;
+        _this.user.name_role = response.data.user.name_role;
+        _this.user.gender = response.data.user.gender;
+        _this.user.birthday = response.data.user.birthday;
+        _this.user.address = response.data.user.address;
+        _this.user.city = response.data.user.city;
+        _this.user.zip = response.data.user.zip;
+        _this.appointments_pending = response.data.user.reservations_pending;
+        _this.appointments_past = response.data.user.reservations_past;
+        _this.appointments = response.data.user.reservations;
+        _this.avatar = _this.currentUser.avatar;
+        _this.username = _this.currentUser.username;
+        _this.isLoading = false;
+      })["catch"](function (response) {
+        _this.isLoading = false;
+      });
+    },
     handleWindowResize: function handleWindowResize() {
       if (window.innerWidth <= 1200) {
         if (this.getSideBarToggleProperties.isSideNavOpen) {
@@ -303,7 +358,7 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", {
+  return this.currentUser ? _c("div", {
     staticClass: "side-content-wrap",
     on: {
       mouseenter: function mouseenter($event) {
@@ -431,8 +486,8 @@ var render = function render() {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.currentUserPermissions && _vm.currentUserPermissions.includes("vacations_view"),
-      expression: "currentUserPermissions && (currentUserPermissions.includes('vacations_view'))"
+      value: _vm.currentUserPermissions && !_vm.currentUserPermissions.includes("vacations_view"),
+      expression: "currentUserPermissions && (!currentUserPermissions.includes('vacations_view'))"
     }],
     staticClass: "nav-item",
     "class": {
@@ -475,7 +530,7 @@ var render = function render() {
     staticClass: "nav-item-hold",
     attrs: {
       tag: "a",
-      to: "/app/dates/date2"
+      to: "/app/dates/date"
     }
   }, [_c("span", {
     staticClass: "nav-text"
@@ -515,7 +570,7 @@ var render = function render() {
         return _vm.removeOverlay();
       }
     }
-  })], 1);
+  })], 1) : _vm._e();
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -546,11 +601,11 @@ var render = function render() {
       to: "/app/dashboard"
     }
   }, [_c("img", {
+    staticStyle: {
+      height: "50% !important"
+    },
     attrs: {
-      src: "/images/" + _vm.currentUser.logo,
-      alt: "",
-      width: "4000",
-      height: "2000"
+      src: "/images/" + _vm.currentUser.logo
     }
   })])], 1), _vm._v(" "), _c("div", {
     staticClass: "menu-toggle",

@@ -63,7 +63,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       echartSales: {},
       echartProduct: {},
       echartPatient: {},
-      echartAppointment: {}
+      echartAppointment: null,
+      todayTurns: [],
+      currentDay: '',
+      last: [],
+      ReservationsMonth: ''
     };
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["currentUser"])), {}, {
@@ -144,42 +148,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var _this = this;
       axios.get("chart/report_with_echart").then(function (response) {
         var responseData = response.data;
-        _this.report_today = response.data.report_dashboard.original.report;
-        // this.stock_alerts =
-        // response.data.report_dashboard.original.stock_alert;
-        _this.appointments = response.data.report_dashboard.original.last_appointments;
-        _this.patients = response.data.report_dashboard.original.patients;
-        var dark_heading = "#c2c6dc";
-        _this.echartPatient = {
-          color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
-          tooltip: {
-            show: true,
-            backgroundColor: "rgba(0, 0, 0, .8)"
-          },
-          formatter: function formatter(params) {
-            return "".concat(params.name, ": (").concat(params.data.value, " cita) (").concat(params.percent, "%)");
-          },
-          series: [{
-            name: "Top Patients",
-            type: "pie",
-            radius: "50%",
-            center: "50%",
-            data: responseData.patients.original,
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
-              }
-            }
-          }]
-        };
+        console.log(responseData.appointments.original);
+        console.log(_this.appointments);
         _this.echartAppointment = {
           tooltip: {
             trigger: "axis"
           },
           legend: {
-            data: ["Citas Recibidas", "Citas Pendientes"]
+            data: ["Citas Pasadas", "Citas Pendientes"]
           },
           grid: {
             left: "3%",
@@ -201,7 +177,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             type: "value"
           },
           series: [{
-            name: "Citas Recibidas",
+            name: "Citas Pasadas",
             type: "line",
             data: responseData.appointments.original.appointments_received
           }, {
@@ -210,6 +186,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             data: responseData.appointments.original.appointments_pending
           }]
         };
+        console.log(_this.echartAppointment);
+
         // this.echartProduct = {
         //   color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
         //   tooltip: {
@@ -359,19 +337,66 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       if (formated.length > dec) return "".concat(value[0], ".").concat(formated.substr(0, dec));
       while (formated.length < dec) formated += "0";
       return "".concat(value[0], ".").concat(formated);
+    },
+    getTurns: function getTurns() {
+      var _this2 = this;
+      axios.get("Appointments/turns/today").then(function (response) {
+        _this2.todayTurns = response.data.turns;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getReservationsMonth: function getReservationsMonth() {
+      var _this3 = this;
+      axios.get("Reservations/mounth").then(function (response) {
+        _this3.ReservationsMonth = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getLastTurns: function getLastTurns() {
+      var _this4 = this;
+      axios.get("Appointments/turns/last").then(function (response) {
+        _this4.last = response.data.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    formatHours: function formatHours(inputDate) {
+      var currentDate = new Date();
+      var targetDate = new Date(inputDate);
+      var timeDifference = currentDate - targetDate;
+      var hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+      if (hoursDifference === 0) {
+        return "hace menos de una hora";
+      } else if (hoursDifference === 1) {
+        return "hace una hora";
+      } else {
+        return "hace ".concat(hoursDifference, " horas");
+      }
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this5 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      var currentDate, dayOfWeek, daysOfWeek;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return _this2.report_with_echart();
-          case 2:
-            _this2.GetMonth();
-          case 3:
+            _this5.GetMonth();
+            _this5.getTurns();
+            _this5.getLastTurns();
+            // Obtener la fecha actual
+            currentDate = new Date(); // Obtener el día de la semana como número (0 para domingo, 1 para lunes, etc.)
+            dayOfWeek = currentDate.getDay(); // Crear un array con los nombres de los días de la semana
+            daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']; // Asignar el nombre del día actual a currentDay
+            _this5.currentDay = daysOfWeek[dayOfWeek];
+            _context.next = 9;
+            return _this5.report_with_echart();
+          case 9:
+            _this5.getReservationsMonth();
+            console.log(_this5.echartAppointment);
+          case 11:
           case "end":
             return _context.stop();
         }
@@ -405,14 +430,15 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "card",
     staticStyle: {
-      "background-color": "#F1F5F8",
+      "background-color": "#FFFFFF",
       padding: "10px",
-      height: "100%"
+      height: "80%"
     }
   }, [_c("div", {
     staticClass: "row mb-6",
     staticStyle: {
-      "margin-bottom": "10px"
+      "margin-bottom": "10px",
+      "padding-top": "30px"
     }
   }, [_c("div", {
     staticClass: "col-sm-4"
@@ -422,54 +448,31 @@ var render = function render() {
     staticClass: "col-sm-4"
   }), _vm._v(" "), _c("div", {
     staticClass: "col-sm-4"
-  }, [_c("h2", {
+  }, [_c("h1", {
     staticClass: "text-center",
-    staticStyle: {}
-  }, [_vm._v("Miercoles")])])]), _vm._v(" "), _c("div", {
+    staticStyle: {
+      color: "#66CCF2",
+      "font-weight": "200"
+    }
+  }, [_c("b", [_vm._v(_vm._s(this.currentDay))])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-sm-12"
-  }, [_c("div", {
-    staticClass: "row text-center",
-    staticStyle: {
-      "font-size": "25px"
-    }
-  }, [_c("div", {
-    staticClass: "col-sm-4"
-  }, [_vm._v("\n              8:00 am\n            ")]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-4",
-    staticStyle: {
-      "letter-spacing": "2px"
-    }
-  }, [_vm._v("\n              ......................................\n            ")]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-4"
-  }, [_vm._v("\n              Braulio Zapata\n            ")])]), _vm._v(" "), _c("div", {
-    staticClass: "row text-center",
-    staticStyle: {
-      "font-size": "25px"
-    }
-  }, [_c("div", {
-    staticClass: "col-sm-4"
-  }, [_vm._v("\n              9:00 am\n            ")]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-4",
-    staticStyle: {
-      "letter-spacing": "2px"
-    }
-  }, [_vm._v("\n              ......................................\n            ")]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-4"
-  }, [_vm._v("\n              Matías Rodriguez\n            ")])]), _vm._v(" "), _c("div", {
-    staticClass: "row text-center",
-    staticStyle: {
-      "font-size": "25px"
-    }
-  }, [_c("div", {
-    staticClass: "col-sm-4"
-  }, [_vm._v("\n              10:00 am\n            ")]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-4",
-    staticStyle: {
-      "letter-spacing": "2px"
-    }
-  }, [_vm._v("\n              ......................................\n            ")]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-4"
-  }, [_vm._v("\n              Test Alex\n            ")])])])])]), _vm._v(" "), _c("b-col", {
+  }, _vm._l(this.todayTurns, function (turn) {
+    return _c("div", {
+      staticClass: "row text-center"
+    }, [_c("div", {
+      staticClass: "col-sm-4"
+    }, [_c("h5", [_vm._v(_vm._s(new Date(turn.date).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    })))])]), _vm._v(" "), _c("div", {
+      staticClass: "col-sm-4",
+      staticStyle: {
+        "letter-spacing": "2px"
+      }
+    }, [_vm._v("\n              ......................................\n            ")]), _vm._v(" "), _c("div", {
+      staticClass: "col-sm-4"
+    }, [_c("h5", [_vm._v(_vm._s(turn.firstname) + " " + _vm._s(turn.lastname))])])]);
+  }), 0)])]), _vm._v(" "), _c("b-col", {
     attrs: {
       cols: "4"
     }
@@ -485,69 +488,63 @@ var render = function render() {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-sm-12"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-sm-2"
-  }, [_c("b-avatar", {
-    attrs: {
-      src: "images/avatar/no_avatar.png"
-    }
-  })], 1), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-6"
-  }, [_c("h5", {}, [_vm._v("Braulio Zapata")]), _vm._v(" "), _c("h6", {
-    staticClass: "text-muted"
-  }, [_vm._v("\n                              Hace 1 hora \n                          ")])]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-4"
-  }, [_c("br"), _vm._v(" "), _c("span", {
-    staticClass: "badge rounded-pill bg-success"
-  }, [_vm._v("Actualizado")])])]), _vm._v(" "), _c("hr", {
+  }, _vm._l(this.last, function (turn) {
+    return _c("div", {
+      staticClass: "row mb-3",
+      staticStyle: {
+        "border-bottom": "1px solid #e2e0e0"
+      }
+    }, [_c("div", {
+      staticClass: "col-sm-2"
+    }, [_c("b-avatar", {
+      attrs: {
+        src: "images/avatar/no_avatar.png"
+      }
+    })], 1), _vm._v(" "), _c("div", {
+      staticClass: "col-sm-6"
+    }, [_c("h5", {}, [_vm._v(" " + _vm._s(turn.firstname) + " " + _vm._s(turn.lastname))]), _vm._v(" "), _c("h6", {
+      staticClass: "text-muted"
+    }, [_vm._v("\n                        " + _vm._s(_vm.formatHours(turn.date)) + "\n                      ")])]), _vm._v(" "), _c("div", {
+      staticClass: "col-sm-4"
+    }, [_c("br"), _vm._v(" "), _c("span", {
+      staticClass: "badge rounded-pill bg-success"
+    }, [_vm._v("Actualizado")])])]);
+  }), 0)])])])], 1)], 1), _vm._v(" "), _c("b-row", {
     staticStyle: {
-      "margin-top": "-1px"
+      "margin-top": "-18px"
     }
-  })])])]), _vm._v(" "), _c("div", {}, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-sm-12"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-sm-2"
-  }, [_c("b-avatar", {
-    attrs: {
-      src: "images/avatar/no_avatar.png"
-    }
-  })], 1), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-6"
-  }, [_c("h5", {}, [_vm._v("Braulio Zapata")]), _vm._v(" "), _c("h6", {
-    staticClass: "text-muted"
-  }, [_vm._v("\n                              Hace 1 hora \n                          ")])]), _vm._v(" "), _c("div", {
-    staticClass: "col-sm-4"
-  }, [_c("br"), _vm._v(" "), _c("span", {
-    staticClass: "badge rounded-pill bg-success"
-  }, [_vm._v("Actualizado")])])]), _vm._v(" "), _c("hr", {
-    staticStyle: {
-      "margin-top": "-1px"
-    }
-  })])])])])], 1)], 1), _vm._v(" "), _c("b-row", [_c("b-col", {
+  }, [_c("b-col", {
     attrs: {
       cols: "12"
     }
   }, [_c("b-card", {
     staticClass: "mb-30",
     staticStyle: {
-      "background-color": "#4B9AEB"
+      "background-color": "#FFFFFF"
     }
-  }, [_c("h4", {
-    staticClass: "card-title m-0"
-  }, [_vm._v(_vm._s(_vm.$t("TopPatient")) + " (" + _vm._s(_vm.CurrentMonth) + ")")]), _vm._v(" "), _c("div", {
+  }, [_c("div", {
+    staticClass: "row justify-text-center"
+  }, [_c("div", {
+    staticClass: "col-sm-6 text-center"
+  }, [_c("h2", {
+    staticClass: "card-title text-muted"
+  }, [_vm._v("Reservaciones del mes")])]), _vm._v(" "), this.ReservationsMonth != "" ? _c("div", {
+    staticClass: "col-sm-6 text-center"
+  }, [_c("h3", [_vm._v(_vm._s(this.ReservationsMonth.current_month_reservations) + " "), _c("span", {
+    staticClass: "badge bg-danger",
+    staticStyle: {
+      "font-size": "12px",
+      "background-color": "rgba(0,166,80,.1) !important",
+      color: "#00a650"
+    }
+  }, [_vm._v(_vm._s(this.ReservationsMonth.percentage_change.toFixed(2) < 0 ? this.ReservationsMonth.percentage_change.toFixed(0) * -1 : this.ReservationsMonth.percentage_change.toFixed(0)) + "% ")])])]) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "chart-wrapper"
-  }, [_c("v-chart", {
+  }, [this.echartAppointment ? _c("v-chart", {
     attrs: {
-      options: _vm.echartPatient,
+      options: this.echartAppointment,
       autoresize: true
     }
-  })], 1)])], 1)], 1)], 1)], 1)], 1);
+  }) : _vm._e()], 1)])], 1)], 1)], 1)], 1)], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -559,14 +556,15 @@ render._withStripped = true;
 /*!*********************************************************!*\
   !*** ./resources/src/views/app/dashboard/dashboard.vue ***!
   \*********************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dashboard_vue_vue_type_template_id_5fd1f857___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dashboard.vue?vue&type=template&id=5fd1f857& */ "./resources/src/views/app/dashboard/dashboard.vue?vue&type=template&id=5fd1f857&");
 /* harmony import */ var _dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dashboard.vue?vue&type=script&lang=js& */ "./resources/src/views/app/dashboard/dashboard.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -596,7 +594,7 @@ component.options.__file = "resources/src/views/app/dashboard/dashboard.vue"
 /*!**********************************************************************************!*\
   !*** ./resources/src/views/app/dashboard/dashboard.vue?vue&type=script&lang=js& ***!
   \**********************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

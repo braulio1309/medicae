@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Hashids\Hashids;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +14,18 @@ use Illuminate\Support\Facades\Storage;
 | contains the "web" middleware group. Now create something great!
 |
  */
+Route::get('/calendar', function(){
+    return view('calendar');
+});
+
+Route::get('/test', function() {
+    $hashids = new Hashids(1234578);
+    $encodedId = $hashids->encode(2004);
+    //$decodedIds = $hashids->decode($encodedId);
+
+    dd($encodedId);
+})
+->name('date');
 
 //------------------------------------------------------------------\\
 Route::get('/prueba-pdf', function (Codedge\Fpdf\Fpdf\Fpdf $fpdf) {
@@ -184,6 +198,10 @@ Route::group(['middleware' => ['auth', 'Is_Active']], function () {
     });
 
 
+    
+
+
+    });
     Route::get('/{vue?}',
         function () {
             $installed = Storage::disk('public')->exists('installed');
@@ -193,10 +211,6 @@ Route::group(['middleware' => ['auth', 'Is_Active']], function () {
                 return view('layouts.master');
             }
         })->where('vue', '^(?!setup|update|password).*$');
-
-
-    });
-    
     Auth::routes([
         'register' => false,
     ]);

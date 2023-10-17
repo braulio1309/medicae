@@ -29,7 +29,7 @@ class UserController extends BaseController
 
     public function index(request $request)
     {
-       
+
         $this->authorizeForUser($request->user('api'), 'view', User::class);
         // How many items do you want to display.
         $perPage = $request->limit;
@@ -43,7 +43,7 @@ class UserController extends BaseController
         $columns = array(0 => 'username', 1 => 'statut', 2 => 'phone', 3 => 'email');
         $param = array(0 => 'like', 1 => '=', 2 => 'like', 3 => 'like');
         $data = array();
-        
+
         $Role = Auth::user()->roles()->first();
         $ShowRecord = Role::findOrFail($Role->id)->inRole('record_view');
 
@@ -53,12 +53,12 @@ class UserController extends BaseController
             }
         });
 
-        
+
         $roles = Role::where('deleted_at', null)->get(['id', 'name']);
 
         //Multiple Filter
         $Filtred = $helpers->filter($users, $columns, $param, $request)
-        // Search With Multiple Param
+            // Search With Multiple Param
             ->where(function ($query) use ($request) {
                 return $query->when($request->filled('search'), function ($query) use ($request) {
                     return $query->where('username', 'LIKE', "%{$request->search}%")
@@ -83,13 +83,19 @@ class UserController extends BaseController
         ]);
     }
 
-    public function getUserByRole(Request $request, string $rol){
-        
+    public function createDate($doctor, $patient)
+    {
+        return view('dates.date', compact('image', 'doctor'));
+    }
+
+    public function getUserByRole(Request $request, string $rol)
+    {
+
         // How many items do you want to display.
         $perPage = $request->limit;
         $pageStart = \Request::get('page', 1);
         // Start displaying items from this number;
-        
+
         $offSet = ($pageStart * $perPage) - $perPage;
         $order = $request->SortField;
         $dir = $request->SortType;
@@ -98,11 +104,11 @@ class UserController extends BaseController
         $columns = array(0 => 'username', 1 => 'statut', 2 => 'phone', 3 => 'email');
         $param = array(0 => 'like', 1 => '=', 2 => 'like', 3 => 'like');
         $data = array();
-        
+
         $rols = Role::where('label', $rol)->pluck('id')->toArray();
 
-        $users = User::whereIn('role_id', $rols)->with('roles')->get();   
-        
+        $users = User::whereIn('role_id', $rols)->with('roles')->get();
+
         //Multiple Filter
         /*$Filtred = $helpers->filter($users, $columns, $param, $request)
             ->where(function ($query) use ($request) {
@@ -115,9 +121,9 @@ class UserController extends BaseController
                 });
             });*/
 
-            
+
         //$totalRows = $users->count();
-        
+
         /*$users = $Filtred->offset($offSet)
             ->limit($perPage)
             ->orderBy($order, $dir)
@@ -132,7 +138,7 @@ class UserController extends BaseController
         ]);
     }
 
-    
+
 
     //------------- GET USER Auth ---------\\
 
@@ -147,7 +153,7 @@ class UserController extends BaseController
         $user['footer'] = Setting::first()->footer;
         $user['developed_by'] = Setting::first()->developed_by;
         $permissions = Auth::user()->roles()->first()->permissions->pluck('name');
-      
+
 
         return response()->json([
             'success' => true,
@@ -167,11 +173,9 @@ class UserController extends BaseController
         if ($roles) {
             foreach ($roles->permissions as $permission) {
                 $data[] = $permission->name;
-
             }
             return response()->json(['success' => true, 'data' => $data]);
         }
-
     }
 
     //------------- STORE NEW USER ---------\\
@@ -185,7 +189,7 @@ class UserController extends BaseController
             'email.unique' => 'This Email already taken.',
         ]);
         \DB::transaction(function () use ($request) {
-         
+
             $User = new User;
             $User->firstname = $request['firstname'];
             $User->lastname  = $request['lastname'];
@@ -202,7 +206,6 @@ class UserController extends BaseController
             $role_user->user_id = $User->id;
             $role_user->role_id = $request['role'];
             $role_user->save();
-    
         }, 10);
 
         return response()->json(['success' => true]);
@@ -212,7 +215,7 @@ class UserController extends BaseController
     public function show($id)
     {
         $Patient = User::where('id', $id)->get();
-        return response()->json(['patient' => (count($Patient) == 0)? null: $Patient[0]], 201);
+        return response()->json(['patient' => (count($Patient) == 0) ? null : $Patient[0]], 201);
     }
 
     //------------- UPDATE  USER ---------\\
@@ -220,7 +223,7 @@ class UserController extends BaseController
     public function update(Request $request, $id)
     {
         $this->authorizeForUser($request->user('api'), 'update', User::class);
-        
+
         $this->validate($request, [
             'email' => 'required|email|unique:users',
             'email' => Rule::unique('users')->ignore($id),
@@ -228,7 +231,7 @@ class UserController extends BaseController
             'email.unique' => 'This Email already taken.',
         ]);
 
-        \DB::transaction(function () use ($id ,$request) {
+        \DB::transaction(function () use ($id, $request) {
             $user = User::findOrFail($id);
             $current = $user->password;
 
@@ -238,7 +241,6 @@ class UserController extends BaseController
                 } else {
                     $pass = $user->password;
                 }
-
             } else {
                 $pass = $user->password;
             }
@@ -276,15 +278,13 @@ class UserController extends BaseController
                 'role_id' => $request['role'],
             ]);
 
-            role_user::where('user_id' , $id)->update([
+            role_user::where('user_id', $id)->update([
                 'user_id' => $id,
                 'role_id' => $request['role'],
             ]);
-
         }, 10);
-        
-        return response()->json(['success' => true]);
 
+        return response()->json(['success' => true]);
     }
 
     //------------- Export USERS to EXCEL ---------\\
@@ -300,7 +300,7 @@ class UserController extends BaseController
 
     public function updateProfile(Request $request, $id = null)
     {
-        $id = ($id == null)? Auth::user()->id: $id;
+        $id = ($id == null) ? Auth::user()->id : $id;
         $user = User::findOrFail($id);
         $current = $user->password;
 
@@ -310,13 +310,12 @@ class UserController extends BaseController
             } else {
                 $pass = $user->password;
             }
-
         } else {
             $pass = $user->password;
         }
 
         $currentAvatar = $user->avatar;
-        /*if ($request->avatar != $currentAvatar) {
+        if ($request->avatar != $currentAvatar) {
 
             $image = $request->file('avatar');
             $path = public_path() . '/images/avatar';
@@ -335,7 +334,7 @@ class UserController extends BaseController
             }
         } else {
             $filename = $currentAvatar;
-        }*/
+        }
 
         User::whereId($id)->update([
             'firstname' => $request['firstname'],
@@ -344,12 +343,11 @@ class UserController extends BaseController
             'email' => $request['email'],
             'phone' => $request['phone'],
             'password' => $pass,
-            //'avatar' => $filename,
+            'avatar' => $filename,
 
         ]);
 
         return response()->json(['avatar' => null, 'user' => $request['username']]);
-
     }
 
     public function getUserWithDocuments($userId)
@@ -372,8 +370,8 @@ class UserController extends BaseController
     {
         $document = Document::findOrFail($documentId);
 
-        return response()->download(storage_path('app/uploads/').$document->name, $document->name);
-    }   
+        return response()->download(storage_path('app/uploads/') . $document->name, $document->name);
+    }
 
     public function updateProfilePatience(Request $request, $id = null)
     {
@@ -381,7 +379,7 @@ class UserController extends BaseController
             $reservation = Reservation::findOrFail($id);
             //Guardar documentos
             if ($request->hasFile('file')) {
-                
+
                 $file = $request->file('file');
                 $fileName = time() . '_' . $file->getClientOriginalName();
                 $document = Document::create([
@@ -389,17 +387,15 @@ class UserController extends BaseController
                     'reservation_id' => $id,
                     'path' => ''
                 ]);
-                
+
                 $file->storeAs('uploads', $fileName);
                 $document->save();
             }
-        
+
             return response()->json(['avatar' => null, 'user' => $request['username']]);
         } catch (\Exception $e) {
             response()->json(['success' => false, 'msg' => $e->getMessage()]);
         }
-       
-
     }
 
     //----------- IsActivated (Update Statut User) -------\\
@@ -432,12 +428,10 @@ class UserController extends BaseController
             foreach ($roles->permissions as $permission) {
                 $item[$permission->name]['slug'] = $permission->name;
                 $item[$permission->name]['id'] = $permission->id;
-
             }
             $data[] = $item;
         }
         return $data[0];
-
     }
 
     //------------- GET USER Auth ---------\\
@@ -445,101 +439,121 @@ class UserController extends BaseController
     public function GetInfoProfile(Request $request)
     {
         $data = User::findorfail(Auth::user()->id);
-        
-        return response()->json(['success' => true, 'user' => $data]);
-    }
-
-    public function getInfoProfilePatient($id) {
-        $data = User::join("roles","roles.id","users.role_id")
-                                ->with([
-                                    'reservations.appointment.doctor',
-                                    'reservations.documents',
-                                    'reservations_pending.appointment.doctor',
-                                    'reservations_pending.documents',
-                                    'reservations_past.documents'
-                                ])
-                                ->select('users.*','roles.name as name_role', \DB::raw("DATE_FORMAT(users.created_at,'%d-%m-%Y') as registration_date"))
-                                ->where('users.id', $id)->first();
 
         return response()->json(['success' => true, 'user' => $data]);
     }
 
-    public function getInformationUsers(){
+    public function getInfoProfilePatient($id)
+    {
+        $id = ($id == 0) ? Auth::user()->id : $id;
+        $data = User::join("roles", "roles.id", "users.role_id")
+            ->with([
+                'reservations.appointment.doctor',
+                'reservations.documents',
+                'reservations_pending.appointment.doctor',
+                'reservations_pending.documents',
+                'reservations_past.documents'
+            ])
+            ->select('users.*', 'roles.name as name_role', \DB::raw("DATE_FORMAT(users.created_at,'%d-%m-%Y') as registration_date"))
+            ->where('users.id', $id)->first();
+
+        return response()->json(['success' => true, 'user' => $data]);
+    }
+
+    public function getInformationUsers()
+    {
         return response()->json([
-            'total_patients' => User::where('role_id',Role::where('name','Paciente')->first()->id)->count(),
-            'total_companies' => User::where('role_id',Role::where('name','Empresa')->first()->id)->count(),
-            'total_fisios' => User::where('role_id',Role::where('name','Fisioterapeuta')->first()->id)->count(),
+            'total_patients' => User::where('role_id', Role::where('name', 'Paciente')->first()->id)->count(),
+            'total_companies' => User::where('role_id', Role::where('name', 'Empresa')->first()->id)->count(),
+            'total_fisios' => User::where('role_id', Role::where('name', 'Fisioterapeuta')->first()->id)->count(),
         ]);
     }
-    
-    public function getInformationUsersDoctor(){
+
+    public function getInformationUsersDoctor()
+    {
         $roleIds = Role::whereIn('name', ['Fisioterapeuta', 'Owner'])->pluck('id');
 
 
         $doctors = User::whereIn('role_id', $roleIds)->first()->id
-                        ->select("users.*",DB::raw("CONCAT(firstname,' ',lastname) as fullname"))
-                        ->get();
+            ->select("users.*", DB::raw("CONCAT(firstname,' ',lastname) as fullname"))
+            ->get();
         return response()->json($doctors);
     }
 
-    
-    public function getRecipeProfile(Request $request){
+    public function calcularEdad($fechaNacimiento)
+    {
+        $hoy = new \DateTime();
+        $fechaNacimiento = new \DateTime($fechaNacimiento);
+        $edad = $hoy->diff($fechaNacimiento);
+        return $edad->y; // Devuelve la edad en años
+    }
+
+
+    public function getRecipeProfile(Request $request)
+    {
 
         $patient = User::find($request->id);
         $fpdf = new Fpdf;
 
-        $fpdf->AddPage("P","Letter");
+        $fpdf->AddPage("P", "Letter");
         $fpdf->SetAutoPageBreak(false);
 
-        $fpdf->Image('images/background_medicae.png', 0, 0,216,281);
-        
-        $fpdf->setXY(45,20);
+        $fpdf->Image('images/background_medicae.png', 0, 0, 216, 281);
+
+        $imagenX = 10; // Cambia estas coordenadas según tu diseño
+        $imagenY = 10; // Cambia estas coordenadas según tu diseño
+        $imagenAncho = 30; // Cambia el ancho de la imagen según tu diseño
+        $imagenAlto = 30; // Cambia la altura de la imagen según tu diseño
+        $imagenRuta = 'images/avatar/' . auth()->user()->avatar; // Ruta a tu imagen
+
+        $fpdf->Image($imagenRuta, $imagenX, $imagenY, $imagenAncho, $imagenAlto);
+
+        $fpdf->setXY(45, 20);
         $fpdf->SetFont('Times', '', 28);
-        $fpdf->Cell(30, 5, 'MD. PETER LEWIS');
-        
-        $fpdf->SetTextColor(108,164,204);
-        $fpdf->setXY(45,27);
+        $fpdf->Cell(30, 5, 'Dr ' . auth()->user()->firstname . ' ' . auth()->user()->lastname);
+
+        $fpdf->SetTextColor(108, 164, 204);
+        $fpdf->setXY(45, 27);
         $fpdf->SetFont('Arial', 'B', 12);
-        $fpdf->Cell(30, 5, 'NEUROLOGIST DOCTOR');
-        
-        $fpdf->SetTextColor(0,0,0);
-        $fpdf->setXY(53,65);
+        $fpdf->Cell(30, 5, auth()->user()->specialization);
+
+        $fpdf->SetTextColor(0, 0, 0);
+        $fpdf->setXY(53, 65);
         $fpdf->SetFont('Helvetica', '', 12);
-        $fpdf->Cell(25, 5, $patient->firstname.' '.$patient->lastname);
-        // $fpdf->Cell(25, 5, "Braulio Zapata");
-        
-        $fpdf->setXY(145,76);
+        $fpdf->Cell(25, 5, $patient->firstname . ' ' . $patient->lastname);
+
+        $fpdf->setXY(145, 76);
         $fpdf->SetFont('Helvetica', '', 10);
         $fpdf->Cell(25, 5, now());
-    
-        $fpdf->setXY(43,76);
-        $fpdf->SetFont('Helvetica', '', 12);
-        $fpdf->Cell(25, 5, utf8_decode("22 años"));
-        
 
-        $fpdf->setXY(21,53);
+        $fpdf->setXY(43, 76);
+        $fpdf->SetFont('Helvetica', '', 12);
+        $fpdf->Cell(25, 5, $this->calcularEdad($patient->birthday));
+
+
+        $fpdf->setXY(21, 53);
         $fpdf->SetFont('Helvetica', 'I', 12);
         // $fpdf->Cell(173, 5, "Cannabis");
-        $fpdf->Cell(173, 5, $request->recipe);
+        $fpdf->Cell(173, 5, $request->diagnosic);
 
-        $fpdf->setXY(45,110);
+        $fpdf->setXY(45, 110);
         $fpdf->SetFont('Helvetica', 'I', 14);
         // $fpdf->MultiCell(150, 5, "Cannabis");
-        $fpdf->Cell(150, 5, $request->diagnosic);
+        $fpdf->Cell(150, 5,  $request->recipe);
 
 
-        $fpdf->SetTextColor(255,255,255);
-        $fpdf->setXY(30,255);
+        $fpdf->SetTextColor(255, 255, 255);
+        $fpdf->setXY(30, 255);
         $fpdf->SetFont('Helvetica', 'B', 14);
         $fpdf->Cell(20, 5, auth()->user()->phone);
-        
-        $fpdf->SetTextColor(255,255,255);
-        $fpdf->setXY(95,265);
+
+        $fpdf->SetTextColor(255, 255, 255);
+        $fpdf->setXY(95, 265);
         $fpdf->SetFont('Helvetica', 'B', 14);
         $fpdf->Cell(20, 5, "Direccion");
-        
 
-        $fpdf->setXY(150,255);
+
+        $fpdf->setXY(150, 255);
         $fpdf->SetFont('Helvetica', 'B', 14);
         $fpdf->Cell(20, 5, auth()->user()->email);
 

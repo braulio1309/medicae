@@ -8973,7 +8973,7 @@ input[type=color].form-control:disabled {
   --cyan: #06b6d4;
   --white: #fff;
   --gray: #4B5563;
-  --primary: #39d3ee;
+  --primary: #66CCF2;
   --secondary: #1F2937;
   --success: #10b981;
   --info: #3b82f6;
@@ -27516,7 +27516,7 @@ a.typo_link.text-gray-900:after {
 
 .main-header .logo img {
   width: 200px;
-  height: 60px;
+  height: 50%;
   margin: 0 auto;
   display: block;
 }

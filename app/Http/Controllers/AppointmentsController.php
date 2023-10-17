@@ -16,6 +16,7 @@ use App\Mail\DoctorAppointmentNotification;
 use App\Mail\PatientAppointmentNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Hashids\Hashids;
 
 
 class AppointmentsController extends BaseController
@@ -44,7 +45,7 @@ class AppointmentsController extends BaseController
 
         //Multiple Filter
         $Filtred = $helpers->filter($appointments, $columns, $param, $request)
-        // Search With Multiple Param
+            // Search With Multiple Param
             ->where(function ($query) use ($request) {
                 return $query->when($request->filled('search'), function ($query) use ($request) {
                     return $query->where('products.name', 'LIKE', "%{$request->search}%")
@@ -66,9 +67,9 @@ class AppointmentsController extends BaseController
             $item['unit'] = $appointment['unit']->ShortName;
             $item['price'] = $appointment->price;
 
-           
+
             $total_qty = 1;
-            
+
             $item['quantity'] = $total_qty;
 
             $firstimage = explode(',', $appointment->image);
@@ -83,17 +84,19 @@ class AppointmentsController extends BaseController
         ]);
     }
 
-    public function getAvailableTurns(){
+    public function getAvailableTurns()
+    {
         return response()->json([
             'data' => Appointment::join('users', 'appointments.userId', '=', 'users.id')
-            ->select('appointments.id as turnId', 'appointments.*', 'users.*')->get()
+                ->select('appointments.id as turnId', 'appointments.*', 'users.*')->get()
         ]);
     }
 
-    public function reserveTurn(Request $request){
+    public function reserveTurn(Request $request)
+    {
         $data = $request->all();
-        $turn = Appointment::where('id', '=', $data['turnId'] )->first();
-        if($turn->status == 0){
+        $turn = Appointment::where('id', '=', $data['turnId'])->first();
+        if ($turn->status == 0) {
             return response()->json([
                 'status' => 422,
                 'msg' => 'Esta cita fue agendada',
@@ -109,7 +112,7 @@ class AppointmentsController extends BaseController
         $turn->save();
         //$doctor = $reserva->appointment->doctor;
         Mail::to('brauliozapataweb@gmail.com')
-        ->send(new DoctorAppointmentNotification($reserva));
+            ->send(new DoctorAppointmentNotification($reserva));
 
         // Envía el correo electrónico al paciente
         $patient = $reserva->patient;
@@ -118,33 +121,34 @@ class AppointmentsController extends BaseController
         //Enviar whatsapp
 
         return response()->json(['success' => true]);
-
     }
-    
-    public function reserveTurn2(Request $request){
+
+    public function reserveTurn2(Request $request)
+    {
         $data = $request->all();
+        $hashids = new Hashids(1234578);
+
         $time = Appointment::find($request->input('turnId'))->time;
         $datetime = Carbon::parse($request->input('date'))->setTimeFromTimeString($time);
-        $turn = Appointment::where('id', '=', $data['turnId'] )->first();
+        $turn = Appointment::where('id', '=', $data['turnId'])->first();
         $turn->status = 0;
         $turn->save();
         $reserva = Reservation::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => $hashids->decode($data['patientId'])[0],
             'turnId' => $data['turnId'],
             'date' => $datetime->format('Y-m-d H:i:s'),
         ]);
         $doctor = $reserva->appointment->doctor;
         //Enviar whatsapp al doctor
         Mail::to($doctor->email)
-        ->send(new DoctorAppointmentNotification($reserva));
-        
+            ->send(new DoctorAppointmentNotification($reserva));
+
         //Envía whatsapp al paciente
         $patient = $reserva->patient;
         Mail::to($patient->email)
             ->send(new PatientAppointmentNotification($reserva));
 
         return response()->json(['success' => true]);
-
     }
     //-------------- Store new  Product  ---------------\\
 
@@ -153,15 +157,31 @@ class AppointmentsController extends BaseController
         $userId = Auth::user()->id;
 
         $appointments = \DB::table('appointments')
-        ->select('day', \DB::raw('MIN(CASE WHEN status = 1 THEN DATE_FORMAT(time, "%H:%i") END) as startHour'), \DB::raw('MAX(CASE WHEN status = 1 THEN DATE_FORMAT(time, "%H:%i") END) as finalHour'), \DB::raw('MIN(CASE WHEN status = 0 THEN DATE_FORMAT(time, "%H:%i") END) as startHourRest'), \DB::raw('MAX(CASE WHEN status = 0 THEN DATE_FORMAT(time, "%H:%i") END) as finalHourRest'))
-        ->where('userId', $userId)
-        ->whereIn('status', [0, 1]) // Filtrar por status 0 y 1
-        ->groupBy('day')
-        ->orderBy('day', 'ASC')
-        ->get();
-        
-                
+            ->select('day', \DB::raw('MIN(CASE WHEN status = 1 THEN DATE_FORMAT(time, "%H:%i") END) as startHour'), \DB::raw('MAX(CASE WHEN status = 1 THEN DATE_FORMAT(time, "%H:%i") END) as finalHour'), \DB::raw('MIN(CASE WHEN status = 0 THEN DATE_FORMAT(time, "%H:%i") END) as startHourRest'), \DB::raw('MAX(CASE WHEN status = 0 THEN DATE_FORMAT(time, "%H:%i") END) as finalHourRest'))
+            ->where('userId', $userId)
+            ->where('appointments.userId', $userId)
+            ->whereIn('status', [0, 1]) // Filtrar por status 0 y 1
+            ->groupBy('day')
+            ->orderBy('day', 'ASC')
+            ->get();
+
+
         return response()->json(['turns' => $appointments]);
+    }
+
+    public function getLastReservation()
+    {
+        $user = Auth::user(); // Obtener el usuario logueado
+
+        $lastThreeReservations = Reservation::join('appointments', 'reservations.turnId', '=', 'appointments.id')
+        ->join('users', 'users.id', '=', 'reservations.user_id')
+        ->select('reservations.*', 'users.*')
+        ->orderBy('reservations.date', 'desc')
+        ->where('appointments.userId', $user->id)
+        ->limit(3)
+        ->get();
+
+        return response()->json(['data' => $lastThreeReservations]);
     }
 
     //-------------- Store new  Product  ---------------\\
@@ -171,35 +191,32 @@ class AppointmentsController extends BaseController
         //$this->authorizeForUser($request->user('api'), 'create', Appointment::class);
         Appointment::where('userId', Auth::user()->id)->delete();
         $appointment = new Appointment();
-        
+
         $hours = $request->all()['hours'];
         $duration = $request->all()['duration'];
-        
-        if(isset($hours['Lunes'][0]))
+
+        if (isset($hours['Lunes'][0]))
             $appointment->getAppointmentsByDuration(60, $hours['Lunes'][0], 'Lunes');
 
-        if(isset($hours['Martes'][0]))
+        if (isset($hours['Martes'][0]))
             $appointment->getAppointmentsByDuration(60, $hours['Martes'][0], 'Martes');
 
-        if(isset($hours['Miercoles'][0]))
+        if (isset($hours['Miercoles'][0]))
             $appointment->getAppointmentsByDuration(60, $hours['Miercoles'][0], 'Miercoles');
 
-        if(isset($hours['Jueves'][0]))
+        if (isset($hours['Jueves'][0]))
             $appointment->getAppointmentsByDuration(60, $hours['Jueves'][0], 'Jueves');
-            
-        if(isset($hours['Viernes'][0]))
+
+        if (isset($hours['Viernes'][0]))
             $appointment->getAppointmentsByDuration(60, $hours['Viernes'][0], 'Viernes');
 
-        if(isset($hours['Sabado'][0]))
+        if (isset($hours['Sabado'][0]))
             $appointment->getAppointmentsByDuration(60, $hours['Sabado'][0], 'Sabado');
 
-        if(isset($hours['Domingo'][0]))
+        if (isset($hours['Domingo'][0]))
             $appointment->getAppointmentsByDuration(60, $hours['Domingo'][0], 'Domingo');
 
         return response()->json(['success' => true]);
-
-        
-
     }
     //-------------- Update Product  ---------------\\
     //-----------------------------------------------\\
@@ -236,7 +253,7 @@ class AppointmentsController extends BaseController
                 $Product->Type_barcode = $request['Type_barcode'];
                 $Product->price = $request['price'];
                 $Product->category_id = $request['category_id'];
-                $Product->brand_id = $request['brand_id'] == 'null' ?Null: $request['brand_id'];
+                $Product->brand_id = $request['brand_id'] == 'null' ? Null : $request['brand_id'];
                 $Product->TaxNet = $request['TaxNet'];
                 $Product->tax_method = $request['tax_method'];
                 $Product->note = $request['note'];
@@ -248,11 +265,9 @@ class AppointmentsController extends BaseController
                 $Product->is_variant = $request['is_variant'] == 'true' ? 1 : 0;
 
                 $Product->save();
-
             }, 10);
 
             return response()->json(['success' => true]);
-
         } catch (ValidationException $e) {
             return response()->json([
                 'status' => 422,
@@ -260,7 +275,6 @@ class AppointmentsController extends BaseController
                 'errors' => $e->errors(),
             ], 422);
         }
-
     }
 
     //-------------- Remove Product  ---------------\\
@@ -284,11 +298,9 @@ class AppointmentsController extends BaseController
                     }
                 }
             }
-
         }, 10);
 
         return response()->json(['success' => true]);
-
     }
 
     //-------------- Delete by selection  ---------------\\
@@ -314,11 +326,9 @@ class AppointmentsController extends BaseController
                     }
                 }
             }
-
         }, 10);
 
         return response()->json(['success' => true]);
-
     }
 
     //-------------- Export All Product to EXCEL  ---------------\\
@@ -338,7 +348,6 @@ class AppointmentsController extends BaseController
         $data = [];
 
         return response()->json($data[0]);
-
     }
 
     //------------ Get products By Warehouse -----------------\\
@@ -353,7 +362,7 @@ class AppointmentsController extends BaseController
     //------------ Get product By ID -----------------\\
 
     public function show($id)
-    {   
+    {
         $data = [];
 
         return response()->json($data[0]);
@@ -402,7 +411,6 @@ class AppointmentsController extends BaseController
         return response()->json([
             'days' => $list,
         ]);
-
     }
 
     //---------------- Show Form Edit Product ---------------\\
@@ -442,11 +450,10 @@ class AppointmentsController extends BaseController
         }
 
         $data = $item;
-       
+
         return response()->json([
             'product' => $data,
         ]);
-
     }
 
     // import Apoointment
@@ -488,7 +495,6 @@ class AppointmentsController extends BaseController
             return response()->json([
                 'status' => true,
             ], 200);
-
         } catch (ValidationException $e) {
             return response()->json([
                 'status' => false,
@@ -496,19 +502,21 @@ class AppointmentsController extends BaseController
                 'errors' => $e->errors(),
             ]);
         }
-
     }
 
     public function getAvailableTimes(Request $request)
     {
+        $hashids = new Hashids(1234578);
+
         $doctorId = $request->input('doctorId');
+        $doctorId = $hashids->decode($doctorId);
         $date = date('Y-m-d', strtotime($request->input('date')));
         // Obtener los horarios disponibles del doctor y fecha específicos
         $availableTimes = Appointment::where('appointments.userId', $doctorId)
             ->where('day', $this->getSpanishDay($date))
             ->leftJoin('reservations', function ($join) use ($date) {
                 $join->on('appointments.id', '=', 'reservations.turnId')
-                    ->where("reservations.date",'like','%'. $date .'%');
+                    ->where("reservations.date", 'like', '%' . $date . '%');
             })
             ->select('appointments.*', DB::raw('IF(reservations.id IS NULL, false , true) AS disabled'))
             ->get();
@@ -516,20 +524,22 @@ class AppointmentsController extends BaseController
         return response()->json($availableTimes);
     }
 
-    public function getReserved(){
+    public function getReserved()
+    {
         $reservationsOcupadas = DB::table('reservations')
-        ->join('appointments', 'reservations.turnId', '=', 'appointments.id')
-        ->join('users', 'reservations.user_id', '=', 'users.id')
-        ->where('appointments.userId', auth()->user()->id) 
-        ->select('reservations.*', 'users.*', 'appointments.*') 
-        ->get();
+            ->join('appointments', 'reservations.turnId', '=', 'appointments.id')
+            ->join('users', 'reservations.user_id', '=', 'users.id')
+            ->where('appointments.userId', auth()->user()->id)
+            ->select('reservations.*', 'users.*', 'appointments.*')
+            ->get();
 
         return  response()->json(['data' => $reservationsOcupadas]);
     }
 
-    function getSpanishDay($date) {
+    function getSpanishDay($date)
+    {
         $englishDay = strtolower(date('l', strtotime($date)));
-    
+
         switch ($englishDay) {
             case 'monday':
                 return 'Lunes';
@@ -555,7 +565,7 @@ class AppointmentsController extends BaseController
         $doctorId = $request->input('doctorId');
         $date = $request->input('date');
         $time = Appointment::find($request->input('time'))->time;
-        
+
         $datetime = Carbon::parse($date)->setTimeFromTimeString($time);
 
         // Verificar si la fecha específica ya ha sido reservada
@@ -566,19 +576,17 @@ class AppointmentsController extends BaseController
         return response()->json(['isAvailable' => $isAvailable]);
     }
 
-    public function getTodayTurns(){
+    public function getTodayTurns()
+    {
         $today = Carbon::now()->format('Y-m-d');
         $userId = auth()->user()->id;
 
         $reservations = Reservation::join('appointments', 'appointments.id', '=', 'reservations.turnId')
-        ->join('users', 'users.id', '=', 'reservations.user_id')
-        ->whereDate('reservations.date',  Carbon::today()->toDateString()) 
-        ->get();
-            //dd($reservations);
+            ->join('users', 'users.id', '=', 'reservations.user_id')
+            ->where('appointments.userId', $userId)
+            ->whereDate('reservations.date',  Carbon::today()->toDateString())
+            ->get();
+        //dd($reservations);
         return response()->json(['turns' => $reservations]);
     }
-
-
-
-
 }

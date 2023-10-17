@@ -84,7 +84,7 @@ class VacationController extends Controller
      */
     public function show($id)
     {
-        $vacation = Vacation::where('userId', '=', auth()->user()->id)
+        $vacation = Vacation::where('userId', '=', 1)
         ->orderBy('startDate', 'asc')
         ->first();
         $dates = [];

@@ -127,6 +127,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       self.data.append("phone", self.user.phone);
       self.data.append("avatar", self.user.avatar);
       self.data.append("_method", "put");
+      console.log(self.user.avatar);
       axios.post("updateProfile/" + self.user.id, self.data).then(function (response) {
         _this4.makeToast("success", _this4.$t("Update.TitleProfile"), _this4.$t("Success"));
         nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done(), 500;
@@ -174,9 +175,7 @@ var render = function render() {
   }) : _vm._e(), _vm._v(" "), !_vm.isLoading ? _c("div", {
     staticClass: "card user-profile o-hidden mb-30"
   }, [_c("div", {
-    staticClass: "header-cover"
-  }), _vm._v(" "), _c("div", {
-    staticClass: "user-info"
+    staticClass: "user-info mt-4"
   }, [_c("img", {
     staticClass: "profile-picture avatar-lg mb-2",
     attrs: {

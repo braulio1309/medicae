@@ -31,35 +31,35 @@
               <b-container class="mt-5 infouser">
                 <b-row>
                   <b-col md="6" lg="6" sm="12">
-                    <label>Gender</label>
-                    <p class="border-bottom border-secondary"></p>
+                    <label>Genero</label>
+                    <p class="border-bottom border-secondary">{{ user.gender }}</p>
                   </b-col>
                   <b-col md="6" lg="6" sm="12">
-                    <label>Birthday</label>
-                    <p class="border-bottom border-secondary"></p>
+                    <label>Nacimiento</label>
+                    <p class="border-bottom border-secondary">{{ this.formatDate(user.birthday) }}</p>
                   </b-col>
                   <b-col md="6" lg="6" sm="12">
-                    <label>Phone Number</label>
+                    <label>Telefono</label>
                     <p class="border-bottom border-secondary">{{ user.phone }}</p>
                   </b-col>
                   <b-col md="6" lg="6" sm="12">
-                    <label>Address</label>
-                    <p class="border-bottom border-secondary"></p>
+                    <label>Direccion</label>
+                    <p class="border-bottom border-secondary">{{  user.address }}</p>
                   </b-col>
                   <b-col md="6" lg="6" sm="12">
-                    <label>City</label>
-                    <p class="border-bottom border-secondary"></p>
+                    <label>Ciudad</label>
+                    <p class="border-bottom border-secondary">{{ user.city }}</p>
                   </b-col>
                   <b-col md="6" lg="6" sm="12">
-                    <label>ZIP Code</label>
-                    <p class="border-bottom border-secondary"></p>
+                    <label>Código ZIP</label>
+                    <p class="border-bottom border-secondary">{{ user.zip }}</p>
                   </b-col>
                   <b-col md="6" lg="6" sm="12">
-                    <label>Registration Date</label>
-                    <p class="border-bottom border-secondary">{{ user.registration_date }}</p>
+                    <label>Fecha de registro</label>
+                    <p class="border-bottom border-secondary">{{ this.formatDate(user.registration_date) }}</p>
                   </b-col>
                   <b-col md="6" lg="6" sm="12">
-                    <label>Member Status</label>
+                    <label>Estatus</label>
                     <p class="border-bottom border-secondary">{{ user.name_role }}</p>
                   </b-col>
                 </b-row>
@@ -102,9 +102,9 @@
           <div class="card-body">
             <input ref="fileInput" type="file" class="d-none" @change="onFileSelected" />
             <div class="col-md-12 col-lg-12 col-sm-12 mb-2 d-flex" style="justify-content:space-between">
-              <h6 class="font-weight-bold">Files / Documents</h6>
+              <h6 class="font-weight-bold">Documentos</h6>
               <a @click.prevent="openFileInput" class="float-right text-primary">
-                <i class="nav-icon i-Files"></i> Add Files
+                <i class="nav-icon i-Files"></i> Añadir
               </a>
             </div>
             <div class="card card-hover" v-for="(file, index) in user.files" :key="index">
@@ -223,8 +223,8 @@
             <!-- Date of Birth -->
             <b-col lg="4" md="4" sm="12">
               <validation-provider name="datebirth" v-slot="validationContext">
-                <b-form-group :label="$t('datebirth')" id="DateBirth-input">
-                  <b-form-input label="datebirth" v-model="user.birth" :state="getValidationState(validationContext)"
+                <b-form-group :label="'Nacimiento'" id="DateBirth-input">
+                  <b-form-input label="datebirth" v-model="user.birthday" :state="getValidationState(validationContext)"
                     aria-describedby="DateBirth-feedback"></b-form-input>
 
                 </b-form-group>
@@ -234,7 +234,7 @@
             <b-col lg="4" md="4" sm="12">
               <validation-provider name="Age" v-slot="validationContext">
                 <b-form-group :label="$t('Age')" id="Age-input">
-                  <b-form-input label="Age" v-model="user.age" :state="getValidationState(validationContext)"
+                  <b-form-input label="Age" :value="calculateAge(user.birthday)" :state="getValidationState(validationContext)"
                     aria-describedby="Age-feedback"></b-form-input>
 
                 </b-form-group>
@@ -329,6 +329,11 @@ export default {
         email: "",
         phone: "",
         avatar: "",
+        city: '',
+        address: '',
+        zip: '',
+        gender: '',
+        birthday: '',
         notes: '',
         userId: "",
         weight: "",
@@ -478,6 +483,18 @@ export default {
     calculateTotalAmount(items) {
       return items.reduce((total, item) => total + item.Amount, 0);
     },
+    calculateAge(birthday) {
+      const today = new Date();
+      const birthDate = new Date(birthday);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      return age;
+    },
     //------------- Submit Update Profile
     Submit_Profile() {
       this.$refs.Update_Profile.validate().then(success => {
@@ -534,8 +551,13 @@ export default {
           this.user.lastname = response.data.user.lastname;
           this.user.email = response.data.user.email;
           this.user.phone = response.data.user.phone;
-          this.user.registration_date = response.data.user.registration_date;
+          this.user.registration_date = response.data.user.created_at;
           this.user.name_role = response.data.user.name_role;
+          this.user.gender = response.data.user.gender;
+          this.user.birthday = response.data.user.birthday;
+          this.user.address = response.data.user.address;
+          this.user.city = response.data.user.city;
+          this.user.zip = response.data.user.zip;
           this.appointments_pending = response.data.user.reservations_pending;
           this.appointments_past = response.data.user.reservations_past;
           this.appointments = response.data.user.reservations;
@@ -573,6 +595,12 @@ export default {
       } else {
         this.user.file = "";
       }
+    },
+    formattedDate(registrationDate) {
+      const day = registrationDate.getDate().toString().padStart(2, '0');
+      const month = (registrationDate.getMonth() + 1).toString().padStart(2, '0');
+      const year = registrationDate.getFullYear();
+      return `${day}/${month}/${year}`;
     },
 
     //------------------ Update Profile ----------------------\\

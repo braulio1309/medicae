@@ -287,6 +287,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         email: "",
         phone: "",
         avatar: "",
+        city: '',
+        address: '',
+        zip: '',
+        gender: '',
+        birthday: '',
         notes: '',
         userId: "",
         weight: "",
@@ -414,6 +419,16 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         return total + item.Amount;
       }, 0);
     },
+    calculateAge: function calculateAge(birthday) {
+      var today = new Date();
+      var birthDate = new Date(birthday);
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var monthDiff = today.getMonth() - birthDate.getMonth();
+      if (monthDiff < 0 || monthDiff === 0 && today.getDate() < birthDate.getDate()) {
+        age--;
+      }
+      return age;
+    },
     //------------- Submit Update Profile
     Submit_Profile: function Submit_Profile() {
       var _this4 = this;
@@ -468,8 +483,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         _this5.user.lastname = response.data.user.lastname;
         _this5.user.email = response.data.user.email;
         _this5.user.phone = response.data.user.phone;
-        _this5.user.registration_date = response.data.user.registration_date;
+        _this5.user.registration_date = response.data.user.created_at;
         _this5.user.name_role = response.data.user.name_role;
+        _this5.user.gender = response.data.user.gender;
+        _this5.user.birthday = response.data.user.birthday;
+        _this5.user.address = response.data.user.address;
+        _this5.user.city = response.data.user.city;
+        _this5.user.zip = response.data.user.zip;
         _this5.appointments_pending = response.data.user.reservations_pending;
         _this5.appointments_past = response.data.user.reservations_past;
         _this5.appointments = response.data.user.reservations;
@@ -509,6 +529,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           }
         }, _callee);
       }))();
+    },
+    formattedDate: function formattedDate(registrationDate) {
+      var day = registrationDate.getDate().toString().padStart(2, '0');
+      var month = (registrationDate.getMonth() + 1).toString().padStart(2, '0');
+      var year = registrationDate.getFullYear();
+      return "".concat(day, "/").concat(month, "/").concat(year);
     },
     //------------------ Update Profile ----------------------\\
     Update_Profile: function Update_Profile() {
@@ -1464,23 +1490,23 @@ var render = function render() {
       lg: "6",
       sm: "12"
     }
-  }, [_c("label", [_vm._v("Gender")]), _vm._v(" "), _c("p", {
+  }, [_c("label", [_vm._v("Genero")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  })]), _vm._v(" "), _c("b-col", {
+  }, [_vm._v(_vm._s(_vm.user.gender))])]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
       lg: "6",
       sm: "12"
     }
-  }, [_c("label", [_vm._v("Birthday")]), _vm._v(" "), _c("p", {
+  }, [_c("label", [_vm._v("Nacimiento")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  })]), _vm._v(" "), _c("b-col", {
+  }, [_vm._v(_vm._s(this.formatDate(_vm.user.birthday)))])]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
       lg: "6",
       sm: "12"
     }
-  }, [_c("label", [_vm._v("Phone Number")]), _vm._v(" "), _c("p", {
+  }, [_c("label", [_vm._v("Telefono")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
   }, [_vm._v(_vm._s(_vm.user.phone))])]), _vm._v(" "), _c("b-col", {
     attrs: {
@@ -1488,39 +1514,39 @@ var render = function render() {
       lg: "6",
       sm: "12"
     }
-  }, [_c("label", [_vm._v("Address")]), _vm._v(" "), _c("p", {
+  }, [_c("label", [_vm._v("Direccion")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  })]), _vm._v(" "), _c("b-col", {
+  }, [_vm._v(_vm._s(_vm.user.address))])]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
       lg: "6",
       sm: "12"
     }
-  }, [_c("label", [_vm._v("City")]), _vm._v(" "), _c("p", {
+  }, [_c("label", [_vm._v("Ciudad")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  })]), _vm._v(" "), _c("b-col", {
+  }, [_vm._v(_vm._s(_vm.user.city))])]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
       lg: "6",
       sm: "12"
     }
-  }, [_c("label", [_vm._v("ZIP Code")]), _vm._v(" "), _c("p", {
+  }, [_c("label", [_vm._v("Código ZIP")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  })]), _vm._v(" "), _c("b-col", {
+  }, [_vm._v(_vm._s(_vm.user.zip))])]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
       lg: "6",
       sm: "12"
     }
-  }, [_c("label", [_vm._v("Registration Date")]), _vm._v(" "), _c("p", {
+  }, [_c("label", [_vm._v("Fecha de registro")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
-  }, [_vm._v(_vm._s(_vm.user.registration_date))])]), _vm._v(" "), _c("b-col", {
+  }, [_vm._v(_vm._s(this.formatDate(_vm.user.registration_date)))])]), _vm._v(" "), _c("b-col", {
     attrs: {
       md: "6",
       lg: "6",
       sm: "12"
     }
-  }, [_c("label", [_vm._v("Member Status")]), _vm._v(" "), _c("p", {
+  }, [_c("label", [_vm._v("Estatus")]), _vm._v(" "), _c("p", {
     staticClass: "border-bottom border-secondary"
   }, [_vm._v(_vm._s(_vm.user.name_role))])])], 1)], 1)], 1)], 1)], 1)], 1), _vm._v(" "), _c("b-col", {
     attrs: {
@@ -1602,7 +1628,7 @@ var render = function render() {
     }
   }, [_c("h6", {
     staticClass: "font-weight-bold"
-  }, [_vm._v("Files / Documents")]), _vm._v(" "), _c("a", {
+  }, [_vm._v("Documentos")]), _vm._v(" "), _c("a", {
     staticClass: "float-right text-primary",
     on: {
       click: function click($event) {
@@ -1612,7 +1638,7 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "nav-icon i-Files"
-  }), _vm._v(" Add Files\n            ")])]), _vm._v(" "), _vm._l(_vm.user.files, function (file, index) {
+  }), _vm._v(" Añadir\n            ")])]), _vm._v(" "), _vm._l(_vm.user.files, function (file, index) {
     return _c("div", {
       key: index,
       staticClass: "card card-hover"
@@ -1843,7 +1869,7 @@ var render = function render() {
       fn: function fn(validationContext) {
         return [_c("b-form-group", {
           attrs: {
-            label: _vm.$t("datebirth"),
+            label: "Nacimiento",
             id: "DateBirth-input"
           }
         }, [_c("b-form-input", {
@@ -1853,11 +1879,11 @@ var render = function render() {
             "aria-describedby": "DateBirth-feedback"
           },
           model: {
-            value: _vm.user.birth,
+            value: _vm.user.birthday,
             callback: function callback($$v) {
-              _vm.$set(_vm.user, "birth", $$v);
+              _vm.$set(_vm.user, "birthday", $$v);
             },
-            expression: "user.birth"
+            expression: "user.birthday"
           }
         })], 1)];
       }
@@ -1883,15 +1909,9 @@ var render = function render() {
         }, [_c("b-form-input", {
           attrs: {
             label: "Age",
+            value: _vm.calculateAge(_vm.user.birthday),
             state: _vm.getValidationState(validationContext),
             "aria-describedby": "Age-feedback"
-          },
-          model: {
-            value: _vm.user.age,
-            callback: function callback($$v) {
-              _vm.$set(_vm.user, "age", $$v);
-            },
-            expression: "user.age"
           }
         })], 1)];
       }

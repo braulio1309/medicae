@@ -4,6 +4,7 @@
     @mouseenter="isMenuOver = true"
     @mouseleave="isMenuOver = false"
     @touchstart="isMenuOver = true"
+    v-if="this.currentUser"
   >
     <vue-perfect-scrollbar
       :settings="{ suppressScrollX: true, wheelPropagation: false }"
@@ -64,14 +65,13 @@
             :data-submenu="false"
           >
           <router-link tag="a" class="nav-item-hold" to="/app/dates/date">
-              <!--<i class="nav-icon i-Business-Mens"></i>-->
               <span class="nav-text">{{ $t('Appointment') }}</span>
             </router-link>
             
           </li>
 
           <li
-            v-show="currentUserPermissions && (currentUserPermissions.includes('vacations_view'))"
+            v-show="currentUserPermissions && (!currentUserPermissions.includes('vacations_view'))"
             @mouseenter="toggleSubMenu"
             :class="{ active: selectedParentMenu == 'Reservation' }"
             class="nav-item"
@@ -92,7 +92,7 @@
             data-item="Appointment"
             :data-submenu="false"
           >
-          <router-link tag="a" class="nav-item-hold" to="/app/dates/date2">
+          <router-link tag="a" class="nav-item-hold" to="/app/dates/date">
               <!--<i class="nav-icon i-Business-Mens"></i>-->
               <span class="nav-text">{{ $t('Appointment') }}</span>
             </router-link>
@@ -144,7 +144,35 @@ export default {
       isMenuOver: false,
       isStyle: true,
       selectedParentMenu: "",
-      isMobile
+      isMobile,
+      user: {
+        id: "",
+        firstname: "",
+        lastname: "",
+        username: "",
+        registration_date: "",
+        name_role: "",
+        NewPassword: null,
+        email: "",
+        phone: "",
+        avatar: "",
+        city: '',
+        address: '',
+        zip: '',
+        gender: '',
+        birthday: '',
+        notes: '',
+        userId: "",
+        weight: "",
+        height: "",
+        allergies: "",
+        recipe: "",
+        diagnosic: "",
+        medication: "",
+        file: '',
+        files: '',
+        date: new Date().toISOString().substr(0, 10)
+      },
     };
   },
   mounted() {
@@ -152,6 +180,8 @@ export default {
     window.addEventListener("resize", this.handleWindowResize);
     document.addEventListener("click", this.returnSelectedParentMenu);
     this.handleWindowResize();
+    this.Get_Profile_Info();
+    console.log(this.user)
   },
 
   beforeDestroy() {
@@ -170,6 +200,35 @@ export default {
       "changeSecondarySidebarPropertiesViaOverlay",
       "changeSidebarProperties"
     ]),
+    Get_Profile_Info() {
+      axios
+        .get("patients/Get_Info/Profile/"+ 0)
+        .then(response => {
+          this.user.id = response.data.user.id;
+          this.user.firstname = response.data.user.firstname;
+          this.user.lastname = response.data.user.lastname;
+          this.user.email = response.data.user.email;
+          this.user.phone = response.data.user.phone;
+          this.user.registration_date = response.data.user.created_at;
+          this.user.name_role = response.data.user.name_role;
+          this.user.gender = response.data.user.gender;
+          this.user.birthday = response.data.user.birthday;
+          this.user.address = response.data.user.address;
+          this.user.city = response.data.user.city;
+          this.user.zip = response.data.user.zip;
+          this.appointments_pending = response.data.user.reservations_pending;
+          this.appointments_past = response.data.user.reservations_past;
+          this.appointments = response.data.user.reservations;
+          this.avatar = this.currentUser.avatar;
+          this.username = this.currentUser.username;
+          this.isLoading = false;
+        })
+        .catch(response => {
+          this.isLoading = false;
+        });
+
+      
+    },
 
     handleWindowResize() {
       if (window.innerWidth <= 1200) {
@@ -230,7 +289,8 @@ export default {
       dropdownMenus.forEach(dropdown => {
         dropdown.classList.remove("open");
       });
-    }
+    },
+   
   }
 };
 </script>

@@ -4,8 +4,7 @@
     <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
 
     <div class="card user-profile o-hidden mb-30" v-if="!isLoading">
-      <div class="header-cover"></div>
-      <div class="user-info">
+      <div class="user-info mt-4">
         <img class="profile-picture avatar-lg mb-2" :src="'/images/avatar/'+avatar" alt>
         <p class="m-0 text-24">{{username}}</p>
       </div>
@@ -267,7 +266,7 @@ export default {
       self.data.append("phone", self.user.phone);
       self.data.append("avatar", self.user.avatar);
       self.data.append("_method", "put");
-
+      console.log(self.user.avatar);
       axios
         .post("updateProfile/" + self.user.id, self.data)
         .then(response => {

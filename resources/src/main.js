@@ -66,22 +66,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.interceptors.response.use((response) => {
 
   return response;
-}, (error) => {
-  if (error.response && error.response.data) {
-    if (error.response.status === 401) {
-      window.location.href='/login';
-    }
 
-    if (error.response.status === 404) {
-      router.push({ name: 'NotFound' });
-    }
-    if (error.response.status === 403) {
-      router.push({ name: 'not_authorize' });
-    }
-
-    return Promise.reject(error.response.data);
-  }
-  return Promise.reject(error.message);
 });
 
 import vSelect from 'vue-select'

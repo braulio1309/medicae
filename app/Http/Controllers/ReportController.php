@@ -41,15 +41,9 @@ class ReportController extends BaseController
     public function report_with_echart()
     {
         $Appointments_Chart = $this->Appointments_Chart();
-        $TopPatients = $this->TopPatients();
-        // $Top_Products_Year = $this->Top_Products_Year();
-        $report_dashboard = $this->report_dashboard();
-
         return response()->json([
             'appointments' => $Appointments_Chart,
-            'patients' => $TopPatients,
-            // 'product_report' => $Top_Products_Year,
-            'report_dashboard' => $report_dashboard,
+           
         ]);
 
     }
@@ -65,24 +59,28 @@ class ReportController extends BaseController
         }
 
         $date_range = \Carbon\Carbon::today()->subDays(6);
-        $appointments_received = Reservation::where('date', '>=', $date_range)
-            ->groupBy(DB::raw("DATE_FORMAT(date,'%Y-%m-%d')"))
+        $appointments_received = Reservation::where('date', '<=', $date_range)
+            ->join('appointments', 'appointments.id', 'reservations.turnId')
+            ->where('appointments.userId', Auth()->user()->id)
+            ->groupBy(DB::raw("DATE_FORMAT(date,'%Y-%m-%d')"), 'reservations.turnId')
             ->orderBy('date', 'asc')
             ->where('canceled',0)
             ->where('date','<',now())
             ->get([
-                DB::raw(DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date")),
-                DB::raw('SUM(id) AS count'),
+                DB::raw(DB::raw("DATE_FORMAT(reservations.created_at,'%Y-%m-%d') as date")),
+                DB::raw('SUM(reservations.id) AS count'),
             ])
             ->pluck('count', 'date');
 
         $appointments_pending = Reservation::where('date', '>=', $date_range)
-            ->groupBy(DB::raw("DATE_FORMAT(date,'%Y-%m-%d')"))
+            ->groupBy(DB::raw("DATE_FORMAT(date,'%Y-%m-%d')"), 'reservations.turnId')
+            ->join('appointments', 'appointments.id', 'reservations.turnId')
+            ->where('appointments.userId', Auth()->user()->id)
             ->orderBy('date', 'asc')
             ->where('canceled',0)
             ->get([
                 DB::raw(DB::raw("DATE_FORMAT(date,'%Y-%m-%d') as date")),
-                DB::raw('SUM(id) AS count'),
+                DB::raw('SUM(reservations.id) AS count'),
             ])
             ->pluck('count', 'date');
 

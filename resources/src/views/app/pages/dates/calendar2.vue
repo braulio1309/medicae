@@ -1,6 +1,6 @@
 <template>
    <div class="main-content">
-    <breadcumb :page="'Reserva de Cita'"/>
+    <breadcumb :page="'Reservar cita'" :folder="''"/>
     <div v-if="isLoading" class="loading_page spinner spinner-primary mr-3"></div>
     <b-row v-if="!isLoading">
         <b-col md="4">
@@ -31,7 +31,6 @@
   
 <script>
 import axios from 'axios';
-import { ref } from 'vue';
 import Button from "primevue/button"
 
 import Dropdown from 'primevue/dropdown';
@@ -88,6 +87,7 @@ export default {
         if (this.selectedDate) {
           // Realiza la llamada al backend para obtener los horarios disponibles del fisioterapeuta y la fecha seleccionada
           const id = this.$route.params.id ?? -1;
+          console.log(id)
           const dateObj = new Date(this.selectedDate);
           const day = String(dateObj.getDate()).padStart(2, '0');
           const month = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -128,7 +128,8 @@ export default {
                 axios
                     .post("Appointments/turns/reserve2", {
                         'turnId': this.selectedTime,
-                        'date': formattedDate
+                        'date': formattedDate,
+                        'patientId': this.$route.params.id
                     })
                     .then(response => {
                         this.SubmitProcessing = false;

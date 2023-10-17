@@ -19,7 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'firstname', 'lastname', 'username', 'email', 'password', 'phone', 'status', 'avatar', 
-        'role_id','user_id', 'bloodType', 'waiting_for_doctor', 'waiting_for_doctor_selection', 'doctor_options'
+        'role_id','user_id', 'bloodType', 'waiting_for_doctor', 'waiting_for_doctor_selection', 'doctor_options', 'gender',
+        'address', 'city', 'birthday', 'zip'
     ];
 
     /**

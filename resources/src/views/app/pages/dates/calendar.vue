@@ -32,11 +32,11 @@
                     
                 </div>
             </div>
+
             <div class="col-xl-9 col-lg-9 col-md-9">
-                
-                <div class="statbox panel box box-shadow vh-200 overflow-hidden" style="max-height: 240vh; overflow: hidden;">
+                <div class="statbox panel box box-shadow vh-200 overflow-hidden" style="max-height: 210vh; overflow: hidden;">
                     <div class="panel-body">
-                        <FullCalendar :options="this.options" ref="fullCalendar"/>
+                        <FullCalendar :options="this.options" ref="fullCalendar" style="max-height: 210vh; overflow: hidden;"/>
                            
                     </div>
                 </div>
@@ -53,8 +53,6 @@
                                                 <input type="text" :value="this.event.title" class="form-control" readonly/>
                                             </div>
                                         </div>
-
-                                    
                                     </div>
 
                                     <div class="row">

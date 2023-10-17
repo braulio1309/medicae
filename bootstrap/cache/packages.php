@@ -104,4 +104,15 @@
       1 => 'OscarAFDev\\MigrationsGenerator\\MigrationsGeneratorServiceProvider',
     ),
   ),
+  'vinkla/hashids' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Vinkla\\Hashids\\HashidsServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Hashids' => 'Vinkla\\Hashids\\Facades\\Hashids',
+    ),
+  ),
 );

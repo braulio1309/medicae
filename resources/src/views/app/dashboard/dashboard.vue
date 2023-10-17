@@ -1,58 +1,33 @@
 <template>
   <!-- ============ Body content start ============= -->
-  <div class="main-content" >
+  <div class="main-content">
     <b-row>
       <b-col cols="8">
-        <div class="card" style="background-color: #F1F5F8; padding: 10px; height: 100%;">
-          <div class="row mb-6" style="margin-bottom: 10px;">
+        <div class="card" style="background-color: #FFFFFF; padding: 10px; height: 80%; ">
+          <div class="row mb-6" style="margin-bottom: 10px; padding-top: 30px;">
             <div class="col-sm-4">
               <h2 class="text-center">Agenda del día</h2>
             </div>
-              <div class="col-sm-4">
+            <div class="col-sm-4">
             </div>
             <div class="col-sm-4">
-              <h2 class="text-center" style="color:">Miercoles</h2>
-            </div>
-            
-          </div>
-          
-          <div class="col-sm-12">
-            <div class="row text-center" style="font-size: 25px; ">
-              <div class="col-sm-4" >
-                8:00 am
-              </div>
-              <div class="col-sm-4" style="letter-spacing: 2px;">
-                ......................................
-              </div>
-              <div class="col-sm-4">
-                Braulio Zapata
-              </div>
-            </div>
-            <div class="row text-center" style="font-size: 25px; ">
-              <div class="col-sm-4" >
-                9:00 am
-              </div>
-              <div class="col-sm-4" style="letter-spacing: 2px;">
-                ......................................
-              </div>
-              <div class="col-sm-4">
-                Matías Rodriguez
-              </div>
-            </div>
-            <div class="row text-center" style="font-size: 25px; ">
-              <div class="col-sm-4" >
-                10:00 am
-              </div>
-              <div class="col-sm-4" style="letter-spacing: 2px;">
-                ......................................
-              </div>
-              <div class="col-sm-4">
-                Test Alex
-              </div>
+              <h1 class="text-center" style="color:#66CCF2; font-weight: 200;"><b>{{ this.currentDay }}</b></h1>
             </div>
 
-            
-            
+          </div>
+
+          <div class="col-sm-12">
+            <div class="row text-center" style="" v-for="turn in this.todayTurns">
+              <div class="col-sm-4">
+                <h5>{{ new Date(turn.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}</h5>
+              </div>
+              <div class="col-sm-4" style="letter-spacing: 2px;">
+                ......................................
+              </div>
+              <div class="col-sm-4">
+                <h5>{{ turn.firstname }} {{ turn.lastname }}</h5>
+              </div>
+            </div>
           </div>
         </div>
       </b-col>
@@ -62,75 +37,66 @@
             <b-card class="mb-30">
               <h4 class="font-weight-bold mb-4">Ultimas citas</h4>
               <div class="">
-                      <!-- Título de la tarjeta -->
+                <!-- Título de la tarjeta -->
                 <div class="row">
-                    <div class="col-sm-12">
-                      <div class="row">
-                        <div class="col-sm-2">
-                          <b-avatar :src="'images/avatar/no_avatar.png'"></b-avatar>
-                        </div>
-                        <div class="col-sm-6">
-                            <h5 class="">Braulio Zapata</h5>
-                            <h6 class="text-muted">
-                                Hace 1 hora 
-                            </h6>
-                        </div>
-                        <div class="col-sm-4">
-                          <br>
-                          <span class="badge rounded-pill bg-success">Actualizado</span>
+                  <div class="col-sm-12">
+                    <div class="row mb-3" v-for="turn in this.last" style="border-bottom: 1px solid #e2e0e0;">
+                      <div class="col-sm-2">
+                        <b-avatar :src="'images/avatar/no_avatar.png'"></b-avatar>
+                      </div>
+                      <div class="col-sm-6">
+                        <h5 class=""> {{ turn.firstname }} {{ turn.lastname }}</h5>
+                        <h6 class="text-muted">
+                          {{ formatHours(turn.date) }}
+                        </h6>
+                      </div>
+                      <div class="col-sm-4">
+                        <br>
+                        <span class="badge rounded-pill bg-success">Actualizado</span>
 
-                        </div>
                       </div>
-                      <hr style="margin-top: -1px;">
                     </div>
+                  </div>
                 </div>
               </div>
-              <div class="">
-                      <!-- Título de la tarjeta -->
-                <div class="row">
-                    <div class="col-sm-12">
-                      <div class="row">
-                        <div class="col-sm-2">
-                          <b-avatar :src="'images/avatar/no_avatar.png'"></b-avatar>
-                        </div>
-                        <div class="col-sm-6">
-                            <h5 class="">Braulio Zapata</h5>
-                            <h6 class="text-muted">
-                                Hace 1 hora 
-                            </h6>
-                        </div>
-                        <div class="col-sm-4">
-                          <br>
-                          <span class="badge rounded-pill bg-success">Actualizado</span>
-                        </div>
-                      </div>
-                      <hr style="margin-top: -1px;">
-                    </div>
-                </div>
-              </div>
+
             </b-card>
           </b-col>
 
         </b-row>
-        <b-row>
+        <b-row style="margin-top: -18px;">
           <b-col cols="12">
-            <b-card class="mb-30" style="background-color: #4B9AEB;">
-            <h4 class="card-title m-0">{{ $t('TopPatient') }} ({{ CurrentMonth }})</h4>
-            <div class="chart-wrapper">
-              <v-chart :options="echartPatient" :autoresize="true"></v-chart>
-            </div>
-          </b-card>
+
+            <b-card class="mb-30" style="background-color: #FFFFFF;">
+              <div class="row justify-text-center">
+                <div class="col-sm-6 text-center">
+                  <h2 class="card-title text-muted">Reservaciones del mes</h2>
+                </div>
+                <div class="col-sm-6 text-center" v-if="this.ReservationsMonth != ''">
+                  <h3>{{ this.ReservationsMonth.current_month_reservations }} <span class="badge bg-danger"
+                      style='font-size:12px; background-color: rgba(0,166,80,.1) !important; color:#00a650;'>{{
+                        (this.ReservationsMonth.percentage_change.toFixed(2) < 0) ?
+                        this.ReservationsMonth.percentage_change.toFixed(0) * -1 :
+                        this.ReservationsMonth.percentage_change.toFixed(0) }}% </span>
+                  </h3>
+
+                </div>
+              </div>
+              <div class="chart-wrapper">
+                <v-chart v-if="this.echartAppointment" :options="this.echartAppointment" :autoresize="true"></v-chart>
+
+              </div>
+            </b-card>
           </b-col>
         </b-row>
       </b-col>
     </b-row>
-    
+
   </div>
   <!-- ============ Body content End ============= -->
 </template>
 <script>
 import { mapGetters } from "vuex";
-
 import ECharts from "vue-echarts/components/ECharts.vue";
 
 // import ECharts modules manually to reduce bundle size
@@ -142,7 +108,7 @@ import "echarts/lib/component/legend";
 
 export default {
   components: {
-    "v-chart": ECharts
+    "v-chart": ECharts,
   },
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
@@ -164,8 +130,13 @@ export default {
       echartSales: {},
       echartProduct: {},
       echartPatient: {},
-      echartAppointment: {}
-    };
+      echartAppointment: null,
+      todayTurns: [],
+      currentDay: '',
+      last: [],
+      ReservationsMonth: ''
+
+    }
   },
   computed: {
     ...mapGetters(["currentUser"]),
@@ -260,49 +231,16 @@ export default {
         .get(`chart/report_with_echart`)
         .then(response => {
           const responseData = response.data;
+          console.log(responseData.appointments.original)
 
-          this.report_today = response.data.report_dashboard.original.report;
-          // this.stock_alerts =
-          // response.data.report_dashboard.original.stock_alert;
-          this.appointments = response.data.report_dashboard.original.last_appointments;
-          this.patients = response.data.report_dashboard.original.patients;
-          var dark_heading = "#c2c6dc";
-          this.echartPatient = {
-            color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
-            tooltip: {
-              show: true,
-              backgroundColor: "rgba(0, 0, 0, .8)"
-            },
 
-            formatter: function (params) {
-              return `${params.name}: (${params.data.value} cita) (${params.percent
-                }%)`;
-            },
-
-            series: [
-              {
-                name: "Top Patients",
-                type: "pie",
-                radius: "50%",
-                center: "50%",
-
-                data: responseData.patients.original,
-                itemStyle: {
-                  emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: "rgba(0, 0, 0, 0.5)"
-                  }
-                }
-              }
-            ]
-          };
+          console.log(this.appointments)
           this.echartAppointment = {
             tooltip: {
               trigger: "axis"
             },
             legend: {
-              data: ["Citas Recibidas", "Citas Pendientes"]
+              data: ["Citas Pasadas", "Citas Pendientes"]
             },
             grid: {
               left: "3%",
@@ -325,7 +263,7 @@ export default {
             },
             series: [
               {
-                name: "Citas Recibidas",
+                name: "Citas Pasadas",
                 type: "line",
                 data: responseData.appointments.original.appointments_received
               },
@@ -336,6 +274,8 @@ export default {
               }
             ]
           };
+          console.log(this.echartAppointment)
+
           // this.echartProduct = {
           //   color: ["#6D28D9", "#8B5CF6", "#A78BFA", "#C4B5FD", "#7C3AED"],
           //   tooltip: {
@@ -492,6 +432,7 @@ export default {
 
       var now = new Date();
       this.CurrentMonth = months[now.getMonth()];
+
     },
 
     //------------------------------Formetted Numbers -------------------------\\
@@ -506,11 +447,71 @@ export default {
         return `${value[0]}.${formated.substr(0, dec)}`;
       while (formated.length < dec) formated += "0";
       return `${value[0]}.${formated}`;
-    }
+    },
+    getTurns() {
+      axios
+        .get("Appointments/turns/today")
+        .then(response => {
+          this.todayTurns = response.data.turns;
+        })
+        .catch(error => {
+          console.log(error)
+        });
+    },
+    getReservationsMonth() {
+      axios
+        .get("Reservations/mounth")
+        .then(response => {
+          this.ReservationsMonth = response.data;
+        })
+        .catch(error => {
+          console.log(error)
+        });
+    },
+    getLastTurns() {
+      axios
+        .get("Appointments/turns/last")
+        .then(response => {
+          this.last = response.data.data;
+        })
+        .catch(error => {
+          console.log(error)
+        });
+    },
+    formatHours(inputDate) {
+      const currentDate = new Date();
+      const targetDate = new Date(inputDate);
+      const timeDifference = currentDate - targetDate;
+      const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+
+      if (hoursDifference === 0) {
+        return "hace menos de una hora";
+      } else if (hoursDifference === 1) {
+        return "hace una hora";
+      } else {
+        return `hace ${hoursDifference} horas`;
+      }
+    },
   },
   async mounted() {
-    await this.report_with_echart();
     this.GetMonth();
-  }
+    this.getTurns();
+    this.getLastTurns();
+    // Obtener la fecha actual
+    const currentDate = new Date();
+
+    // Obtener el día de la semana como número (0 para domingo, 1 para lunes, etc.)
+    const dayOfWeek = currentDate.getDay();
+
+    // Crear un array con los nombres de los días de la semana
+    const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+    // Asignar el nombre del día actual a currentDay
+    this.currentDay = daysOfWeek[dayOfWeek];
+    await this.report_with_echart();
+    this.getReservationsMonth();
+    console.log(this.echartAppointment);
+  },
+
 };
 </script>

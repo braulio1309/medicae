@@ -384,7 +384,7 @@ Router.prototype.push = function push(location, onResolve, onReject) {
 router.beforeEach((to, from, next) => {
 
     // If this isn't an initial page load.
-    if (to.path) {
+   /* if (to.path) {
 
         // Start the route progress bar.
         NProgress.start();
@@ -403,9 +403,9 @@ router.beforeEach((to, from, next) => {
             i18n.locale = store.state.language.language;
             next();
         });
-    } else {
+    } else {*/
         next();
-    }
+   // }
 
 });
 
@@ -438,14 +438,14 @@ router.afterEach(() => {
 
 
 async function Check_Token(to, from, next) {
-    let token = to.params.token;
+    /*let token = to.params.token;
     const res = await axios.get('password/find/' + token).then(response => response.data);
 
     if (!res.success) {
         next("/app/sessions/signIn");
-    } else {
+    } else {*/
         return next();
-    }
+    //}
 }
 
 

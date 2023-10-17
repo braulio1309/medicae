@@ -358,7 +358,7 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return this.currentUser ? _c("div", {
+  return _c("div", {
     staticClass: "side-content-wrap",
     on: {
       mouseenter: function mouseenter($event) {
@@ -570,7 +570,7 @@ var render = function render() {
         return _vm.removeOverlay();
       }
     }
-  })], 1) : _vm._e();
+  })], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;

@@ -4,7 +4,6 @@
     @mouseenter="isMenuOver = true"
     @mouseleave="isMenuOver = false"
     @touchstart="isMenuOver = true"
-    v-if="this.currentUser"
   >
     <vue-perfect-scrollbar
       :settings="{ suppressScrollX: true, wheelPropagation: false }"

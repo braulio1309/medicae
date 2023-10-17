@@ -42,13 +42,12 @@
     "/js/bundle/store_permission.js": "/js/bundle/store_permission.js",
     "/js/bundle/vendors~Companies~Suppliers~Users~index_appointments~index_dates~payments_purchases~payments_purchas~2f80203e.js": "/js/bundle/vendors~Companies~Suppliers~Users~index_appointments~index_dates~payments_purchases~payments_purchas~2f80203e.js",
     "/js/bundle/vendors~barcode~detail_appointment~detail_date.js": "/js/bundle/vendors~barcode~detail_appointment~detail_date.js",
+    "/js/bundle/vendors~dashboard~warehouse_report.js": "/js/bundle/vendors~dashboard~warehouse_report.js",
     "/js/bundle/vendors~edit_appointment~edit_date.js": "/js/bundle/vendors~edit_appointment~edit_date.js",
     "/js/bundle/vendors~edit_appointment~edit_date~store_appointment~store_date.js": "/js/bundle/vendors~edit_appointment~edit_date~store_appointment~store_date.js",
     "/js/bundle/vendors~edit_date.js": "/js/bundle/vendors~edit_date.js",
     "/js/bundle/vendors~largeSidebar.js": "/js/bundle/vendors~largeSidebar.js",
     "/js/bundle/vendors~store_date.js": "/js/bundle/vendors~store_date.js",
     "/js/bundle/vendors~vue-perfect-scrollbar.js": "/js/bundle/vendors~vue-perfect-scrollbar.js",
-    "/js/bundle/vendors~warehouse_report.js": "/js/bundle/vendors~warehouse_report.js",
-    "/js/bundle/warehouse_report.js": "/js/bundle/warehouse_report.js",
-    "/js/bundle/vendors~dashboard~warehouse_report.js": "/js/bundle/vendors~dashboard~warehouse_report.js"
+    "/js/bundle/warehouse_report.js": "/js/bundle/warehouse_report.js"
 }
